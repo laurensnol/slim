@@ -29,14 +29,16 @@ project "slim"
         "src",
         "vendor/glfw/include",
         "vendor/glad/include",
-        "vendor/spdlog/include"
+        "vendor/spdlog/include",
+        "vendor/imgui"
     }
     
     filter {}
         links
         {
             "glfw3",
-            "glad"
+            "glad",
+            "imgui"
         }    
 
     filter "system:windows"
@@ -69,3 +71,4 @@ project "slim"
 include "vendor/glfw.lua"
 include "vendor/glad.lua"
 include "vendor/spdlog.lua"
+include "vendor/imgui.lua"

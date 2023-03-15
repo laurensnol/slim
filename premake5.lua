@@ -27,13 +27,15 @@ project "slim"
     includedirs
     {
         "src",
-        "vendor/glfw/include"
+        "vendor/glfw/include",
+        "vendor/glad/include"
     }
     
     filter {}
         links
         {
-            "glfw3"
+            "glfw3",
+            "glad"
         }    
 
     filter "system:windows"
@@ -64,3 +66,4 @@ project "slim"
         optimize "On"
 
 include "vendor/glfw.lua"
+include "vendor/glad.lua"

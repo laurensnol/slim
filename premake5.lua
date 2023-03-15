@@ -28,7 +28,8 @@ project "slim"
     {
         "src",
         "vendor/glfw/include",
-        "vendor/glad/include"
+        "vendor/glad/include",
+        "vendor/spdlog/include"
     }
     
     filter {}
@@ -67,3 +68,4 @@ project "slim"
 
 include "vendor/glfw.lua"
 include "vendor/glad.lua"
+include "vendor/spdlog.lua"

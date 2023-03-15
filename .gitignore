@@ -3,7 +3,7 @@
 
 # Make
 Makefile
-slim.make
+**.make
 
 # Xcode
 **.pbxproj

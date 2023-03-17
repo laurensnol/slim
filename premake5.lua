@@ -30,7 +30,8 @@ project "slim"
         "vendor/glfw/include",
         "vendor/glad/include",
         "vendor/spdlog/include",
-        "vendor/imgui"
+        "vendor/imgui",
+        "vendor/glm"
     }
     
     filter {}

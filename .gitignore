@@ -25,3 +25,6 @@ Makefile
 # Binaries
 bin/
 obj/
+
+# ImGui
+imgui.ini

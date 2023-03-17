@@ -17,6 +17,16 @@ project "spdlog"
         "spdlog/src/bundled_fmtlib_format.cpp"
     }
 
+    filter "system:windows"
+        systemversion "latest"
+
+        defines { "_CRT_SECURE_NO_WARNINGS" }
+
+    filter "system:linux"
+        pic "On"
+
+        systemversion "latest"
+
     filter "configurations:Debug"
         runtime "Debug"
         symbols "on"

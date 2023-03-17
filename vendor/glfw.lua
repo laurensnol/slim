@@ -1,6 +1,7 @@
 project "GLFW"
     kind "StaticLib"
     language "C"
+    staticruntime "On"
 
     targetdir "../bin/%{prj.name}"
     objdir "../obj/%{prj.name}"
@@ -23,13 +24,8 @@ project "GLFW"
 
     filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
 
-        defines
-        {
-            "_GLFW_WIN32",
-            "_CRT_SECURE_NO_WARNINGS"
-        }
+        defines { "_CRT_SECURE_NO_WARNINGS" }
 
         files
         {
@@ -48,9 +44,6 @@ project "GLFW"
         pic "On"
 
         systemversion "latest"
-        staticruntime "On"
-
-        defines { "_GLFW_X11" }
 
         files
         {
@@ -69,11 +62,6 @@ project "GLFW"
         }
 
     filter "system:macosx"
-        systemversion "latest"
-        staticruntime "On"
-
-        defines { "_GLFW_COCOA" }
-
         files
         {
             "glfw/src/cocoa_init.m",

@@ -19,6 +19,9 @@ Makefile
 **.vcxproj.user
 **.csproj
 
+# Visual Studio Code
+.vscode/
+
 # Binaries
 bin/
 obj/

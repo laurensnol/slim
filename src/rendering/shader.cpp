@@ -1,6 +1,7 @@
 #include "rendering/shader.h"
 
 #include "platform/OpenGL/OpenGLShader.h"
+#include <spdlog/spdlog.h>
 
 namespace slim
 {

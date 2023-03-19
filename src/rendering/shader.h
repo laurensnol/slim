@@ -1,7 +1,6 @@
 #ifndef SLIM_PLATFORM_SHADER_H
 #define SLIM_PLATFORM_SHADER_H
 
-#include <spdlog/spdlog.h>
 #include <memory>
 #include <string_view>
 

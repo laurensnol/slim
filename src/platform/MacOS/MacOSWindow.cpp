@@ -17,7 +17,7 @@ namespace slim
   {
     destroy();
   }
-
+ 
   void MacOSWindow::init(const WindowProperties &properties)
   {
     _properties = std::move(properties);
@@ -48,6 +48,15 @@ namespace slim
 
     glfwSetWindowUserPointer(_window, &_properties);
     glfwMakeContextCurrent(_window);
+
+    glfwSetWindowSizeCallback(_window, [](GLFWwindow *window, int width, int height)
+    {
+      glViewport(0, 0, width, height);
+
+      WindowProperties &properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
+      properties.width = width;
+      properties.height = height;
+    });
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)

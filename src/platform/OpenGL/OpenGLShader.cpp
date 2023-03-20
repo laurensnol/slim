@@ -1,5 +1,6 @@
 #include "platform/OpenGL/OpenGLShader.h"
 
+#include <glad/gl.h>
 #include <spdlog/spdlog.h>
 #include <string>
 #include <optional>

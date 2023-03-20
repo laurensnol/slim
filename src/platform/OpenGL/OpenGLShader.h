@@ -3,7 +3,6 @@
 
 #include "rendering/shader.h"
 
-#include <glad/gl.h>
 #include <string_view>
 
 namespace slim
@@ -27,7 +26,7 @@ namespace slim
     const uint16_t _LOG_LENGTH = 512;
     uint32_t _id;
 
-    GLuint createShader(std::string_view path, OpenGLShaderType shaderType);
+    uint32_t createShader(std::string_view path, OpenGLShaderType shaderType);
   };
 }
 

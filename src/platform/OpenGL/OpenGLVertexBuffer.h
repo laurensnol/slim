@@ -11,9 +11,9 @@ namespace slim
     OpenGLVertexBuffer(float *vertices, uint32_t size);
     virtual ~OpenGLVertexBuffer();
 
-    void bind();
-    void unbind();
-    void set(const void *data, uint32_t size);
+    void bind() override;
+    void unbind() override;
+    void set(const void *data, uint32_t size) override;
 
   private:
     uint32_t _id;

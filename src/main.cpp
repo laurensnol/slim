@@ -1,5 +1,6 @@
 #include "core/window.h"
 #include "rendering/shader.h"
+#include "rendering/vertex_buffer.h"
 
 #include <glad/gl.h>
 #include <imgui.h>
@@ -27,17 +28,14 @@ int main()
      0.0,  0.5, 0.0   // N
   };
 
-  GLuint vao, vbo;
+  GLuint vao;
   glGenVertexArrays(1, &vao);
-  glGenBuffers(1, &vbo);
+
+  std::shared_ptr<slim::VertexBuffer> vbo = slim::VertexBuffer::create(vertices, sizeof(vertices));
+
   glBindVertexArray(vao);
-
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
   glEnableVertexAttribArray(0);
-
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   while (!window->shouldClose())
@@ -61,7 +59,6 @@ int main()
   }
 
   glDeleteVertexArrays(1, &vao);
-  glDeleteBuffers(1, &vbo);
 
   return 0;
 }

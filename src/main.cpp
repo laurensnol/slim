@@ -1,6 +1,8 @@
 #include "core/window.h"
 #include "rendering/shader.h"
 #include "rendering/vertex_buffer.h"
+#include "rendering/vertex_array.h"
+#include "rendering/index_buffer.h"
 
 #include <glad/gl.h>
 #include <imgui.h>
@@ -25,22 +27,32 @@ int main()
   float vertices[] = {
     -0.5, -0.5, 0.0,  // SW
      0.5, -0.5, 0.0,  // SE
-     0.0,  0.5, 0.0   // N
+     0.5,  0.5, 0.0,  // NE
+    -0.5,  0.5, 0.0,  // NW
   };
 
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
+  unsigned int indices[] = {
+    0, 1, 3,
+    1, 2, 3
+  };
+
+  std::shared_ptr<slim::VertexArray> vao = slim::VertexArray::create();
 
   std::shared_ptr<slim::VertexBuffer> vbo = slim::VertexBuffer::create(vertices, sizeof(vertices));
+  vao->addVertexBuffer(vbo);
 
-  glBindVertexArray(vao);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-  glEnableVertexAttribArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  std::shared_ptr<slim::IndexBuffer> ibo = slim::IndexBuffer::create(indices, 6);
+  vao->setIndexBuffer(ibo);
+
+  uint32_t indicesCount = ibo->count();
 
   while (!window->shouldClose())
   {
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    shader->bind();
+    vao->bind();
+    glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -51,14 +63,8 @@ int main()
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    shader->bind();
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-
     window->update();
   }
-
-  glDeleteVertexArrays(1, &vao);
 
   return 0;
 }

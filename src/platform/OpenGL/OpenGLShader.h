@@ -2,8 +2,9 @@
 #define SLIM_OPENGLSHADER_H
 
 #include "rendering/shader.h"
-
+#include <string>
 #include <string_view>
+#include <glm/glm.hpp>
 
 namespace slim
 {
@@ -21,6 +22,12 @@ namespace slim
 
     void bind() override;
     void unbind() override;
+
+    void setFloat(const std::string &name, float value) override;
+    void setFloat2(const std::string &name, const glm::vec2 &value) override;
+    void setFloat3(const std::string &name, const glm::vec3 &value) override;
+    void setFloat4(const std::string &name, const glm::vec4 &value) override;
+    void setInt(const std::string &name, uint32_t value) override;
 
   private:
     const uint16_t _LOG_LENGTH = 512;

@@ -7,6 +7,9 @@
 #include <vector>
 #include <fstream>
 #include <filesystem>
+#include "OpenGLShader.h"
+#include "OpenGLShader.h"
+#include "OpenGLShader.h"
 
 namespace slim
 {
@@ -55,6 +58,36 @@ namespace slim
   void OpenGLShader::unbind()
   {
     glUseProgram(0);
+  }
+
+  void OpenGLShader::setFloat(const std::string &name, float value)
+  {
+    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    glUniform1f(location, value);
+  }
+
+  void OpenGLShader::setFloat2(const std::string &name, const glm::vec2 &value)
+  {
+    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    glUniform2f(location, value.x, value.y);
+  }
+
+  void OpenGLShader::setFloat3(const std::string &name, const glm::vec3 &value)
+  {
+    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    glUniform3f(location, value.x, value.y, value.z);
+  }
+
+  void OpenGLShader::setFloat4(const std::string &name, const glm::vec4 &value)
+  {
+    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    glUniform4f(location, value.x, value.y, value.z, value.w);
+  }
+
+  void OpenGLShader::setInt(const std::string &name, uint32_t value)
+  {
+    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    glUniform1i(location, value);
   }
 
   GLuint OpenGLShader::createShader(std::string_view path, OpenGLShaderType shaderType)

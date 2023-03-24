@@ -33,6 +33,13 @@ int main()
     -0.5,  0.5, 0.0,  // NW
   };
 
+  float colors[] = {
+    0.0, 0.0, 0.0, 1.0, // SW
+    0.0, 0.0, 1.0, 1.0, // SE
+    0.0, 1.0, 1.0, 1.0, // NE
+    0.0, 1.0, 0.0, 1.0  // NW
+  };
+
   unsigned int indices[] = {
     0, 1, 3,
     1, 2, 3
@@ -43,14 +50,19 @@ int main()
   slim::VertexAttribute attr = slim::VertexAttribute(0, slim::VertexAttributeBaseType::Float3, false);
   vbo->addAttribute(attr);
 
+  std::shared_ptr<slim::VertexBuffer> colors_vbo = slim::VertexBuffer::create(colors, sizeof(colors));
+
+  slim::VertexAttribute colorAttr = slim::VertexAttribute(1, slim::VertexAttributeBaseType::Float4, false);
+  colors_vbo->addAttribute(colorAttr);
+
   std::shared_ptr<slim::VertexArray> vao = slim::VertexArray::create();
   vao->addVertexBuffer(vbo);
+  vao->addVertexBuffer(colors_vbo);
 
   std::shared_ptr<slim::IndexBuffer> ibo = slim::IndexBuffer::create(indices, 6);
   vao->setIndexBuffer(ibo);
 
   uint32_t indicesCount = ibo->count();
-  float color[3] = {0.0, 1.0, 0.0};
 
   while (!window->shouldClose())
   {
@@ -63,14 +75,6 @@ int main()
     shader->bind();
     vao->bind();
     glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
-
-    ImGui::ShowMetricsWindow();
-
-    ImGui::Begin("Rectangle");
-    ImGui::SliderFloat3("Color", color, 0, 1.0);
-    glm::vec4 colorVec{color[0], color[1], color[2], 1.0};
-    shader->setFloat4("color", colorVec);
-    ImGui::End();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -28,9 +28,16 @@ namespace slim
   {
     glBindVertexArray(_id);
     buffer->bind();
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    for (auto attribute : buffer->getAttributes())
+    {
+      if (attribute.type < 4)
+        glVertexAttribPointer(attribute.index, attribute.count, vertexAttributeGLType(attribute.type), attribute.normalized, attribute.size, (const void *)0);
+      else
+        glVertexAttribIPointer(attribute.index, attribute.count, vertexAttributeGLType(attribute.type), attribute.size, (const void *)0);
+
+      glEnableVertexAttribArray(attribute.index);
+    }
 
     _vertexBuffers.push_back(buffer);
   }

@@ -1,6 +1,7 @@
 #include "platform/OpenGL/OpenGLVertexBuffer.h"
 
 #include <glad/gl.h>
+#include "OpenGLVertexBuffer.h"
 
 namespace slim
 {
@@ -30,5 +31,15 @@ namespace slim
   {
     glBindBuffer(GL_ARRAY_BUFFER, _id);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+  }
+
+  void slim::OpenGLVertexBuffer::addAttribute(const VertexAttribute &attribute)
+  {
+    _attributes.push_back(attribute);
+  }
+
+  const std::vector<VertexAttribute> &OpenGLVertexBuffer::getAttributes() const
+  {
+    return _attributes;
   }
 }

@@ -2,6 +2,8 @@
 #define SLIM_OPENGLVERTEXBUFFER_H
 
 #include "rendering/vertex_buffer.h"
+#include "rendering/vertex_attribute.h"
+#include <vector>
 
 namespace slim
 {
@@ -15,8 +17,12 @@ namespace slim
     void unbind() override;
     void set(const void *data, uint32_t size) override;
 
+    void addAttribute(const VertexAttribute &attribute) override;
+    const std::vector<VertexAttribute> &getAttributes() const override;
+
   private:
     uint32_t _id;
+    std::vector<VertexAttribute> _attributes;
   };
 }
 

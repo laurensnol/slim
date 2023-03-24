@@ -1,7 +1,6 @@
 #ifndef SLIM_CORE_WINDOW_H
 #define SLIM_CORE_WINDOW_H
 
-#include <spdlog/spdlog.h>
 #include <string>
 #include <string_view>
 #include <memory>

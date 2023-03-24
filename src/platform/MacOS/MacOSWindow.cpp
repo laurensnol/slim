@@ -1,11 +1,13 @@
 #include "platform/MacOS/MacOSWindow.h"
 
+#include "core/base.h"
+#include <spdlog/spdlog.h>
+
 namespace slim
 {
   static void GLFWErrorCallback(int error, const char* description)
   {
     spdlog::error("GLFW Error {}: {}", error, description);
-    exit(-1);
   }
 
   MacOSWindow::MacOSWindow(const WindowProperties &properties)
@@ -23,10 +25,7 @@ namespace slim
     _properties = std::move(properties);
 
     if (!glfwInit())
-    {
-      spdlog::error("Failed to initialize GLFW");
-      assert(false);
-    }
+      SLIM_ASSERT(false, "Failed to initialize GLFW")
 
     glfwSetErrorCallback(GLFWErrorCallback);
 
@@ -41,10 +40,7 @@ namespace slim
     _window = glfwCreateWindow(_properties.width, _properties.height, _properties.title.c_str(), NULL, NULL);
 
     if (_window == NULL)
-    {
-      spdlog::error("Failed to create GLFW window");
-      assert(false);
-    }
+      SLIM_ASSERT(false, "Failed to create GLFW window")
 
     glfwSetWindowUserPointer(_window, &_properties);
     glfwMakeContextCurrent(_window);
@@ -60,10 +56,7 @@ namespace slim
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
-    {
-      spdlog::critical("Failed to initialize OpenGL context");
-      assert(false);
-    }
+      SLIM_ASSERT(false, "Failed to initialize OpenGL context")
 
     spdlog::info("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
   }

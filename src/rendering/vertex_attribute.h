@@ -1,7 +1,7 @@
 #ifndef SLIM_VERTEXATTRIBUTE_H
 #define SLIM_VERTEXATTRIBUTE_H
 
-#include <spdlog/spdlog.h>
+#include "core/base.h"
 #include <glad/gl.h>
 
 namespace slim
@@ -33,8 +33,7 @@ namespace slim
       case VertexAttributeBaseType::Int4:   return 4;
     }
 
-    spdlog::error("Unrecognized VertexAttributeBaseType");
-    assert(false);
+    SLIM_ASSERT(false, "Unrecognized VertexAttributeBaseType")
   }
 
   static uint32_t vertexAttributeTypeSize(VertexAttributeBaseType type)
@@ -52,8 +51,7 @@ namespace slim
       case VertexAttributeBaseType::Int4:   return 4 * 4;
     }
 
-    spdlog::error("Unrecognized VertexAttributeBaseType");
-    assert(false);
+    SLIM_ASSERT(false, "Unrecognized VertexAttributeBaseType")
   }
 
   static GLenum vertexAttributeGLType(VertexAttributeBaseType type)

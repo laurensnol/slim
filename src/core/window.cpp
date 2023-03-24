@@ -1,5 +1,7 @@
 #include "core/window.h"
 
+#include "core/base.h"
+
 #ifdef SLIM_PLATFORM_MACOS
   #include "platform/MacOS/MacOSWindow.h"
 #endif
@@ -13,8 +15,7 @@ namespace slim
     #ifdef SLIM_PLATFORM_MACOS
       return std::make_unique<MacOSWindow>(properties);
     #else
-      spdlog::critical("Platform not implemented");
-      assert(false);
+      SLIM_ASSERT(false, "Platform not implemented")
     #endif
   }
 }

@@ -1,6 +1,7 @@
 #include "core/window.h"
 #include "rendering/shader.h"
 #include "rendering/vertex_buffer.h"
+#include "rendering/vertex_attribute.h"
 #include "rendering/vertex_array.h"
 #include "rendering/index_buffer.h"
 
@@ -36,9 +37,12 @@ int main()
     1, 2, 3
   };
 
-  std::shared_ptr<slim::VertexArray> vao = slim::VertexArray::create();
-
   std::shared_ptr<slim::VertexBuffer> vbo = slim::VertexBuffer::create(vertices, sizeof(vertices));
+  
+  slim::VertexAttribute attr = slim::VertexAttribute(0, slim::VertexAttributeBaseType::Float3, false);
+  vbo->addAttribute(attr);
+
+  std::shared_ptr<slim::VertexArray> vao = slim::VertexArray::create();
   vao->addVertexBuffer(vbo);
 
   std::shared_ptr<slim::IndexBuffer> ibo = slim::IndexBuffer::create(indices, 6);

@@ -5,6 +5,7 @@
 #include "rendering/vertex_array.h"
 #include "rendering/index_buffer.h"
 
+#include <glm/glm.hpp>
 #include <glad/gl.h>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -49,22 +50,29 @@ int main()
   vao->setIndexBuffer(ibo);
 
   uint32_t indicesCount = ibo->count();
+  float color[3] = {0.0, 1.0, 0.0};
 
   while (!window->shouldClose())
   {
     glClear(GL_COLOR_BUFFER_BIT);
-    
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
     shader->bind();
     vao->bind();
     glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
 
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-
-    ImGui::NewFrame();
     ImGui::ShowMetricsWindow();
-    ImGui::Render();
 
+    ImGui::Begin("Rectangle");
+    ImGui::SliderFloat3("Color", color, 0, 1.0);
+    glm::vec4 colorVec{color[0], color[1], color[2], 1.0};
+    shader->setFloat4("color", colorVec);
+    ImGui::End();
+
+    ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     window->update();

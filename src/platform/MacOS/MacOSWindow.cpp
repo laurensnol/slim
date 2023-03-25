@@ -10,9 +10,10 @@ namespace slim
     spdlog::error("GLFW Error {}: {}", error, description);
   }
 
-  MacOSWindow::MacOSWindow(const WindowProperties &properties)
+  MacOSWindow::MacOSWindow(std::string_view title, uint16_t width, uint16_t height)
   {
-    init(properties);
+    _properties = WindowProperties(title, width, height);
+    init();
   }
 
   MacOSWindow::~MacOSWindow()
@@ -20,14 +21,12 @@ namespace slim
     destroy();
   }
  
-  void MacOSWindow::init(const WindowProperties &properties)
+  void MacOSWindow::init()
   {
-    _properties = std::move(properties);
+    glfwSetErrorCallback(GLFWErrorCallback);
 
     if (!glfwInit())
       SLIM_ASSERT(false, "Failed to initialize GLFW")
-
-    glfwSetErrorCallback(GLFWErrorCallback);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -39,13 +38,10 @@ namespace slim
 
     _window = glfwCreateWindow(_properties.width, _properties.height, _properties.title.c_str(), NULL, NULL);
 
-    if (_window == NULL)
+    if (!_window)
       SLIM_ASSERT(false, "Failed to create GLFW window")
 
-    glfwSetWindowUserPointer(_window, &_properties);
-    glfwMakeContextCurrent(_window);
-
-    glfwSetWindowSizeCallback(_window, [](GLFWwindow *window, int width, int height)
+    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow *window, int width, int height)
     {
       glViewport(0, 0, width, height);
 
@@ -54,9 +50,20 @@ namespace slim
       properties.height = height;
     });
 
+    glfwSetWindowUserPointer(_window, &_properties);
+    glfwMakeContextCurrent(_window);
+    glfwSwapInterval(1);
+
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
       SLIM_ASSERT(false, "Failed to initialize OpenGL context")
+
+    int framebufferWidth, framebufferHeight;
+    glfwGetFramebufferSize(_window, &framebufferWidth, &framebufferHeight);
+    glViewport(0, 0, framebufferWidth, framebufferHeight);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
     spdlog::info("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
   }

@@ -2,6 +2,7 @@
 #define SLIM_MACOSWINDOW
 
 #include "core/window.h"
+#include <string_view>
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
@@ -11,7 +12,7 @@ namespace slim
   class MacOSWindow : public Window
   {
   public:
-    MacOSWindow(const WindowProperties &properties);
+    MacOSWindow(std::string_view title, uint16_t width, uint16_t height);
     virtual ~MacOSWindow();
 
     bool shouldClose() override;
@@ -20,7 +21,7 @@ namespace slim
     WindowProperties getProperties() override;
 
   private:
-    virtual void init(const WindowProperties &properties);
+    virtual void init();
     virtual void destroy();
 
     GLFWwindow *_window;

@@ -10,8 +10,10 @@ namespace slim
 {
   struct WindowProperties
   {
-    WindowProperties(std::string_view title = "Slim", uint16_t width = 1600, uint16_t height = 800)
+    WindowProperties(std::string_view title, uint16_t width, uint16_t height)
       : title(title), width(width), height(height) {}
+
+    WindowProperties() = default;
 
     std::string title;
     uint16_t width;
@@ -28,7 +30,7 @@ namespace slim
     virtual void *getNative() = 0;
     virtual WindowProperties getProperties() = 0;
 
-    static std::unique_ptr<Window> create(std::string_view title = "Slim", uint16_t width = 1600, uint16_t height = 900);
+    static std::unique_ptr<Window> create(std::string_view title = "Slim", uint16_t width = 1920, uint16_t height = 1080);
   };
 }
 

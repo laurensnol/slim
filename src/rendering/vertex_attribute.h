@@ -64,18 +64,20 @@ namespace slim
 
   struct VertexAttribute
   {
-    VertexAttribute(uint32_t index, VertexAttributeBaseType type, bool normalized)
+    VertexAttribute(uint32_t index, VertexAttributeBaseType type, bool normalized, uint32_t offset = 0)
       : index(index),
         count(vertexAttributeTypeCount(type)),
         size(vertexAttributeTypeSize(type)),
         type(type),
-        normalized(normalized) {}
+        normalized(normalized),
+        offset(offset) {}
 
     uint32_t index;
     uint32_t count;
     uint32_t size;
     VertexAttributeBaseType type;
     bool normalized;
+    uint32_t offset;
   };
 }
 

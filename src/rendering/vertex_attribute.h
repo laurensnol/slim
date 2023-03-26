@@ -18,7 +18,7 @@ namespace slim
     Int4
   };
 
-  static uint32_t vertexAttributeTypeCount(VertexAttributeBaseType type)
+  static uint32_t vertexAttributeTypeSize(VertexAttributeBaseType type)
   {
     switch (type)
     {
@@ -36,24 +36,6 @@ namespace slim
     SLIM_ASSERT(false, "Unrecognized VertexAttributeBaseType")
   }
 
-  static uint32_t vertexAttributeTypeSize(VertexAttributeBaseType type)
-  {
-    switch (type)
-    {
-      case VertexAttributeBaseType::Float:  return 4;
-      case VertexAttributeBaseType::Float2: return 4 * 2;
-      case VertexAttributeBaseType::Float3: return 4 * 3;
-      case VertexAttributeBaseType::Float4: return 4 * 4;
-
-      case VertexAttributeBaseType::Int:    return 4;
-      case VertexAttributeBaseType::Int2:   return 4 * 2;
-      case VertexAttributeBaseType::Int3:   return 4 * 3;
-      case VertexAttributeBaseType::Int4:   return 4 * 4;
-    }
-
-    SLIM_ASSERT(false, "Unrecognized VertexAttributeBaseType")
-  }
-
   static GLenum vertexAttributeGLType(VertexAttributeBaseType type)
   {
     if (type < 4)
@@ -64,19 +46,19 @@ namespace slim
 
   struct VertexAttribute
   {
-    VertexAttribute(uint32_t index, VertexAttributeBaseType type, bool normalized, uint32_t offset = 0)
+    VertexAttribute(uint32_t index, VertexAttributeBaseType type, bool normalized, uint32_t strideCount, uint32_t offset = 0)
       : index(index),
-        count(vertexAttributeTypeCount(type)),
         size(vertexAttributeTypeSize(type)),
         type(type),
         normalized(normalized),
-        offset(offset) {}
-
+        strideCount(strideCount),
+        offset(offset) { }
+    
     uint32_t index;
-    uint32_t count;
     uint32_t size;
     VertexAttributeBaseType type;
     bool normalized;
+    uint32_t strideCount;
     uint32_t offset;
   };
 }

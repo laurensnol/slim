@@ -31,10 +31,10 @@ namespace slim
 
     for (auto attribute : buffer->getAttributes())
     {
-      if (attribute.type < 4)
-        glVertexAttribPointer(attribute.index, attribute.count, vertexAttributeGLType(attribute.type), attribute.normalized, attribute.size, (const void *)attribute.offset);
+      if (attribute.type <= VertexAttributeBaseType::Float4)
+        glVertexAttribPointer(attribute.index, attribute.size, vertexAttributeGLType(attribute.type), attribute.normalized, attribute.strideCount * sizeof(float), (const void *)attribute.offset);
       else
-        glVertexAttribIPointer(attribute.index, attribute.count, vertexAttributeGLType(attribute.type), attribute.size, (const void *)attribute.offset);
+        glVertexAttribIPointer(attribute.index, attribute.size, vertexAttributeGLType(attribute.type), attribute.strideCount * sizeof(uint32_t), (const void *)attribute.offset);
 
       glEnableVertexAttribArray(attribute.index);
     }

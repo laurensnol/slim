@@ -4,6 +4,7 @@
 #include "rendering/vertex_attribute.h"
 #include "rendering/vertex_array.h"
 #include "rendering/index_buffer.h"
+#include "core/time.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -84,38 +85,43 @@ int main()
   // ImGui
   bool wireframes = true;
   float fov = 65.0f;
+  float rotationSpeed = 0.0000005f;
 
   while (!window->shouldClose())
   {
+    model = glm::rotate(model, glm::radians(0.25f) * slim::Time::deltaTime * rotationSpeed, glm::vec3(0.5f, 1.0f, 0.0f));
+    shader->setMat4("model", model);
+    
+    shader->bind();
+    vao->bind();
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
     ImGui::Begin("Settings");
-
     if (ImGui::Checkbox("Wireframes", &wireframes))
       wireframes ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     ImGui::Text("Camera");
-    
     if (ImGui::SliderFloat("FOV", &fov, 20, 90))
     {
       projection = glm::perspective(glm::radians(fov), dimensions.x / dimensions.y, 0.1f, 100.0f);
       shader->setMat4("projection", projection);
     }
 
+    ImGui::Text("Cube");
+    ImGui::SliderFloat("Rotation Speed", &rotationSpeed, 0.0000001f, 0.00001f, "%.7f");
     ImGui::End();
 
     ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    
-    shader->bind();
-    vao->bind();
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());    
 
     window->update();
+    slim::Time::update();
   }
 
   return 0;

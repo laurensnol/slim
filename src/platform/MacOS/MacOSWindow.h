@@ -12,14 +12,21 @@ namespace slim
   class MacOSWindow : public Window
   {
   public:
-    MacOSWindow(std::string_view title, uint16_t width, uint16_t height);
+    MacOSWindow(std::string_view title, uint16_t width, uint16_t height, bool vsync);
     virtual ~MacOSWindow();
 
     bool shouldClose() override;
     void update() override;
-    void *getNative() override;
-    WindowProperties getProperties() override;
-    glm::vec2 getDimensions() override;
+    void *getNative() const override;
+
+    WindowProperties getProperties() const override;
+
+    glm::vec2 getDimensions() const override;
+    void setWidth(float width) override;
+    void setHeight(float height) override;
+
+    bool getVsync() const override;
+    void setVsync(bool value) override;
 
   private:
     virtual void init();

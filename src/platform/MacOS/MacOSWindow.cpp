@@ -10,9 +10,9 @@ namespace slim
     spdlog::error("GLFW Error {}: {}", error, description);
   }
 
-  MacOSWindow::MacOSWindow(std::string_view title, uint16_t width, uint16_t height)
+  MacOSWindow::MacOSWindow(std::string_view title, uint16_t width, uint16_t height, bool vsync)
   {
-    _properties = WindowProperties(title, width, height);
+    _properties = WindowProperties(title, width, height, vsync);
     init();
   }
 
@@ -52,7 +52,7 @@ namespace slim
 
     glfwSetWindowUserPointer(_window, &_properties);
     glfwMakeContextCurrent(_window);
-    glfwSwapInterval(1);
+    glfwSwapInterval(_properties.vsync ? 1 : 0);
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
@@ -85,18 +85,41 @@ namespace slim
     glfwSwapBuffers(_window);
   }
 
-  void *MacOSWindow::getNative()
+  void *MacOSWindow::getNative() const
   {
     return _window;
   }
 
-  WindowProperties MacOSWindow::getProperties()
+  WindowProperties MacOSWindow::getProperties() const
   {
     return _properties;
   }
 
-  glm::vec2 MacOSWindow::getDimensions()
+  glm::vec2 MacOSWindow::getDimensions() const
   {
     return glm::vec2{_properties.width, _properties.height};
+  }
+
+  void MacOSWindow::setWidth(float width)
+  {
+    _properties.width = width;
+    glViewport(0, 0, _properties.width, _properties.height);
+  }
+ 
+  void MacOSWindow::setHeight(float height)
+  {
+    _properties.height = height;
+    glViewport(0, 0, _properties.width, _properties.height);
+  }
+
+  bool MacOSWindow::getVsync() const
+  {
+    return _properties.vsync;
+  }
+
+  void MacOSWindow::setVsync(bool value)
+  {
+    _properties.vsync = value;
+    glfwSwapInterval(_properties.vsync ? 1 : 0);
   }
 }

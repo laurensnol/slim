@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
-#include <assert.h>
+#include <glm/glm.hpp>
 
 namespace slim
 {
@@ -29,6 +29,7 @@ namespace slim
     virtual void update() = 0;
     virtual void *getNative() = 0;
     virtual WindowProperties getProperties() = 0;
+    virtual glm::vec2 getDimensions() = 0;
 
     static std::unique_ptr<Window> create(std::string_view title = "Slim", uint16_t width = 1920, uint16_t height = 1080);
   };

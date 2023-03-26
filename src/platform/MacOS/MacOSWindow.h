@@ -3,7 +3,7 @@
 
 #include "core/window.h"
 #include <string_view>
-
+#include <glm/glm.hpp>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
@@ -19,6 +19,7 @@ namespace slim
     void update() override;
     void *getNative() override;
     WindowProperties getProperties() override;
+    glm::vec2 getDimensions() override;
 
   private:
     virtual void init();

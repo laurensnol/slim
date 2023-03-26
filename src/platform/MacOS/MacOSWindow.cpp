@@ -94,4 +94,9 @@ namespace slim
   {
     return _properties;
   }
+
+  glm::vec2 MacOSWindow::getDimensions()
+  {
+    return glm::vec2{_properties.width, _properties.height};
+  }
 }

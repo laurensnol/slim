@@ -83,6 +83,7 @@ int main()
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   // ImGui
+  bool vsync = false;
   bool wireframes = true;
   float fov = 65.0f;
   float rotationSpeed = 0.0000005f;
@@ -103,6 +104,9 @@ int main()
     ImGui::NewFrame();
 
     ImGui::Begin("Settings");
+    if (ImGui::Checkbox("VSync", &vsync))
+      window->setVsync(vsync);
+
     if (ImGui::Checkbox("Wireframes", &wireframes))
       wireframes ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

@@ -8,10 +8,10 @@
 
 namespace slim
 {
-  std::unique_ptr<Window> Window::create(std::string_view title, uint16_t width, uint16_t height)
+  std::unique_ptr<Window> Window::create(std::string_view title, uint16_t width, uint16_t height, bool vsync)
   {
     #ifdef SLIM_PLATFORM_MACOS
-      return std::make_unique<MacOSWindow>(title, width, height);
+      return std::make_unique<MacOSWindow>(title, width, height, vsync);
     #else
       SLIM_ASSERT(false, "Platform not implemented")
     #endif

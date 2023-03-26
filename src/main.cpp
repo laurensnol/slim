@@ -80,7 +80,10 @@ int main()
   // Drawing
   glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+  // ImGui
+  bool wireframes = true;
+  float fov = 65.0f;
 
   while (!window->shouldClose())
   {
@@ -90,7 +93,20 @@ int main()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::ShowMetricsWindow();
+    ImGui::Begin("Settings");
+
+    if (ImGui::Checkbox("Wireframes", &wireframes))
+      wireframes ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    ImGui::Text("Camera");
+    
+    if (ImGui::SliderFloat("FOV", &fov, 20, 90))
+    {
+      projection = glm::perspective(glm::radians(fov), dimensions.x / dimensions.y, 0.1f, 100.0f);
+      shader->setMat4("projection", projection);
+    }
+
+    ImGui::End();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

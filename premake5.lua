@@ -31,7 +31,8 @@ project "slim"
         "vendor/glad/include",
         "vendor/spdlog/include",
         "vendor/imgui",
-        "vendor/glm"
+        "vendor/glm",
+        "vendor/stb_image"
     }
     
     filter {}
@@ -39,8 +40,9 @@ project "slim"
         {
             "glfw3",
             "glad",
-            "imgui"
-        }    
+            "imgui",
+            "stb_image"
+        }
 
     filter "system:windows"
         defines { "SLIM_PLATFORM_WINDOWS" }
@@ -73,3 +75,4 @@ include "vendor/glfw.lua"
 include "vendor/glad.lua"
 include "vendor/spdlog.lua"
 include "vendor/imgui.lua"
+include "vendor/stb_image.lua"

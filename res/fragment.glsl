@@ -3,9 +3,9 @@
 out vec4 oFragColor;
 
 in vec4 vColor;
-in vec2 vTexCoord;
+in vec3 vTexCoord;
 
-uniform sampler2D uTexture;
+uniform samplerCube uTexture;
 
 void main()
 {

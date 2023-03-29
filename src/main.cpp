@@ -6,6 +6,7 @@
 #include "rendering/vertex_array.h"
 #include "rendering/index_buffer.h"
 #include "rendering/texture2d.h"
+#include "rendering/cubemap.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -30,15 +31,15 @@ int main()
 
   std::unique_ptr<slim::Shader> shader = slim::Shader::create("res/vertex.glsl", "res/fragment.glsl");
 
-  /*float vertices[] = {
-    -0.5, -0.5, -0.5,    0.0, 0.0, 0.0,    0.0, 0.0, // Back Bottom Left
-     0.5, -0.5, -0.5,    0.0, 1.0, 0.0,    1.0, 0.0, // Back Bottom Right
-     0.5,  0.5, -0.5,    0.0, 1.0, 1.0,    1.0, 1.0, // Back Top Right
-    -0.5,  0.5, -0.5,    0.0, 0.0, 1.0,    0.0, 1.0, // Back Top Left
-    -0.5, -0.5,  0.5,    1.0, 0.0, 0.0,    0.0, 0.0, // Front Bottom Left
-     0.5, -0.5,  0.5,    1.0, 1.0, 0.0,    1.0, 0.0, // Front Bottom Right
-     0.5,  0.5,  0.5,    1.0, 1.0, 1.0,    1.0, 1.0, // Front Top Right
-    -0.5,  0.5,  0.5,    1.0, 0.0, 1.0,    0.0, 1.0  // Front Top Left
+  float vertices[] = {
+    -0.5, -0.5, -0.5,    0.0, 0.0, 0.0, // Back Bottom Left
+     0.5, -0.5, -0.5,    0.0, 1.0, 0.0, // Back Bottom Right
+     0.5,  0.5, -0.5,    0.0, 1.0, 1.0, // Back Top Right
+    -0.5,  0.5, -0.5,    0.0, 0.0, 1.0, // Back Top Left
+    -0.5, -0.5,  0.5,    1.0, 0.0, 0.0, // Front Bottom Left
+     0.5, -0.5,  0.5,    1.0, 1.0, 0.0, // Front Bottom Right
+     0.5,  0.5,  0.5,    1.0, 1.0, 1.0, // Front Top Right
+    -0.5,  0.5,  0.5,    1.0, 0.0, 1.0, // Front Top Left
   };
 
   uint32_t indexCount = 36;
@@ -53,46 +54,11 @@ int main()
 
   std::shared_ptr<slim::VertexBuffer> vbo = slim::VertexBuffer::create(vertices, sizeof(vertices));
   
-  slim::VertexAttribute vertexAttr = slim::VertexAttribute(0, slim::VertexAttributeBaseType::Float3, false, 8);
+  slim::VertexAttribute vertexAttr = slim::VertexAttribute(0, slim::VertexAttributeBaseType::Float3, false, 6);
   vbo->addAttribute(vertexAttr);
 
-  slim::VertexAttribute colorAttr = slim::VertexAttribute(1, slim::VertexAttributeBaseType::Float3, false, 8, 3 * sizeof(float));
+  slim::VertexAttribute colorAttr = slim::VertexAttribute(1, slim::VertexAttributeBaseType::Float3, false, 6, 3 * sizeof(float));
   vbo->addAttribute(colorAttr);
-
-  slim::VertexAttribute textureAttr = slim::VertexAttribute(2, slim::VertexAttributeBaseType::Float2, false, 8, 6 * sizeof(float));
-  vbo->addAttribute(textureAttr);
-
-  std::shared_ptr<slim::VertexArray> vao = slim::VertexArray::create();
-  vao->addVertexBuffer(vbo);
-
-  std::shared_ptr<slim::IndexBuffer> ibo = slim::IndexBuffer::create(indices, indexCount);
-  vao->setIndexBuffer(ibo);*/
-
-  float vertices[] = {
-  // Position              // Colors            // Texture
-    -0.5f, -0.5f, 0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f,    0.0f, 1.0f, 0.0f,    1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f,    1.0f, 1.0f, 0.0f,    0.0f, 1.0f 
-  };
-
-  uint32_t indices[] = {
-    0, 1, 3,
-    1, 2, 3
-  };
-
-  uint32_t indexCount = 6;
-
-  std::shared_ptr<slim::VertexBuffer> vbo = slim::VertexBuffer::create(vertices, sizeof(vertices));
-  
-  slim::VertexAttribute vertexAttr = slim::VertexAttribute(0, slim::VertexAttributeBaseType::Float3, false, 8);
-  vbo->addAttribute(vertexAttr);
-
-  slim::VertexAttribute colorAttr = slim::VertexAttribute(1, slim::VertexAttributeBaseType::Float3, false, 8, 3 * sizeof(float));
-  vbo->addAttribute(colorAttr);
-
-  slim::VertexAttribute textureAttr = slim::VertexAttribute(2, slim::VertexAttributeBaseType::Float2, false, 8, 6 * sizeof(float));
-  vbo->addAttribute(textureAttr);
 
   std::shared_ptr<slim::VertexArray> vao = slim::VertexArray::create();
   vao->addVertexBuffer(vbo);
@@ -100,7 +66,7 @@ int main()
   std::shared_ptr<slim::IndexBuffer> ibo = slim::IndexBuffer::create(indices, indexCount);
   vao->setIndexBuffer(ibo);
 
-  std::shared_ptr<slim::Texture2D> texture = slim::Texture2D::create("res/texture.png");
+  std::shared_ptr<slim::Cubemap> cubemap = slim::Cubemap::create("res/cubemap/side.png", "res/cubemap/side.png", "res/cubemap/top.png", "res/cubemap/bottom.png", "res/cubemap/side.png", "res/cubemap/side.png");
 
   // Matrices
   glm::mat4 model(1.0f);
@@ -132,7 +98,7 @@ int main()
     model = glm::rotate(model, glm::radians(0.25f) * slim::Time::deltaTime * rotationSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
     shader->setMat4("uModel", model);
 
-    texture->bind();
+    cubemap->bind();
     shader->bind();
     vao->bind();
 

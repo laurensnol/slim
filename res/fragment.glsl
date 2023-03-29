@@ -1,10 +1,13 @@
 #version 330 core
 
-in vec4 color;
+out vec4 oFragColor;
 
-out vec4 FragColor;
+in vec4 vColor;
+in vec3 vTexCoord;
+
+uniform samplerCube uTexture;
 
 void main()
 {
-  FragColor = color;
+  oFragColor = texture(uTexture, vTexCoord);
 }

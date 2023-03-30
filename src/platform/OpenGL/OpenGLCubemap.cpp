@@ -7,7 +7,7 @@
 
 namespace slim
 {
-  uint32_t OpenGLCubemap::_sides[] = {
+  uint32_t OpenGLCubemap::s_sides[] = {
     GL_TEXTURE_CUBE_MAP_POSITIVE_X,
     GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
     GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
@@ -27,10 +27,10 @@ namespace slim
       if (!image->success)
         SLIM_ASSERT("Failed to load cubemap texture from {}", path->c_str());
 
-      glGenTextures(1, &_id);
-      glBindTexture(GL_TEXTURE_CUBE_MAP, _id);
+      glGenTextures(1, &m_id);
+      glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
       
-      for (auto side : _sides)
+      for (auto side : s_sides)
         glTexImage2D(side, 0, GL_RGB, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->data);
 
       glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -41,8 +41,8 @@ namespace slim
     }
     else if (pathCount == 6)
     {
-      glGenTextures(1, &_id);
-      glBindTexture(GL_TEXTURE_CUBE_MAP, _id);
+      glGenTextures(1, &m_id);
+      glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
       
       // Create an std::vector since an std::initializer_list cannot be individually accessed.
       std::vector<std::string> pathsVec(paths);
@@ -54,7 +54,7 @@ namespace slim
         if (!image->success)
           SLIM_ASSERT("Failed to load cubemap texture from {}", pathsVec[i]);
 
-        glTexImage2D(_sides[i], 0, GL_RGB, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->data);
+        glTexImage2D(s_sides[i], 0, GL_RGB, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->data);
       }
 
       glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -71,12 +71,12 @@ namespace slim
 
   OpenGLCubemap::~OpenGLCubemap()
   {
-    glDeleteTextures(1, &_id);
+    glDeleteTextures(1, &m_id);
   }
 
   void OpenGLCubemap::bind()
   {
-    glBindTexture(GL_TEXTURE_CUBE_MAP, _id);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
   }
 
   void OpenGLCubemap::unbind()

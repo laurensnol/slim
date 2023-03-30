@@ -32,8 +32,8 @@ namespace slim
     virtual void init();
     virtual void destroy();
 
-    GLFWwindow *_window;
-    WindowProperties _properties;
+    GLFWwindow *m_window;
+    WindowProperties m_properties;
   };
 }
 

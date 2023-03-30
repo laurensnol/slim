@@ -2,10 +2,10 @@
 
 namespace slim
 {
-  RendererApi Renderer::_api = RendererApi::OpenGL;
+  RendererApi Renderer::s_api = RendererApi::OpenGL;
 
   RendererApi Renderer::api()
   {
-    return _api;
+    return s_api;
   }
 }

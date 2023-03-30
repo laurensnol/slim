@@ -13,8 +13,8 @@ namespace slim
     if (!data)
       SLIM_ASSERT(false, "Failed to load texture source: {}", path)
 
-    glGenTextures(1, &_id);
-    glBindTexture(GL_TEXTURE_2D, _id);
+    glGenTextures(1, &m_id);
+    glBindTexture(GL_TEXTURE_2D, m_id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -27,12 +27,12 @@ namespace slim
 
   OpenGLTexture2D::~OpenGLTexture2D()
   {
-    glDeleteTextures(1, &_id);
+    glDeleteTextures(1, &m_id);
   }
 
   void OpenGLTexture2D::bind()
   {
-    glBindTexture(GL_TEXTURE_2D, _id);
+    glBindTexture(GL_TEXTURE_2D, m_id);
   }
 
   void OpenGLTexture2D::unbind()

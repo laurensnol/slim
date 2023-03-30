@@ -25,9 +25,9 @@ namespace slim
     void setIndexBuffer(const std::shared_ptr<IndexBuffer> &buffer) override;
 
   private:
-    uint32_t _id;
-    std::vector<std::shared_ptr<VertexBuffer>> _vertexBuffers;
-    std::shared_ptr<IndexBuffer> _indexBuffer;
+    uint32_t m_id;
+    std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
+    std::shared_ptr<IndexBuffer> m_indexBuffer;
   };
 }
 

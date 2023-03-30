@@ -18,9 +18,9 @@ namespace slim
     void unbind() override;
 
   private:
-    uint32_t _id;
+    uint32_t m_id;
 
-    static uint32_t _sides[];
+    static uint32_t s_sides[];
   };
 }
 

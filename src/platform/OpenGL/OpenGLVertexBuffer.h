@@ -21,8 +21,8 @@ namespace slim
     const std::vector<VertexAttribute> &getAttributes() const override;
 
   private:
-    uint32_t _id;
-    std::vector<VertexAttribute> _attributes;
+    uint32_t m_id;
+    std::vector<VertexAttribute> m_attributes;
   };
 }
 

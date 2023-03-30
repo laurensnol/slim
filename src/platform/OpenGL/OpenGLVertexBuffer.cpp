@@ -7,19 +7,19 @@ namespace slim
 {
   OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, uint32_t size)
   {
-    glGenBuffers(1, &_id);
-    glBindBuffer(GL_ARRAY_BUFFER, _id);
+    glGenBuffers(1, &m_id);
+    glBindBuffer(GL_ARRAY_BUFFER, m_id);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
   }
 
   OpenGLVertexBuffer::~OpenGLVertexBuffer()
   {
-    glDeleteBuffers(1, &_id);
+    glDeleteBuffers(1, &m_id);
   }
 
   void OpenGLVertexBuffer::bind()
   {
-    glBindBuffer(GL_ARRAY_BUFFER, _id);
+    glBindBuffer(GL_ARRAY_BUFFER, m_id);
   }
 
   void OpenGLVertexBuffer::unbind()
@@ -29,17 +29,17 @@ namespace slim
 
   void OpenGLVertexBuffer::set(const void *data, uint32_t size)
   {
-    glBindBuffer(GL_ARRAY_BUFFER, _id);
+    glBindBuffer(GL_ARRAY_BUFFER, m_id);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
   }
 
   void slim::OpenGLVertexBuffer::addAttribute(const VertexAttribute &attribute)
   {
-    _attributes.push_back(attribute);
+    m_attributes.push_back(attribute);
   }
 
   const std::vector<VertexAttribute> &OpenGLVertexBuffer::getAttributes() const
   {
-    return _attributes;
+    return m_attributes;
   }
 }

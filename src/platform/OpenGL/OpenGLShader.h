@@ -35,8 +35,8 @@ namespace slim
     void setInt(const std::string &name, uint32_t value) override;
 
   private:
-    const uint16_t _LOG_LENGTH = 512;
-    uint32_t _id;
+    const uint16_t m_logLength = 512;
+    uint32_t m_id;
 
     uint32_t createShader(std::string_view path, OpenGLShaderType shaderType);
   };

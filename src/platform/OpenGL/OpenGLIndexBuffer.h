@@ -16,8 +16,8 @@ namespace slim
     uint32_t count() const override;
 
   private:
-    uint32_t _id;
-    uint32_t _count;
+    uint32_t m_id;
+    uint32_t m_count;
   };
 }
 

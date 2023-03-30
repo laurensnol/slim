@@ -16,41 +16,41 @@ namespace slim
     GLuint vertexShader = createShader(vertexPath, OpenGLShaderType::Vertex);
     GLuint fragmentShader = createShader(fragmentPath, OpenGLShaderType::Fragment);
 
-    _id = glCreateProgram();
-    glAttachShader(_id, vertexShader);
-    glAttachShader(_id, fragmentShader);
-    glLinkProgram(_id);
+    m_id = glCreateProgram();
+    glAttachShader(m_id, vertexShader);
+    glAttachShader(m_id, fragmentShader);
+    glLinkProgram(m_id);
 
     GLint success;
-    glGetProgramiv(_id, GL_LINK_STATUS, &success);
+    glGetProgramiv(m_id, GL_LINK_STATUS, &success);
     if (!success)
     {
-      GLchar description[_LOG_LENGTH];
-      glGetProgramInfoLog(_id, _LOG_LENGTH, NULL, description);
+      GLchar description[m_logLength];
+      glGetProgramInfoLog(m_id, m_logLength, NULL, description);
 
       std::string_view descriptionString{description};
       spdlog::error("OpenGL: Shader Program linking error: {}", descriptionString);
 
-      glDeleteProgram(_id);
+      glDeleteProgram(m_id);
     }
 
-    GLchar description[_LOG_LENGTH];
+    GLchar description[m_logLength];
 
-    glDetachShader(_id, vertexShader);
+    glDetachShader(m_id, vertexShader);
     glDeleteShader(vertexShader);
     
-    glDetachShader(_id, fragmentShader);
+    glDetachShader(m_id, fragmentShader);
     glDeleteShader(fragmentShader);
   }
 
   OpenGLShader::~OpenGLShader()
   {
-    glDeleteProgram(_id);
+    glDeleteProgram(m_id);
   }
 
   void OpenGLShader::bind()
   {
-    glUseProgram(_id);
+    glUseProgram(m_id);
   }
 
   void OpenGLShader::unbind()
@@ -60,49 +60,49 @@ namespace slim
 
   void OpenGLShader::setFloat(const std::string &name, float value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform1f(location, value);
   }
 
   void OpenGLShader::setFloat2(const std::string &name, const glm::vec2 &value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform2f(location, value.x, value.y);
   }
 
   void OpenGLShader::setFloat3(const std::string &name, const glm::vec3 &value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform3f(location, value.x, value.y, value.z);
   }
 
   void OpenGLShader::setFloat4(const std::string &name, const glm::vec4 &value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform4f(location, value.x, value.y, value.z, value.w);
   }
 
   void OpenGLShader::setMat2(const std::string &name, const glm::mat2 &value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
   void OpenGLShader::setMat3(const std::string &name, const glm::mat3 &value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
   void OpenGLShader::setMat4(const std::string &name, const glm::mat4 &value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
   void OpenGLShader::setInt(const std::string &name, uint32_t value)
   {
-    uint32_t location = glGetUniformLocation(_id, name.c_str());
+    uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform1i(location, value);
   }
 
@@ -129,8 +129,8 @@ namespace slim
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-      GLchar description[_LOG_LENGTH];
-      glGetShaderInfoLog(shader, _LOG_LENGTH, NULL, description);
+      GLchar description[m_logLength];
+      glGetShaderInfoLog(shader, m_logLength, NULL, description);
       glDeleteShader(shader);
 
       std::string_view descriptionString{description};

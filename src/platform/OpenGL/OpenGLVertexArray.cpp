@@ -6,17 +6,17 @@ namespace slim
 {
   OpenGLVertexArray::OpenGLVertexArray()
   {
-    glGenVertexArrays(1, &_id);
+    glGenVertexArrays(1, &m_id);
   }
 
   OpenGLVertexArray::~OpenGLVertexArray()
   {
-    glDeleteVertexArrays(1, &_id);
+    glDeleteVertexArrays(1, &m_id);
   }
 
   void OpenGLVertexArray::bind()
   {
-    glBindVertexArray(_id);
+    glBindVertexArray(m_id);
   }
 
   void OpenGLVertexArray::unbind()
@@ -26,7 +26,7 @@ namespace slim
 
   void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &buffer)
   {
-    glBindVertexArray(_id);
+    glBindVertexArray(m_id);
     buffer->bind();
 
     for (auto attribute : buffer->getAttributes())
@@ -39,19 +39,19 @@ namespace slim
       glEnableVertexAttribArray(attribute.index);
     }
 
-    _vertexBuffers.push_back(buffer);
+    m_vertexBuffers.push_back(buffer);
   }
 
   const std::vector<std::shared_ptr<VertexBuffer>> &OpenGLVertexArray::getVertexBuffers() const
   {
-    return _vertexBuffers;
+    return m_vertexBuffers;
   }
 
   void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &buffer)
   {
-    glBindVertexArray(_id);
+    glBindVertexArray(m_id);
     buffer->bind();
 
-    _indexBuffer = buffer;
+    m_indexBuffer = buffer;
   }
 }

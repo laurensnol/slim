@@ -6,21 +6,21 @@ namespace slim
 {
   OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *indices, uint32_t count)
   {
-    glGenBuffers(1, &_id);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _id);
+    glGenBuffers(1, &m_id);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 
-    _count = count;
+    m_count = count;
   }
 
   OpenGLIndexBuffer::~OpenGLIndexBuffer()
   {
-    glDeleteBuffers(1, &_id);
+    glDeleteBuffers(1, &m_id);
   }
 
   void OpenGLIndexBuffer::bind()
   {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _id);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
   }
 
   void OpenGLIndexBuffer::unbind()
@@ -30,6 +30,6 @@ namespace slim
 
   uint32_t OpenGLIndexBuffer::count() const
   {
-    return _count;
+    return m_count;
   }
 }

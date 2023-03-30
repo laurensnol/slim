@@ -13,7 +13,7 @@ namespace slim
     static void update();
 
   private:
-    static std::chrono::time_point<std::chrono::high_resolution_clock> _previous;
+    static std::chrono::time_point<std::chrono::high_resolution_clock> s_previous;
   };
 }
 

@@ -12,7 +12,7 @@ namespace slim
 
   MacOSWindow::MacOSWindow(std::string_view title, uint16_t width, uint16_t height, bool vsync)
   {
-    _properties = WindowProperties(title, width, height, vsync);
+    m_properties = WindowProperties(title, width, height, vsync);
     init();
   }
 
@@ -36,12 +36,12 @@ namespace slim
       glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
-    _window = glfwCreateWindow(_properties.width, _properties.height, _properties.title.c_str(), NULL, NULL);
+    m_window = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), NULL, NULL);
 
-    if (!_window)
+    if (!m_window)
       SLIM_ASSERT(false, "Failed to create GLFW window")
 
-    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow *window, int width, int height)
+    glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow *window, int width, int height)
     {
       glViewport(0, 0, width, height);
 
@@ -50,16 +50,16 @@ namespace slim
       properties.height = height;
     });
 
-    glfwSetWindowUserPointer(_window, &_properties);
-    glfwMakeContextCurrent(_window);
-    glfwSwapInterval(_properties.vsync ? 1 : 0);
+    glfwSetWindowUserPointer(m_window, &m_properties);
+    glfwMakeContextCurrent(m_window);
+    glfwSwapInterval(m_properties.vsync ? 1 : 0);
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
       SLIM_ASSERT(false, "Failed to initialize OpenGL context")
 
     int framebufferWidth, framebufferHeight;
-    glfwGetFramebufferSize(_window, &framebufferWidth, &framebufferHeight);
+    glfwGetFramebufferSize(m_window, &framebufferWidth, &framebufferHeight);
     glViewport(0, 0, framebufferWidth, framebufferHeight);
 
     glEnable(GL_DEPTH_TEST);
@@ -70,56 +70,56 @@ namespace slim
 
   void MacOSWindow::destroy()
   {
-    glfwDestroyWindow(_window);
+    glfwDestroyWindow(m_window);
     glfwTerminate();
   }
 
   bool MacOSWindow::shouldClose()
   {
-    return glfwWindowShouldClose(_window);
+    return glfwWindowShouldClose(m_window);
   }
 
   void MacOSWindow::update()
   {
     glfwPollEvents();
-    glfwSwapBuffers(_window);
+    glfwSwapBuffers(m_window);
   }
 
   void *MacOSWindow::getNative() const
   {
-    return _window;
+    return m_window;
   }
 
   WindowProperties MacOSWindow::getProperties() const
   {
-    return _properties;
+    return m_properties;
   }
 
   glm::vec2 MacOSWindow::getDimensions() const
   {
-    return glm::vec2{_properties.width, _properties.height};
+    return glm::vec2{m_properties.width, m_properties.height};
   }
 
   void MacOSWindow::setWidth(float width)
   {
-    _properties.width = width;
-    glViewport(0, 0, _properties.width, _properties.height);
+    m_properties.width = width;
+    glViewport(0, 0, m_properties.width, m_properties.height);
   }
  
   void MacOSWindow::setHeight(float height)
   {
-    _properties.height = height;
-    glViewport(0, 0, _properties.width, _properties.height);
+    m_properties.height = height;
+    glViewport(0, 0, m_properties.width, m_properties.height);
   }
 
   bool MacOSWindow::getVsync() const
   {
-    return _properties.vsync;
+    return m_properties.vsync;
   }
 
   void MacOSWindow::setVsync(bool value)
   {
-    _properties.vsync = value;
-    glfwSwapInterval(_properties.vsync ? 1 : 0);
+    m_properties.vsync = value;
+    glfwSwapInterval(m_properties.vsync ? 1 : 0);
   }
 }

@@ -15,7 +15,7 @@ namespace slim
     static RendererApi api();
 
   private:
-    static RendererApi _api;
+    static RendererApi s_api;
   };
 }
 

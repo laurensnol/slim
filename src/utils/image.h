@@ -19,7 +19,7 @@ namespace slim
     };
 
   public:
-    Image(_ImageKey, const std::string &path);
+    Image(_ImageKey, const std::string& path);
     virtual ~Image();
 
     int32_t width;
@@ -28,7 +28,7 @@ namespace slim
     unsigned char *data;
     bool success;
 
-    static std::shared_ptr<Image> load(const std::string &path);
+    static std::shared_ptr<Image> load(const std::string& path);
   };
 }
 

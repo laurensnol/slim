@@ -58,49 +58,49 @@ namespace slim
     glUseProgram(0);
   }
 
-  void OpenGLShader::setFloat(const std::string &name, float value)
+  void OpenGLShader::setFloat(const std::string& name, float value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform1f(location, value);
   }
 
-  void OpenGLShader::setFloat2(const std::string &name, const glm::vec2 &value)
+  void OpenGLShader::setFloat2(const std::string& name, const glm::vec2& value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform2f(location, value.x, value.y);
   }
 
-  void OpenGLShader::setFloat3(const std::string &name, const glm::vec3 &value)
+  void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform3f(location, value.x, value.y, value.z);
   }
 
-  void OpenGLShader::setFloat4(const std::string &name, const glm::vec4 &value)
+  void OpenGLShader::setFloat4(const std::string& name, const glm::vec4& value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform4f(location, value.x, value.y, value.z, value.w);
   }
 
-  void OpenGLShader::setMat2(const std::string &name, const glm::mat2 &value)
+  void OpenGLShader::setMat2(const std::string& name, const glm::mat2& value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
-  void OpenGLShader::setMat3(const std::string &name, const glm::mat3 &value)
+  void OpenGLShader::setMat3(const std::string& name, const glm::mat3& value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
-  void OpenGLShader::setMat4(const std::string &name, const glm::mat4 &value)
+  void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
-  void OpenGLShader::setInt(const std::string &name, uint32_t value)
+  void OpenGLShader::setInt(const std::string& name, uint32_t value)
   {
     uint32_t location = glGetUniformLocation(m_id, name.c_str());
     glUniform1i(location, value);

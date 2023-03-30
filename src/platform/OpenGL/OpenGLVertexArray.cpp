@@ -24,7 +24,7 @@ namespace slim
     glBindVertexArray(0);
   }
 
-  void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &buffer)
+  void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer)
   {
     glBindVertexArray(m_id);
     buffer->bind();
@@ -42,12 +42,12 @@ namespace slim
     m_vertexBuffers.push_back(buffer);
   }
 
-  const std::vector<std::shared_ptr<VertexBuffer>> &OpenGLVertexArray::getVertexBuffers() const
+  const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const
   {
     return m_vertexBuffers;
   }
 
-  void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &buffer)
+  void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer)
   {
     glBindVertexArray(m_id);
     buffer->bind();

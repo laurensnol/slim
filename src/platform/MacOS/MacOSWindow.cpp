@@ -45,7 +45,7 @@ namespace slim
     {
       glViewport(0, 0, width, height);
 
-      WindowProperties &properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
+      WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
       properties.width = width;
       properties.height = height;
     });

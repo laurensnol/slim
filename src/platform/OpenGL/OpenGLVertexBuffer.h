@@ -10,15 +10,15 @@ namespace slim
   class OpenGLVertexBuffer : public VertexBuffer
   {
   public:
-    OpenGLVertexBuffer(float *vertices, uint32_t size);
+    OpenGLVertexBuffer(float* vertices, uint32_t size);
     virtual ~OpenGLVertexBuffer();
 
     void bind() override;
     void unbind() override;
     void set(const void *data, uint32_t size) override;
 
-    void addAttribute(const VertexAttribute &attribute) override;
-    const std::vector<VertexAttribute> &getAttributes() const override;
+    void addAttribute(const VertexAttribute& attribute) override;
+    const std::vector<VertexAttribute>& getAttributes() const override;
 
   private:
     uint32_t m_id;

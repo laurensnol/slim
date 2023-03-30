@@ -4,7 +4,7 @@
 
 namespace slim
 {
-  OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *indices, uint32_t count)
+  OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
   {
     glGenBuffers(1, &m_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);

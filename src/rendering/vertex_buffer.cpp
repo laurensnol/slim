@@ -6,7 +6,7 @@
 
 namespace slim
 {
-  std::shared_ptr<VertexBuffer> VertexBuffer::create(float *vertices, uint32_t size)
+  std::shared_ptr<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size)
   {
     if (Renderer::api() == RendererApi::OpenGL)
       return std::make_shared<OpenGLVertexBuffer>(vertices, size);

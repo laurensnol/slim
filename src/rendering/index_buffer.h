@@ -14,7 +14,7 @@ namespace slim
     virtual void unbind() = 0;
     virtual uint32_t count() const = 0;
 
-    static std::shared_ptr<IndexBuffer> create(uint32_t *indices, uint32_t count);
+    static std::shared_ptr<IndexBuffer> create(uint32_t* indices, uint32_t count);
   };
 }
 

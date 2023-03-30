@@ -5,7 +5,7 @@
 
 namespace slim
 {
-  std::shared_ptr<Texture2D> slim::Texture2D::create(const std::string &path)
+  std::shared_ptr<Texture2D> slim::Texture2D::create(const std::string& path)
   {
     if (Renderer::api() == RendererApi::OpenGL)
       return std::make_shared<OpenGLTexture2D>(path);

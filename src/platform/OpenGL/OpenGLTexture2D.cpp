@@ -5,10 +5,10 @@
 
 namespace slim
 {
-  OpenGLTexture2D::OpenGLTexture2D(const std::string &path)
+  OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
   {
     int32_t width, height, channels;
-    unsigned char *data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 
     if (!data)
       SLIM_ASSERT(false, "Failed to load texture source: {}", path)

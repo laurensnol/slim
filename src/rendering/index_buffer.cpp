@@ -6,7 +6,7 @@
 
 namespace slim
 {
-  std::shared_ptr<IndexBuffer> IndexBuffer::create(uint32_t *indices, uint32_t count)
+  std::shared_ptr<IndexBuffer> IndexBuffer::create(uint32_t* indices, uint32_t count)
   {
     if (Renderer::api() == RendererApi::OpenGL)
       return std::make_shared<OpenGLIndexBuffer>(indices, count);

@@ -4,7 +4,7 @@
 
 namespace slim
 {
-  Image::Image(_ImageKey, const std::string &path)
+  Image::Image(_ImageKey, const std::string& path)
   {
     data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 
@@ -19,7 +19,7 @@ namespace slim
     stbi_image_free(data);
   }
 
-  std::shared_ptr<Image> Image::load(const std::string &path)
+  std::shared_ptr<Image> Image::load(const std::string& path)
   {
     return std::make_shared<Image>(_ImageKey{}, path);
   }

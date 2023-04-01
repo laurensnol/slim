@@ -17,7 +17,22 @@
 #include <stb_image.h>
 #include <memory>
 
+#include "core/application.h"
+
 int main()
+{  
+  slim::Application& app = slim::Application::getInstance();
+  app.start();
+
+  return 0;
+}
+
+/*
+ * Will be moved to their respective classes soon.
+ * Keeping it for reference.
+ */
+
+/*int main()
 {
   std::unique_ptr<slim::Window> window = slim::Window::create();
 
@@ -137,4 +152,4 @@ int main()
   }
 
   return 0;
-}
+}*/

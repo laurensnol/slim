@@ -1,5 +1,6 @@
 #include "core/application.h"
 #include "core/time.h"
+#include "events/event_bus.h"
 #include <glad/gl.h>
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -24,7 +25,6 @@ namespace slim
       m_window->update();
       
       deltaTime = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - time).count() / 1000000.0f;
-      spdlog::info("Took: {} ms", deltaTime);
     }
   }
 
@@ -44,6 +44,7 @@ namespace slim
   Application::Application()
   {
     m_window = Window::create();
+    EventBus::init();
   }
 
   Application::~Application()

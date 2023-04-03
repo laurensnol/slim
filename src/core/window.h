@@ -31,8 +31,9 @@ namespace slim
     virtual void *getNative() const = 0;
 
     virtual WindowProperties getProperties() const = 0;
-
     virtual glm::vec2 getDimensions() const = 0;
+
+    virtual void setDimensions(glm::vec2 size) = 0;
     virtual void setWidth(float width) = 0;
     virtual void setHeight(float height) = 0;
 

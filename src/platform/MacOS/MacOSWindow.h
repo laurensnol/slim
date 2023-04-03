@@ -20,8 +20,9 @@ namespace slim
     void* getNative() const override;
 
     WindowProperties getProperties() const override;
-
     glm::vec2 getDimensions() const override;
+
+    void setDimensions(glm::vec2 size);
     void setWidth(float width) override;
     void setHeight(float height) override;
 

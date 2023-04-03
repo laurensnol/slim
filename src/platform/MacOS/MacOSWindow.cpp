@@ -44,6 +44,13 @@ namespace slim
     return glm::vec2{m_properties.width, m_properties.height};
   }
 
+  void MacOSWindow::setDimensions(glm::vec2 size)
+  {
+    m_properties.width = size.x;
+    m_properties.height = size.y;
+    glViewport(0, 0, m_properties.width, m_properties.height);
+  }
+
   void MacOSWindow::setWidth(float width)
   {
     m_properties.width = width;

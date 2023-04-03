@@ -7,11 +7,6 @@
 
 namespace slim
 {
-  static void GLFWErrorCallback(int error, const char* description)
-  {
-    spdlog::error("GLFW Error {}: {}", error, description);
-  }
-
   MacOSWindow::MacOSWindow(std::string_view title, uint16_t width, uint16_t height, bool vsync)
   {
     m_properties = WindowProperties(title, width, height, vsync);
@@ -74,7 +69,7 @@ namespace slim
 
   void MacOSWindow::init()
   {
-    glfwSetErrorCallback(GLFWErrorCallback);
+    glfwSetErrorCallback(glfwErrorCallback);
 
     if (!glfwInit())
       SLIM_ASSERT(false, "Failed to initialize GLFW")
@@ -92,18 +87,11 @@ namespace slim
     if (!m_window)
       SLIM_ASSERT(false, "Failed to create GLFW window")
 
-    glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow *window, int width, int height)
-    {
-      glViewport(0, 0, width, height);
-
-      WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
-      properties.width = width;
-      properties.height = height;
-    });
-
-    glfwSetWindowUserPointer(m_window, &m_properties);
+    glfwSetWindowUserPointer(m_window, this);
     glfwMakeContextCurrent(m_window);
     glfwSwapInterval(m_properties.vsync ? 1 : 0);
+    glfwSetFramebufferSizeCallback(m_window, glfwFramebufferSizeCallback);
+    glfwSetWindowCloseCallback(m_window, glfwWindowCloseCallback);
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
@@ -123,5 +111,31 @@ namespace slim
   {
     glfwDestroyWindow(m_window);
     glfwTerminate();
+  }
+
+  void MacOSWindow::glfwErrorCallback(int error, const char* description)
+  {
+    spdlog::error("GLFW Error {}: {}", error, description);
+  }
+
+  void MacOSWindow::glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height)
+  {
+    MacOSWindow abstractWindow = *(MacOSWindow*)glfwGetWindowUserPointer(window);
+    glm::vec2 size{width, height};
+
+    // TODO: Create new method "setDimensions" and call it with "size" to prevent calling setWidth + setHeight and therefore glViewport twice
+    //       Also update m_properties.
+    abstractWindow.setWidth(width);
+    abstractWindow.setHeight(height);
+
+    WindowResizeEvent e{ &abstractWindow, size };
+    EventBus::post(e);
+  }
+
+  void MacOSWindow::glfwWindowCloseCallback(GLFWwindow* window)
+  {
+    MacOSWindow abstractWindow = *(MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowCloseEvent e{ &abstractWindow };
+    EventBus::post(e);
   }
 }

@@ -34,6 +34,11 @@ namespace slim
 
     GLFWwindow* m_window;
     WindowProperties m_properties;
+
+    // GLFW callbacks
+    static void glfwErrorCallback(int error, const char* description);
+    static void glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height);
+    static void glfwWindowCloseCallback(GLFWwindow* window);
   };
 }
 

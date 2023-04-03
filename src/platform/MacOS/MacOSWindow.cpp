@@ -1,6 +1,8 @@
 #include "platform/MacOS/MacOSWindow.h"
 
 #include "core/base.h"
+#include "events/window_events.h"
+#include "events/event_bus.h"
 #include <spdlog/spdlog.h>
 
 namespace slim
@@ -20,7 +22,56 @@ namespace slim
   {
     destroy();
   }
+
+  bool MacOSWindow::shouldClose()
+  {
+    return glfwWindowShouldClose(m_window);
+  }
+
+  void MacOSWindow::update()
+  {
+    glfwPollEvents();
+    glfwSwapBuffers(m_window);
+  }
+
+  void* MacOSWindow::getNative() const
+  {
+    return m_window;
+  }
+
+  WindowProperties MacOSWindow::getProperties() const
+  {
+    return m_properties;
+  }
+
+  glm::vec2 MacOSWindow::getDimensions() const
+  {
+    return glm::vec2{m_properties.width, m_properties.height};
+  }
+
+  void MacOSWindow::setWidth(float width)
+  {
+    m_properties.width = width;
+    glViewport(0, 0, m_properties.width, m_properties.height);
+  }
  
+  void MacOSWindow::setHeight(float height)
+  {
+    m_properties.height = height;
+    glViewport(0, 0, m_properties.width, m_properties.height);
+  }
+
+  bool MacOSWindow::getVsync() const
+  {
+    return m_properties.vsync;
+  }
+
+  void MacOSWindow::setVsync(bool value)
+  {
+    m_properties.vsync = value;
+    glfwSwapInterval(m_properties.vsync ? 1 : 0);
+  }
+
   void MacOSWindow::init()
   {
     glfwSetErrorCallback(GLFWErrorCallback);
@@ -72,54 +123,5 @@ namespace slim
   {
     glfwDestroyWindow(m_window);
     glfwTerminate();
-  }
-
-  bool MacOSWindow::shouldClose()
-  {
-    return glfwWindowShouldClose(m_window);
-  }
-
-  void MacOSWindow::update()
-  {
-    glfwPollEvents();
-    glfwSwapBuffers(m_window);
-  }
-
-  void *MacOSWindow::getNative() const
-  {
-    return m_window;
-  }
-
-  WindowProperties MacOSWindow::getProperties() const
-  {
-    return m_properties;
-  }
-
-  glm::vec2 MacOSWindow::getDimensions() const
-  {
-    return glm::vec2{m_properties.width, m_properties.height};
-  }
-
-  void MacOSWindow::setWidth(float width)
-  {
-    m_properties.width = width;
-    glViewport(0, 0, m_properties.width, m_properties.height);
-  }
- 
-  void MacOSWindow::setHeight(float height)
-  {
-    m_properties.height = height;
-    glViewport(0, 0, m_properties.width, m_properties.height);
-  }
-
-  bool MacOSWindow::getVsync() const
-  {
-    return m_properties.vsync;
-  }
-
-  void MacOSWindow::setVsync(bool value)
-  {
-    m_properties.vsync = value;
-    glfwSwapInterval(m_properties.vsync ? 1 : 0);
   }
 }

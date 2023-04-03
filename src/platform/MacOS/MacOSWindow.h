@@ -17,7 +17,7 @@ namespace slim
 
     bool shouldClose() override;
     void update() override;
-    void *getNative() const override;
+    void* getNative() const override;
 
     WindowProperties getProperties() const override;
 

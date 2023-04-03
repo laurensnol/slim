@@ -97,8 +97,10 @@ namespace slim
     glfwSetWindowUserPointer(m_window, this);
     glfwMakeContextCurrent(m_window);
     glfwSwapInterval(m_properties.vsync ? 1 : 0);
-    glfwSetFramebufferSizeCallback(m_window, glfwFramebufferSizeCallback);
     glfwSetWindowCloseCallback(m_window, glfwWindowCloseCallback);
+    glfwSetFramebufferSizeCallback(m_window, glfwFramebufferSizeCallback);
+    glfwSetWindowFocusCallback(m_window, glfwWindowFocusCallback);
+    glfwSetWindowIconifyCallback(m_window, glfwWindowIconifyCallback);
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
@@ -125,24 +127,37 @@ namespace slim
     spdlog::error("GLFW Error {}: {}", error, description);
   }
 
-  void MacOSWindow::glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height)
+  void MacOSWindow::glfwWindowCloseCallback(GLFWwindow* window)
   {
-    MacOSWindow abstractWindow = *(MacOSWindow*)glfwGetWindowUserPointer(window);
-    glm::vec2 size{width, height};
-
-    // TODO: Create new method "setDimensions" and call it with "size" to prevent calling setWidth + setHeight and therefore glViewport twice
-    //       Also update m_properties.
-    abstractWindow.setWidth(width);
-    abstractWindow.setHeight(height);
-
-    WindowResizeEvent e{ &abstractWindow, size };
+    glfwDestroyWindow(window);
+    
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowCloseEvent e{abstractWindow};
     EventBus::post(e);
   }
 
-  void MacOSWindow::glfwWindowCloseCallback(GLFWwindow* window)
+  void MacOSWindow::glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height)
   {
-    MacOSWindow abstractWindow = *(MacOSWindow*)glfwGetWindowUserPointer(window);
-    WindowCloseEvent e{ &abstractWindow };
+    glm::vec2 size{width, height};
+    
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    abstractWindow->setDimensions(size);
+
+    WindowResizeEvent e{abstractWindow, size};
+    EventBus::post(e);
+  }
+
+  void MacOSWindow::glfwWindowFocusCallback(GLFWwindow* window, int focused)
+  {
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowFocusEvent e{abstractWindow, focused ? true : false};
+    EventBus::post(e);
+  }
+
+  void MacOSWindow::glfwWindowIconifyCallback(GLFWwindow* window, int iconified)
+  {
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowMinimizeEvent e{abstractWindow, iconified ? true : false};
     EventBus::post(e);
   }
 }

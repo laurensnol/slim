@@ -1,6 +1,7 @@
 #include "core/application.h"
 #include "core/time.h"
 #include "events/event_bus.h"
+#include "events/window_events.h"
 #include <glad/gl.h>
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -11,6 +12,8 @@ namespace slim
   
   void Application::start()
   {
+    EventBus::subscribe(EventType::WindowClose, std::bind(&Application::onWindowCloseEvent, this, std::placeholders::_1));
+    
     // GL calls will be moved.
     // They're just here to prevent flickering.
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -49,5 +52,13 @@ namespace slim
 
   Application::~Application()
   {
+  }
+
+  void Application::onWindowCloseEvent(const Event& e)
+  {
+    // TODO: Remove this step
+    const WindowCloseEvent& event = static_cast<const WindowCloseEvent&>(e);
+
+    m_running = false;
   }
 }

@@ -2,6 +2,7 @@
 #define SLIM_APPLICATION_H
 
 #include "core/window.h"
+#include "events/event.h"
 #include <memory>
 
 namespace slim
@@ -24,6 +25,8 @@ namespace slim
     std::unique_ptr<Window> m_window;
     bool m_running = true;
     static Application* s_instance;
+
+    void onWindowCloseEvent(const Event& e);
   };
 }
 

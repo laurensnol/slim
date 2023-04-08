@@ -7,6 +7,8 @@ project "imgui"
     targetdir "../bin/%{prj.name}"
     objdir "../obj/%{prj.name}"
 
+    dependson { "glfw" }
+
     defines { "IMGUI_IMPL_OPENGL_LOADER_GLAD" }
 
     files
@@ -16,7 +18,7 @@ project "imgui"
         "imgui/backends/imgui_impl_opengl3.cpp"
     }
 
-    includedirs { "imgui" }
+    includedirs { "imgui", "glfw/include" }
 
     filter "system:windows"
         systemversion "latest"

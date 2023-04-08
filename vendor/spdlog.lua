@@ -1,10 +1,15 @@
 project "spdlog"
     kind "StaticLib"
     language "C++"
+    cppdialect "C++11"
     staticruntime "On"
 
     targetdir "../bin/%{prj.name}"
     objdir "../obj/%{prj.name}"
+
+    defines { "SPDLOG_COMPILED_LIB" }
+
+    includedirs { "spdlog/include" }
 
     files
     {

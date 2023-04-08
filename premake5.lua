@@ -38,7 +38,7 @@ project "slim"
     filter {}
         links
         {
-            "glfw3",
+            "glfw",
             "glad",
             "imgui",
             "stb_image"

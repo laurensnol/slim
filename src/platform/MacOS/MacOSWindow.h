@@ -17,11 +17,12 @@ namespace slim
 
     bool shouldClose() override;
     void update() override;
-    void *getNative() const override;
+    void* getNative() const override;
 
     WindowProperties getProperties() const override;
-
     glm::vec2 getDimensions() const override;
+
+    void setDimensions(glm::vec2 size) override;
     void setWidth(float width) override;
     void setHeight(float height) override;
 
@@ -34,6 +35,13 @@ namespace slim
 
     GLFWwindow* m_window;
     WindowProperties m_properties;
+
+    // GLFW callbacks
+    static void glfwErrorCallback(int error, const char* description);
+    static void glfwWindowCloseCallback(GLFWwindow* window);
+    static void glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height);
+    static void glfwWindowFocusCallback(GLFWwindow* window, int focused);
+    static void glfwWindowIconifyCallback(GLFWwindow* window, int iconified);
   };
 }
 

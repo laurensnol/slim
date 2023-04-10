@@ -1,15 +1,12 @@
 #include "platform/MacOS/MacOSWindow.h"
 
 #include "core/base.h"
+#include "events/window_events.h"
+#include "events/event_bus.h"
 #include <spdlog/spdlog.h>
 
 namespace slim
 {
-  static void GLFWErrorCallback(int error, const char* description)
-  {
-    spdlog::error("GLFW Error {}: {}", error, description);
-  }
-
   MacOSWindow::MacOSWindow(std::string_view title, uint16_t width, uint16_t height, bool vsync)
   {
     m_properties = WindowProperties(title, width, height, vsync);
@@ -19,59 +16,6 @@ namespace slim
   MacOSWindow::~MacOSWindow()
   {
     destroy();
-  }
- 
-  void MacOSWindow::init()
-  {
-    glfwSetErrorCallback(GLFWErrorCallback);
-
-    if (!glfwInit())
-      SLIM_ASSERT(false, "Failed to initialize GLFW")
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    #ifdef SLIM_PLATFORM_MACOS
-      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    #endif
-
-    m_window = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), NULL, NULL);
-
-    if (!m_window)
-      SLIM_ASSERT(false, "Failed to create GLFW window")
-
-    glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow *window, int width, int height)
-    {
-      glViewport(0, 0, width, height);
-
-      WindowProperties& properties = *(WindowProperties*)glfwGetWindowUserPointer(window);
-      properties.width = width;
-      properties.height = height;
-    });
-
-    glfwSetWindowUserPointer(m_window, &m_properties);
-    glfwMakeContextCurrent(m_window);
-    glfwSwapInterval(m_properties.vsync ? 1 : 0);
-
-    int version = gladLoadGL(glfwGetProcAddress);
-    if (version == 0)
-      SLIM_ASSERT(false, "Failed to initialize OpenGL context")
-
-    int framebufferWidth, framebufferHeight;
-    glfwGetFramebufferSize(m_window, &framebufferWidth, &framebufferHeight);
-    glViewport(0, 0, framebufferWidth, framebufferHeight);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    spdlog::info("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
-  }
-
-  void MacOSWindow::destroy()
-  {
-    glfwDestroyWindow(m_window);
-    glfwTerminate();
   }
 
   bool MacOSWindow::shouldClose()
@@ -85,7 +29,7 @@ namespace slim
     glfwSwapBuffers(m_window);
   }
 
-  void *MacOSWindow::getNative() const
+  void* MacOSWindow::getNative() const
   {
     return m_window;
   }
@@ -98,6 +42,13 @@ namespace slim
   glm::vec2 MacOSWindow::getDimensions() const
   {
     return glm::vec2{m_properties.width, m_properties.height};
+  }
+
+  void MacOSWindow::setDimensions(glm::vec2 size)
+  {
+    m_properties.width = size.x;
+    m_properties.height = size.y;
+    glViewport(0, 0, m_properties.width, m_properties.height);
   }
 
   void MacOSWindow::setWidth(float width)
@@ -121,5 +72,92 @@ namespace slim
   {
     m_properties.vsync = value;
     glfwSwapInterval(m_properties.vsync ? 1 : 0);
+  }
+
+  void MacOSWindow::init()
+  {
+    glfwSetErrorCallback(glfwErrorCallback);
+
+    if (!glfwInit())
+      SLIM_ASSERT(false, "Failed to initialize GLFW")
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    #ifdef SLIM_PLATFORM_MACOS
+      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
+
+    m_window = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), NULL, NULL);
+
+    if (!m_window)
+      SLIM_ASSERT(false, "Failed to create GLFW window")
+
+    glfwSetWindowUserPointer(m_window, this);
+    glfwMakeContextCurrent(m_window);
+    glfwSwapInterval(m_properties.vsync ? 1 : 0);
+    glfwSetWindowCloseCallback(m_window, glfwWindowCloseCallback);
+    glfwSetFramebufferSizeCallback(m_window, glfwFramebufferSizeCallback);
+    glfwSetWindowFocusCallback(m_window, glfwWindowFocusCallback);
+    glfwSetWindowIconifyCallback(m_window, glfwWindowIconifyCallback);
+
+    int version = gladLoadGL(glfwGetProcAddress);
+    if (version == 0)
+      SLIM_ASSERT(false, "Failed to initialize OpenGL context")
+
+    int framebufferWidth, framebufferHeight;
+    glfwGetFramebufferSize(m_window, &framebufferWidth, &framebufferHeight);
+    glViewport(0, 0, framebufferWidth, framebufferHeight);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    spdlog::info("Loaded OpenGL {}.{}", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+  }
+
+  void MacOSWindow::destroy()
+  {
+    glfwDestroyWindow(m_window);
+    glfwTerminate();
+  }
+
+  void MacOSWindow::glfwErrorCallback(int error, const char* description)
+  {
+    spdlog::error("GLFW Error {}: {}", error, description);
+  }
+
+  void MacOSWindow::glfwWindowCloseCallback(GLFWwindow* window)
+  {
+    glfwDestroyWindow(window);
+    
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowCloseEvent e{abstractWindow};
+    EventBus::post(e);
+  }
+
+  void MacOSWindow::glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height)
+  {
+    glm::vec2 size{width, height};
+    
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    abstractWindow->setDimensions(size);
+
+    WindowResizeEvent e{abstractWindow, size};
+    EventBus::post(e);
+  }
+
+  void MacOSWindow::glfwWindowFocusCallback(GLFWwindow* window, int focused)
+  {
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowFocusEvent e{abstractWindow, focused ? true : false};
+    EventBus::post(e);
+  }
+
+  void MacOSWindow::glfwWindowIconifyCallback(GLFWwindow* window, int iconified)
+  {
+    MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
+    WindowMinimizeEvent e{abstractWindow, iconified ? true : false};
+    EventBus::post(e);
   }
 }

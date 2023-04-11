@@ -10,7 +10,6 @@ namespace slim
   class Application
   {
   public:
-    Application();
     Application(Application const&) = delete;
     void operator=(Application const&) = delete;
 
@@ -20,13 +19,12 @@ namespace slim
     static Application& getInstance();
 
   private:
-    virtual ~Application();
+    Application();
+    virtual ~Application() = default;
 
     std::unique_ptr<Window> m_window;
     bool m_running = true;
     static Application* s_instance;
-
-    void onWindowCloseEvent(const Event& e);
   };
 }
 

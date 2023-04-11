@@ -13,9 +13,8 @@ namespace slim
   class KeyDownEvent : public Event
   {
   public:
-    KeyDownEvent(KeyCode keyCode, uint8_t modifiers);
-    
-    EventType getType() const override;
+    KeyDownEvent(KeyCode keyCode, uint8_t modifiers)
+      : keyCode(keyCode), modifiers(modifiers) { }
 
     KeyCode keyCode;
     uint8_t modifiers;
@@ -27,9 +26,8 @@ namespace slim
   class KeyUpEvent : public Event
   {
   public:
-    KeyUpEvent(KeyCode keyCode, uint8_t modifiers);
-    
-    EventType getType() const override;
+    KeyUpEvent(KeyCode keyCode, uint8_t modifiers)
+      : keyCode(keyCode), modifiers(modifiers) { }
 
     KeyCode keyCode;
     uint8_t modifiers;

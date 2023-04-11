@@ -2,31 +2,31 @@
 #define SLIM_APPLICATION_H
 
 #include "core/window.h"
-#include "events/event.h"
+#include "events/event_handler.h"
+#include "events/window_events.h"
 #include <memory>
 
 namespace slim
 {
-  class Application
+  class Application : public EventHandler<WindowCloseEvent>
   {
   public:
-    Application();
     Application(Application const&) = delete;
     void operator=(Application const&) = delete;
 
     void start();
     void quit();
+    void onEvent(const WindowCloseEvent& event) override;
 
     static Application& getInstance();
 
   private:
-    virtual ~Application();
+    Application();
+    virtual ~Application() = default;
 
     std::unique_ptr<Window> m_window;
     bool m_running = true;
     static Application* s_instance;
-
-    void onWindowCloseEvent(const Event& e);
   };
 }
 

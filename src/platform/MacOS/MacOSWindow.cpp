@@ -133,7 +133,7 @@ namespace slim
     
     MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
     WindowCloseEvent e{abstractWindow};
-    EventBus::post(e);
+    EventBus::publish(e);
   }
 
   void MacOSWindow::glfwFramebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -144,20 +144,20 @@ namespace slim
     abstractWindow->setDimensions(size);
 
     WindowResizeEvent e{abstractWindow, size};
-    EventBus::post(e);
+    EventBus::publish(e);
   }
 
   void MacOSWindow::glfwWindowFocusCallback(GLFWwindow* window, int focused)
   {
     MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
     WindowFocusEvent e{abstractWindow, focused ? true : false};
-    EventBus::post(e);
+    EventBus::publish(e);
   }
 
   void MacOSWindow::glfwWindowIconifyCallback(GLFWwindow* window, int iconified)
   {
     MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
     WindowMinimizeEvent e{abstractWindow, iconified ? true : false};
-    EventBus::post(e);
+    EventBus::publish(e);
   }
 }

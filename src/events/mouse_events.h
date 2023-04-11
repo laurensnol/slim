@@ -14,9 +14,8 @@ namespace slim
   class MouseDownEvent : public Event
   {
   public:
-    MouseDownEvent(MouseButton mouseButton, uint8_t modifiers);
-
-    EventType getType() const override;
+    MouseDownEvent(MouseButton mouseButton, uint8_t modifiers)
+      : mouseButton(mouseButton), modifiers(modifiers) { }
 
     MouseButton mouseButton;
     uint8_t modifiers;
@@ -28,9 +27,8 @@ namespace slim
   class MouseUpEvent : public Event
   {
   public:
-    MouseUpEvent(MouseButton mouseButton, uint8_t modifiers);
-
-    EventType getType() const override;
+    MouseUpEvent(MouseButton mouseButton, uint8_t modifiers)
+      : mouseButton(mouseButton), modifiers(modifiers) { }
     
     MouseButton mouseButton;
     uint8_t modifiers;
@@ -42,9 +40,8 @@ namespace slim
   class MouseMoveEvent : public Event
   {
   public:
-    MouseMoveEvent(glm::vec2 position);
-
-    EventType getType() const override;
+    MouseMoveEvent(glm::vec2 position)
+      : position(position) { }
 
     glm::vec2 position;
   };
@@ -55,9 +52,8 @@ namespace slim
   class MouseScrollEvent : public Event
   {
   public:
-    MouseScrollEvent(glm::vec2 delta);
-
-    EventType getType() const override;
+    MouseScrollEvent(glm::vec2 delta)
+      : delta(delta) { }
 
     glm::vec2 delta;
   };

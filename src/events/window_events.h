@@ -13,9 +13,8 @@ namespace slim
   class WindowCloseEvent : public Event
   {
   public:
-    WindowCloseEvent(Window* window);
-    
-    EventType getType() const override;
+    WindowCloseEvent(Window* window)
+      : window(window) { }
 
     Window* window;
   };
@@ -26,9 +25,8 @@ namespace slim
   class WindowResizeEvent : public Event
   {
   public:
-    WindowResizeEvent(Window* window, glm::vec2 size);
-    
-    EventType getType() const override;
+    WindowResizeEvent(Window* window, glm::vec2 size)
+      : window(window), size(size) { }
 
     Window* window;
     glm::vec2 size;
@@ -40,9 +38,8 @@ namespace slim
   class WindowFocusEvent : public Event
   {
   public:
-    WindowFocusEvent(Window* window, bool focused);
-
-    EventType getType() const override;
+    WindowFocusEvent(Window* window, bool focused)
+      : window(window), focused(focused) { }
 
     Window* window;
     bool focused;
@@ -54,9 +51,8 @@ namespace slim
   class WindowMinimizeEvent : public Event
   {
   public:
-    WindowMinimizeEvent(Window* window, bool minimized);
-
-    EventType getType() const override;
+    WindowMinimizeEvent(Window* window, bool minimized)
+      : window(window), minimized(minimized) { }
 
     Window* window;
     bool minimized;

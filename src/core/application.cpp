@@ -1,9 +1,6 @@
 #include "core/application.h"
 #include "core/time.h"
-#include "events/event_bus.h"
-#include "events/window_events.h"
 #include <glad/gl.h>
-#include <spdlog/spdlog.h>
 #include <chrono>
 
 namespace slim
@@ -30,6 +27,11 @@ namespace slim
   }
 
   void Application::quit()
+  {
+    m_running = false;
+  }
+
+  void Application::onEvent(const WindowCloseEvent& event)
   {
     m_running = false;
   }

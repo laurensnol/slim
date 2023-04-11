@@ -2,12 +2,13 @@
 #define SLIM_APPLICATION_H
 
 #include "core/window.h"
-#include "events/event.h"
+#include "events/event_handler.h"
+#include "events/window_events.h"
 #include <memory>
 
 namespace slim
 {
-  class Application
+  class Application : public EventHandler<WindowCloseEvent>
   {
   public:
     Application(Application const&) = delete;
@@ -15,6 +16,7 @@ namespace slim
 
     void start();
     void quit();
+    void onEvent(const WindowCloseEvent& event) override;
 
     static Application& getInstance();
 

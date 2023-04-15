@@ -12,6 +12,11 @@ namespace slim
     updateProjection();
   }
 
+  void FreeCamera::onUpdate()
+  {
+    // TODO: Move input handling here
+  }
+
   void FreeCamera::setPosition(const glm::vec3& position)
   {
     m_position = position;
@@ -30,9 +35,30 @@ namespace slim
     update();
   }
 
-  void FreeCamera::onUpdate()
+  void FreeCamera::setFov(float fov)
   {
-    // TODO: Move input handling here
+    m_fov = fov;
+    updateProjection();
+  }
+
+  const glm::vec3& FreeCamera::getPosition() const
+  {
+    return m_position;
+  }
+
+  float FreeCamera::getPitch() const
+  {
+    return m_pitch;
+  }
+
+  float FreeCamera::getYaw() const
+  {
+    return m_yaw;
+  }
+
+  float FreeCamera::getFov() const
+  {
+    return m_fov;
   }
 
   const glm::mat4& FreeCamera::getView() const

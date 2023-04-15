@@ -3,7 +3,11 @@
 #include "core/base.h"
 #include "events/window_events.h"
 #include "events/event_bus.h"
+#include "events/codes.h"
+#include "events/key_events.h"
+#include "events/mouse_events.h"
 #include <spdlog/spdlog.h>
+#include "MacOSWindow.h"
 
 namespace slim
 {
@@ -97,10 +101,15 @@ namespace slim
     glfwSetWindowUserPointer(m_window, this);
     glfwMakeContextCurrent(m_window);
     glfwSwapInterval(m_properties.vsync ? 1 : 0);
+
     glfwSetWindowCloseCallback(m_window, glfwWindowCloseCallback);
     glfwSetFramebufferSizeCallback(m_window, glfwFramebufferSizeCallback);
     glfwSetWindowFocusCallback(m_window, glfwWindowFocusCallback);
     glfwSetWindowIconifyCallback(m_window, glfwWindowIconifyCallback);
+    glfwSetKeyCallback(m_window, glfwKeyCallback);
+    glfwSetMouseButtonCallback(m_window, glfwMouseButtonCallback);
+    glfwSetCursorPosCallback(m_window, glfwCursorPosCallback);
+    glfwSetScrollCallback(m_window, glfwScrollCallback);
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
@@ -159,5 +168,52 @@ namespace slim
     MacOSWindow* abstractWindow = (MacOSWindow*)glfwGetWindowUserPointer(window);
     WindowMinimizeEvent e{abstractWindow, iconified ? true : false};
     EventBus::publish(e);
+  }
+
+  void MacOSWindow::glfwKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+  {
+    KeyCode code = static_cast<KeyCode>(key);
+
+    if (action == GLFW_PRESS)
+    {
+      KeyDownEvent e = KeyDownEvent(code, mods);
+      EventBus::publish(e);
+    }
+    else if (action == GLFW_RELEASE)
+    {
+      KeyUpEvent e = KeyUpEvent(code, mods);
+      EventBus::publish(e);
+    }
+  }
+
+  void MacOSWindow::glfwMouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+  {
+    spdlog::trace("Will send mouse");
+    MouseButton code = static_cast<MouseButton>(button);
+
+    if (action == GLFW_PRESS)
+    {
+      spdlog::trace("Will send mouse down");
+      MouseDownEvent event(code, mods);
+      EventBus::publish(event);
+    }
+    else if (action == GLFW_RELEASE)
+    {
+      spdlog::trace("Will send mouse release");
+      MouseUpEvent event(code, mods);
+      EventBus::publish(event);
+    }
+  }
+
+  void MacOSWindow::glfwCursorPosCallback(GLFWwindow* window, double x, double y)
+  {
+    MouseMoveEvent event({x, y});
+    EventBus::publish(event);
+  }
+
+  void MacOSWindow::glfwScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+  {
+    MouseScrollEvent event({xoffset, yoffset});
+    EventBus::publish(event);
   }
 }

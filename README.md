@@ -1,6 +1,6 @@
 # Slim
 
-Exploration of graphics APIs and rendering principles.
+Exploration of graphics APIs, rendering principles and game engine concepts.
 
 *Note: As of now, only MacOS support is implemented.*
 

@@ -107,19 +107,19 @@ namespace slim
   {
     switch (event.keyCode)
     {
-      case KeyCode::W:
+      case Key::W:
         m_position += m_front * m_moveSpeed;
         break;
 
-      case KeyCode::A:
+      case Key::A:
         m_position -= m_right * m_moveSpeed;
         break;
 
-      case KeyCode::S:
+      case Key::S:
         m_position -= m_front * m_moveSpeed;
         break;
 
-      case KeyCode::D:
+      case Key::D:
         m_position += m_right * m_moveSpeed;
         break;
 

@@ -172,7 +172,7 @@ namespace slim
 
   void MacOSWindow::glfwKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
   {
-    KeyCode code = static_cast<KeyCode>(key);
+    Key code = static_cast<Key>(key);
 
     if (action == GLFW_PRESS)
     {

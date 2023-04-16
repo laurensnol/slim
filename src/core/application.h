@@ -18,6 +18,8 @@ namespace slim
     void quit();
     void onEvent(const WindowCloseEvent& event) override;
 
+    Window& getWindow() const;
+
     static Application& getInstance();
 
   private:

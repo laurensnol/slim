@@ -11,8 +11,7 @@
 
 namespace slim
 {
-  class FreeCamera : public Camera,
-    EventHandler<KeyDownEvent>, EventHandler<MouseMoveEvent>, EventHandler<MouseDownEvent>, EventHandler<MouseUpEvent>, EventHandler<MouseScrollEvent>, EventHandler<WindowResizeEvent>
+  class FreeCamera : public Camera, EventHandler<WindowResizeEvent>
   {
   public:
     FreeCamera(const glm::vec3 position = {0, 0, 0}, float pitch = 0.0f, float yaw = 0.0f, float fov = 60.0f, glm::vec3 worldUp = {0, 1, 0}, float aspectRatio = 1.7778f, float nearClip = 0.1f, float farClip = 100.0f);
@@ -34,21 +33,14 @@ namespace slim
     const glm::mat4& getProjection() const override;
     glm::mat4 getViewProjection() const override;
 
-    void onEvent(const KeyDownEvent& event) override;
-    void onEvent(const MouseMoveEvent& event) override;
-    void onEvent(const MouseDownEvent& event) override;
-    void onEvent(const MouseUpEvent& event) override;
-    void onEvent(const MouseScrollEvent& event) override;
     void onEvent(const WindowResizeEvent& event) override;
 
   private:
     const float m_minFov = 20.0f;
     const float m_maxFov = 90.0f;
 
-    float m_moveSpeed = 1.0f;
-    float m_lookSensitivity = 0.25f;
-    bool m_mouseDown;
-    glm::vec2 m_lastMousePos;
+    float m_moveSpeed = 10.0f;
+    float m_lookSensitivity = 0.15f;
 
     float m_fov;
     float m_pitch, m_yaw;

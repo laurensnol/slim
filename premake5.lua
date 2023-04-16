@@ -23,6 +23,8 @@ project "slim"
         "src/**.h",
         "src/**.cpp"
     }
+
+    removefiles { "src/platform/MacOS/**" }
     
     includedirs
     {
@@ -51,6 +53,8 @@ project "slim"
         defines { "SLIM_PLATFORM_LINUX" }
 
     filter "system:macosx"
+        files { "src/platform/MacOS/**" }
+
         defines { "SLIM_PLATFORM_MACOS" }
 
         links

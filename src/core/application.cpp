@@ -1,5 +1,7 @@
 #include "core/application.h"
 #include "core/time.h"
+#include "core/input.h"
+#include "events/codes.h"
 #include <glad/gl.h>
 
 namespace slim
@@ -7,18 +9,18 @@ namespace slim
   Application* Application::s_instance = nullptr;
   
   void Application::start()
-  {    
-    // GL calls will be moved.
-    // They're just here to prevent flickering.
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    
+  {
+    EventBus::init();
+    Input::init();
     Time::init();
-    while (m_running)
+
+    while (m_running && !Input::getKeyDown(Key::Escape))
     {
       Time::start();
 
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      // Drawing
       m_window->update();
+      Input::onUpdate();
 
       Time::end();
     }
@@ -34,6 +36,11 @@ namespace slim
     m_running = false;
   }
 
+  Window& Application::getWindow() const
+  {
+    return *m_window;
+  }
+
   Application& Application::getInstance()
   {
     if (!s_instance)
@@ -45,6 +52,5 @@ namespace slim
   Application::Application()
   {
     m_window = Window::create();
-    EventBus::init();
   }
 }

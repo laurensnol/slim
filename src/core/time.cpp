@@ -2,13 +2,24 @@
 
 namespace slim
 {
+  float Time::time = 0.0f;
   float Time::deltaTime = 0.0f;
-  auto Time::s_previous = std::chrono::high_resolution_clock::now();
+  auto Time::s_start = std::chrono::high_resolution_clock::now();
+  auto Time::s_loopStart = std::chrono::high_resolution_clock::now();
 
-  void Time::update()
+  void Time::init()
   {
-    std::chrono::high_resolution_clock::duration delta = std::chrono::high_resolution_clock::now() - s_previous;
-    deltaTime = std::chrono::duration_cast<std::chrono::nanoseconds>(delta).count() * 0.000000001f;
-    s_previous = std::chrono::high_resolution_clock::time_point(delta);
+    s_start = std::chrono::high_resolution_clock::now();
+  }
+
+  void Time::start()
+  {
+    s_loopStart = std::chrono::high_resolution_clock::now();
+    time = std::chrono::duration_cast<std::chrono::nanoseconds>(s_loopStart - s_start).count() * 0.000000001f;
+  }
+
+  void Time::end()
+  {
+    deltaTime = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - s_loopStart).count() * 0.000000001f;
   }
 }

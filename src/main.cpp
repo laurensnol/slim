@@ -1,4 +1,4 @@
-/*#include "core/application.h"
+#include "core/application.h"
 
 int main()
 {  
@@ -6,14 +6,14 @@ int main()
   app.start();
 
   return 0;
-}*/
+}
 
 /*
  * Will be moved to their respective classes soon.
  * Keeping it for reference.
  */
 
-#include "core/window.h"
+/*#include "core/window.h"
 #include "core/time.h"
 #include "rendering/shader.h"
 #include "rendering/vertex_buffer.h"
@@ -176,4 +176,4 @@ int main()
   }
 
   return 0;
-}
+}*/

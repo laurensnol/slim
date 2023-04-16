@@ -36,8 +36,8 @@ namespace slim
     void onEvent(const WindowResizeEvent& event) override;
 
   private:
-    const float m_minFov = 20.0f;
-    const float m_maxFov = 90.0f;
+    float m_minFov = 20.0f;
+    float m_maxFov = 90.0f;
 
     float m_moveSpeed = 10.0f;
     float m_lookSensitivity = 0.15f;

@@ -1,5 +1,7 @@
 #include "rendering/free_camera.h"
 #include "events/codes.h"
+#include "core/input.h"
+#include "core/time.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
 
@@ -14,7 +16,40 @@ namespace slim
 
   void FreeCamera::onUpdate()
   {
-    // TODO: Move input handling here
+    float mul = 1.0f;
+    if (Input::getKeyDown(Key::LeftShift))
+      mul = 2.5f;
+
+    if (Input::getKeyDown(Key::W))
+    {
+      m_position += m_front * m_moveSpeed * Time::deltaTime * mul;
+      update();
+    }
+
+    if (Input::getKeyDown(Key::A))
+    {
+      m_position -= m_right * m_moveSpeed * Time::deltaTime * mul;
+      update();
+    }
+    
+    if (Input::getKeyDown(Key::S))
+    {
+      m_position -= m_front * m_moveSpeed * Time::deltaTime * mul;
+      update();
+    }
+    
+    if (Input::getKeyDown(Key::D))
+    {
+      m_position += m_right * m_moveSpeed * Time::deltaTime * mul;
+      update();
+    }
+
+    if (Input::getMouseDown(MouseButton::Left))
+    {
+      m_yaw += -Input::mouseDelta.x * m_lookSensitivity;
+      m_pitch += Input::mouseDelta.y * m_lookSensitivity;
+      update();
+    }
   }
 
   void FreeCamera::setPosition(const glm::vec3& position)
@@ -101,68 +136,6 @@ namespace slim
   void FreeCamera::updateProjection()
   {
     m_projection = glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearClip, m_farClip);
-  }
-
-  void FreeCamera::onEvent(const KeyDownEvent& event)
-  {
-    switch (event.keyCode)
-    {
-      case Key::W:
-        m_position += m_front * m_moveSpeed;
-        break;
-
-      case Key::A:
-        m_position -= m_right * m_moveSpeed;
-        break;
-
-      case Key::S:
-        m_position -= m_front * m_moveSpeed;
-        break;
-
-      case Key::D:
-        m_position += m_right * m_moveSpeed;
-        break;
-
-      default: return;
-    }
-
-    update();
-  }
-
-  void FreeCamera::onEvent(const MouseMoveEvent& event)
-  {
-    if (m_mouseDown)
-    {
-      // Inverse x rotation to match the (physical) movement of the mouse
-      float x = -(m_lastMousePos.x - event.position.x) * m_lookSensitivity;
-      float y = (m_lastMousePos.y - event.position.y) * m_lookSensitivity;
-
-      m_yaw += x;
-      m_pitch += y;
-    }
-
-    m_lastMousePos = event.position;
-    update();
-  }
-
-  void FreeCamera::onEvent(const MouseDownEvent& event)
-  {
-    if (event.mouseButton == MouseButton::Left)
-      m_mouseDown = true;
-  }
-
-  void FreeCamera::onEvent(const MouseUpEvent& event)
-  {
-    if (event.mouseButton == MouseButton::Left)
-      m_mouseDown = false;
-  }
-
-  void FreeCamera::onEvent(const MouseScrollEvent& event)
-  {
-    m_fov += event.delta.y;
-    m_fov = std::clamp(m_fov, m_minFov, m_maxFov);
-
-    updateProjection();
   }
 
   void FreeCamera::onEvent(const WindowResizeEvent& event)

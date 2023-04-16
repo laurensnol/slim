@@ -110,8 +110,11 @@ int main()
   bool vsync = false;
   bool wireframes = false;
 
+  slim::Time::init();
   while (!window->shouldClose())
   {
+    slim::Time::start();
+
     shader->setMat4("uView", camera.getView());
     shader->setMat4("uProjection", camera.getProjection());
     cubemap->bind();
@@ -169,7 +172,7 @@ int main()
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     window->update();
-    slim::Time::update();
+    slim::Time::end();
   }
 
   return 0;

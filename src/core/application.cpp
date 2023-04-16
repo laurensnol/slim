@@ -2,6 +2,7 @@
 #include "core/time.h"
 #include "core/input.h"
 #include "events/codes.h"
+#include "demo.h"
 #include <glad/gl.h>
 
 namespace slim
@@ -12,13 +13,15 @@ namespace slim
   {
     EventBus::init();
     Input::init();
-    Time::init();
 
+    Demo demo{};
+
+    Time::init();
     while (m_running && !Input::getKeyDown(Key::Escape))
     {
       Time::start();
 
-      // Drawing
+      demo.update();
       m_window->update();
       Input::onUpdate();
 

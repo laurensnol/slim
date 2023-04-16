@@ -9,7 +9,7 @@ namespace slim
    * KeyCode
    * Copied from https://github.com/glfw/glfw/blob/master/include/GLFW/glfw3.h
    */
-  enum class KeyCode
+  enum class Key
   {
     Unknown       = -1,
 

@@ -1,8 +1,6 @@
 #include "core/application.h"
 #include "core/time.h"
 #include <glad/gl.h>
-#include <spdlog/spdlog.h>
-#include <chrono>
 
 namespace slim
 {
@@ -18,13 +16,11 @@ namespace slim
     while (m_running)
     {
       Time::start();
-      spdlog::info("\tTotal {}", Time::time);
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       m_window->update();
 
       Time::end();
-      spdlog::info("Took {}", Time::deltaTime);
     }
   }
 

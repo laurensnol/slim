@@ -28,6 +28,7 @@ namespace slim
     Input() { }
 
     static glm::vec2 s_lastMousePosition;
+    static glm::vec2 s_mouseScrollSum;
     static void* s_nativeWindowPtr;
   };
 }

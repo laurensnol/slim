@@ -9,6 +9,7 @@ namespace slim
   glm::vec2 Input::mouseDelta = {0.0f, 0.0f};
   glm::vec2 Input::mouseScroll = {0.0f, 0.0f};
   glm::vec2 Input::s_lastMousePosition = {0.0f, 0.0f};
+  glm::vec2 Input::s_mouseScrollSum = {0.0f, 0.0f};
   void* Input::s_nativeWindowPtr = nullptr;
 
   void Input::init()
@@ -17,7 +18,7 @@ namespace slim
     GLFWwindow* window = static_cast<GLFWwindow*>(s_nativeWindowPtr);
 
     glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset){
-      mouseScroll = glm::vec2(xoffset, yoffset);
+      s_mouseScrollSum += glm::vec2(xoffset, yoffset);
     });
   }
 
@@ -30,6 +31,9 @@ namespace slim
     mousePosition = glm::vec2(mouseX, mouseY);
     mouseDelta = s_lastMousePosition - mousePosition;
     s_lastMousePosition = mousePosition;
+
+    mouseScroll = s_mouseScrollSum;
+    s_mouseScrollSum = {0.0f, 0.0f};
   }
 
   bool Input::getKeyDown(Key key)

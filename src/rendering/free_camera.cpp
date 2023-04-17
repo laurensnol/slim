@@ -50,6 +50,10 @@ namespace slim
       m_pitch += Input::mouseDelta.y * m_lookSensitivity;
       update();
     }
+    
+    m_fov += Input::mouseScroll.y;
+    m_fov = std::clamp(m_fov, m_minFov, m_maxFov);
+    updateProjection();
   }
 
   void FreeCamera::setPosition(const glm::vec3& position)

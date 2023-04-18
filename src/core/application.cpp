@@ -11,12 +11,12 @@ namespace slim
   
   void Application::start()
   {
-    EventBus::init();
-    Input::init();
-
     Demo demo{};
 
+    EventBus::init();
+    Input::init();
     Time::init();
+    
     while (m_running && !Input::getKeyDown(Key::Escape))
     {
       Time::start();

@@ -109,7 +109,6 @@ namespace slim
     glfwSetKeyCallback(m_window, glfwKeyCallback);
     glfwSetMouseButtonCallback(m_window, glfwMouseButtonCallback);
     glfwSetCursorPosCallback(m_window, glfwCursorPosCallback);
-    glfwSetScrollCallback(m_window, glfwScrollCallback);
 
     int version = gladLoadGL(glfwGetProcAddress);
     if (version == 0)
@@ -208,12 +207,6 @@ namespace slim
   void MacOSWindow::glfwCursorPosCallback(GLFWwindow* window, double x, double y)
   {
     MouseMoveEvent event({x, y});
-    EventBus::publish(event);
-  }
-
-  void MacOSWindow::glfwScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
-  {
-    MouseScrollEvent event({xoffset, yoffset});
     EventBus::publish(event);
   }
 }

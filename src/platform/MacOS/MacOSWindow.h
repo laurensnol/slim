@@ -45,7 +45,6 @@ namespace slim
     static void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void glfwMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void glfwCursorPosCallback(GLFWwindow* window, double x, double y);
-    static void glfwScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
   };
 }
 

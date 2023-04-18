@@ -1,6 +1,7 @@
 #ifndef SLIM_INPUT_H
 #define SLIM_INPUT_H
 
+#include "core/application.h"
 #include "events/event_handler.h"
 #include "events/mouse_events.h"
 #include "events/codes.h"
@@ -12,11 +13,10 @@ namespace slim
   class Input
   {
   public:
+    friend Application;
+
     Input(Input const&) = delete;
     void operator=(Input const&) = delete;
-
-    static void init();
-    static void onUpdate();
 
     static glm::vec2 mousePosition;
     static glm::vec2 mouseDelta;
@@ -27,6 +27,9 @@ namespace slim
 
   private:
     Input() { }
+
+    static void init();
+    static void onUpdate();
 
     static glm::vec2 s_lastMousePosition;
     static glm::vec2 s_mouseScrollSum;

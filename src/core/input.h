@@ -5,6 +5,7 @@
 #include "events/mouse_events.h"
 #include "events/codes.h"
 #include <glm/glm.hpp>
+#include <imgui.h>
 
 namespace slim
 {
@@ -30,6 +31,7 @@ namespace slim
     static glm::vec2 s_lastMousePosition;
     static glm::vec2 s_mouseScrollSum;
     static void* s_nativeWindowPtr;
+    static ImGuiIO* s_imguiIo;
   };
 }
 

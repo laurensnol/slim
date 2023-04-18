@@ -8,9 +8,11 @@ namespace slim
   glm::vec2 Input::mousePosition = {0.0f, 0.0f};
   glm::vec2 Input::mouseDelta = {0.0f, 0.0f};
   glm::vec2 Input::mouseScroll = {0.0f, 0.0f};
+
   glm::vec2 Input::s_lastMousePosition = {0.0f, 0.0f};
   glm::vec2 Input::s_mouseScrollSum = {0.0f, 0.0f};
   void* Input::s_nativeWindowPtr = nullptr;
+  ImGuiIO* Input::s_imguiIo = nullptr;
 
   void Input::init()
   {
@@ -20,6 +22,8 @@ namespace slim
     glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset){
       s_mouseScrollSum += glm::vec2(xoffset, yoffset);
     });
+
+    s_imguiIo = &ImGui::GetIO();
   }
 
   void Input::onUpdate()
@@ -38,12 +42,18 @@ namespace slim
 
   bool Input::getKeyDown(Key key)
   {
+    if (s_imguiIo->WantCaptureKeyboard)
+      return false;
+
     GLFWwindow* window = static_cast<GLFWwindow*>(s_nativeWindowPtr);
     return glfwGetKey(window, static_cast<int32_t>(key)) == GLFW_PRESS;
   }
 
   bool Input::getMouseDown(MouseButton mouseButton)
   {
+    if (s_imguiIo->WantCaptureMouse)
+      return false;
+
     GLFWwindow* window = static_cast<GLFWwindow*>(s_nativeWindowPtr);
     return glfwGetMouseButton(window, static_cast<int32_t>(mouseButton)) == GLFW_PRESS;
   }

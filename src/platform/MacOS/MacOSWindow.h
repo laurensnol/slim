@@ -16,7 +16,7 @@ namespace slim
     virtual ~MacOSWindow();
 
     bool shouldClose() override;
-    void update() override;
+    void onUpdate() override;
     void* getNative() const override;
 
     WindowProperties getProperties() const override;

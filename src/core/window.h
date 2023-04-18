@@ -27,7 +27,7 @@ namespace slim
     virtual ~Window() = default;
 
     virtual bool shouldClose() = 0;
-    virtual void update() = 0;
+    virtual void onUpdate() = 0;
     virtual void *getNative() const = 0;
 
     virtual WindowProperties getProperties() const = 0;

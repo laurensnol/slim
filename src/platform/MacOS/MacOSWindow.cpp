@@ -27,7 +27,7 @@ namespace slim
     return glfwWindowShouldClose(m_window);
   }
 
-  void MacOSWindow::update()
+  void MacOSWindow::onUpdate()
   {
     glfwPollEvents();
     glfwSwapBuffers(m_window);

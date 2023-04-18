@@ -21,8 +21,8 @@ namespace slim
     {
       Time::start();
 
-      demo.update();
-      m_window->update();
+      demo.onUpdate();
+      m_window->onUpdate();
       Input::onUpdate();
 
       Time::end();

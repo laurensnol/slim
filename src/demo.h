@@ -17,7 +17,7 @@ namespace slim
   public:
     Demo();
 
-    void update();
+    void onUpdate();
 
   private:
     static const uint32_t s_cubeCount = 6;

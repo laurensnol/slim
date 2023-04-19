@@ -7,14 +7,14 @@
 #include "events/mouse_events.h"
 #include "events/window_events.h"
 #include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace slim
 {
   class FreeCamera : public Camera, EventHandler<WindowResizeEvent>
   {
   public:
-    FreeCamera(const glm::vec3 position = {0, 0, 0}, float pitch = 0.0f, float yaw = 0.0f, float fov = 60.0f, glm::vec3 worldUp = {0, 1, 0}, float aspectRatio = 1.7778f, float nearClip = 0.1f, float farClip = 100.0f);
+    FreeCamera(const glm::vec3 position = {0.0f, 0.0f, 0.0f}, float pitch = 0.0f, float yaw = 0.0f, float fov = 60.0f, glm::vec3 worldUp = {0.0f, 1.0f, 0.0f}, float aspectRatio = 1.7778f, float nearClip = 0.1f, float farClip = 100.0f);
     virtual ~FreeCamera() = default;
 
     void onUpdate() override;

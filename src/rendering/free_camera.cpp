@@ -2,13 +2,12 @@
 #include "events/codes.h"
 #include "core/input.h"
 #include "core/time.h"
-#include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
 
 namespace slim
 {
   FreeCamera::FreeCamera(const glm::vec3 position, float pitch, float yaw, float fov, glm::vec3 worldUp, float aspectRatio, float nearClip, float farClip)
-    : Camera(aspectRatio, nearClip, farClip), m_position(position), m_pitch(pitch), m_yaw(yaw), m_fov(fov), m_worldUp(worldUp)
+    : Camera(aspectRatio, nearClip, farClip), m_position(position), m_pitch(pitch), m_yaw(yaw), m_fov(fov), m_worldUp(worldUp), m_front(glm::vec3(0.0f, 0.0f, -1.0f))
   {
     update();
     updateProjection();

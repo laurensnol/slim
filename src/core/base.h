@@ -4,11 +4,11 @@
 #include <spdlog/spdlog.h>
 #include <assert.h>
 
-#define SLIM_ASSERT(value, msg, ...)      \
-  if (!value)                             \
-  {                                       \
-    spdlog::critical(msg, ##__VA_ARGS__); \
-    assert(value);                        \
+#define SLIM_ASSERT(value, msg, ...)        \
+  if (!(value))                             \
+  {                                         \
+    spdlog::critical(msg, ##__VA_ARGS__);   \
+    assert(value);                          \
   }
 
 #endif

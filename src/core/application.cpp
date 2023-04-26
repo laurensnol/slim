@@ -1,7 +1,9 @@
 #include "core/application.h"
 #include "core/time.h"
 #include "core/input.h"
+#include "scene/scene_manager.h"
 #include "events/codes.h"
+#include "rendering/renderer.h"
 #include "demo.h"
 #include <glad/gl.h>
 
@@ -11,17 +13,28 @@ namespace slim
   
   void Application::start()
   {
-    Demo demo{};
+    Renderer::init();
+    Renderer::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
 
     EventBus::init();
     Input::init();
+    SceneManager::init();
     Time::init();
     
     while (m_running && !Input::getKeyDown(Key::Escape))
     {
       Time::start();
 
-      demo.onUpdate();
+      // This will later be replaced by something like `Renderer::draw();` (see below),
+      // which will call `Renderer::clear();` to seperate updating the scene from actual drawing the updated entities.
+      Renderer::clear();
+
+      SceneManager::s_currentScene->onUpdate();
+
+      Renderer::beginUi();
+      SceneManager::s_currentScene->onUiDraw();
+      Renderer::endUi();
+
       m_window->onUpdate();
       Input::onUpdate();
 

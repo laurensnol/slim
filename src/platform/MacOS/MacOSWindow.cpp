@@ -29,8 +29,8 @@ namespace slim
 
   void MacOSWindow::onUpdate()
   {
-    glfwPollEvents();
     glfwSwapBuffers(m_window);
+    glfwPollEvents();
   }
 
   void* MacOSWindow::getNative() const

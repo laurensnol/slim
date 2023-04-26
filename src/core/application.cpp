@@ -4,7 +4,6 @@
 #include "scene/scene_manager.h"
 #include "events/codes.h"
 #include "rendering/renderer.h"
-#include "demo.h"
 #include <glad/gl.h>
 
 namespace slim

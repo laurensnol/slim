@@ -1,17 +1,11 @@
-#include "demo.h"
+#include "demo_scene.h"
 #include "core/application.h"
-#include "rendering/vertex_buffer.h"
-#include "rendering/vertex_attribute.h"
-#include "rendering/index_buffer.h"
-#include "rendering/texture2d.h"
 #include <glad/gl.h>
 #include <imgui.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
 
 namespace slim
 {
-  float Demo::s_vertices[] = {
+  float DemoScene::s_vertices[] = {
     -1.0, -1.0, -1.0,    0.0, 0.0, 0.0, // Back Bottom Left
      1.0, -1.0, -1.0,    0.0, 1.0, 0.0, // Back Bottom Right
      1.0,  1.0, -1.0,    0.0, 1.0, 1.0, // Back Top Right
@@ -22,7 +16,7 @@ namespace slim
     -1.0,  1.0,  1.0,    1.0, 0.0, 1.0, // Front Top Left
   };
 
-  uint32_t Demo::s_indices[] = {
+  uint32_t DemoScene::s_indices[] = {
     0, 1, 3, 3, 1, 2,
     1, 5, 2, 2, 5, 6,
     5, 4, 6, 6, 4, 7,
@@ -31,7 +25,7 @@ namespace slim
     4, 5, 0, 0, 5, 1
   };
 
-  const glm::vec3 Demo::s_cubePositions[s_cubeCount] = {
+  const glm::vec3 DemoScene::s_cubePositions[s_cubeCount] = {
     glm::vec3( 0.0f,  0.0f,  0.0f),
     glm::vec3( 0.0f,  0.0f,  2.0f),
     glm::vec3( 2.0f,  5.0f, -9.0f),
@@ -40,19 +34,15 @@ namespace slim
     glm::vec3( 1.5f,  4.0f, -1.5f)
   };
 
-  Demo::Demo()
+  void DemoScene::onAttach()
   {
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-    ImGui::StyleColorsDark();
-
-    ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(Application::getInstance().getWindow().getNative()), true);
-    ImGui_ImplOpenGL3_Init("#version 410");
-  
     std::shared_ptr<slim::VertexBuffer> vbo = VertexBuffer::create(s_vertices, sizeof(s_vertices));
-    vbo->addAttribute(m_vertexAttribute);
-    vbo->addAttribute(m_colorAttribute);
+
+    VertexAttribute vertexAttribute = VertexAttribute(0, VertexAttributeBaseType::Float3, false, 6);
+    vbo->addAttribute(vertexAttribute);
+
+    VertexAttribute colorAttribute = VertexAttribute(1, VertexAttributeBaseType::Float3, false, 6, 3 * sizeof(float));
+    vbo->addAttribute(colorAttribute);
 
     m_vao = VertexArray::create();
     m_vao->addVertexBuffer(vbo);
@@ -68,11 +58,9 @@ namespace slim
     m_shader->bind();
     m_shader->setMat4("uView", m_camera.getView());
     m_shader->setMat4("uProjection", m_camera.getProjection());
-
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
   }
 
-  void Demo::onUpdate()
+  void DemoScene::onUpdate()
   {
     m_camera.onUpdate();
 
@@ -89,8 +77,6 @@ namespace slim
     m_cameraYaw = m_camera.getYaw();
     m_cameraFov = m_camera.getFov();
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     for (int i = 0; i < s_cubeCount; i++)
     {
       glm::mat4 model(1.0f);
@@ -99,11 +85,10 @@ namespace slim
 
       glDrawElements(GL_TRIANGLES, s_indicesCount, GL_UNSIGNED_INT, 0);
     }
+  }
 
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
+  void DemoScene::onUiDraw()
+  {
     ImGui::Begin("Settings");
 
     if (ImGui::Checkbox("VSync", &m_vsync))
@@ -128,8 +113,10 @@ namespace slim
     ImGui::End();
 
     ImGui::ShowMetricsWindow();
+  }
 
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+  void DemoScene::onDetach()
+  {
+    m_vao->~VertexArray();
   }
 }

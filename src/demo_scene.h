@@ -1,6 +1,7 @@
-#ifndef SLIM_DEMO_H
-#define SLIM_DEMO_H
+#ifndef SLIM_DEMOSCENE_H
+#define SLIM_DEMOSCENE_H
 
+#include "scene/scene.h"
 #include "rendering/vertex_buffer.h"
 #include "rendering/vertex_attribute.h"
 #include "rendering/vertex_array.h"
@@ -12,12 +13,13 @@
 
 namespace slim
 {
-  class Demo
+  class DemoScene : public Scene
   {
   public:
-    Demo();
-
-    void onUpdate();
+    void onAttach() override;
+    void onUpdate() override;
+    void onUiDraw() override;
+    void onDetach() override;
 
   private:
     static const uint32_t s_cubeCount = 6;
@@ -26,8 +28,6 @@ namespace slim
     static uint32_t s_indices[];
     static const glm::vec3 s_cubePositions[s_cubeCount];
 
-    VertexAttribute m_vertexAttribute = VertexAttribute(0, VertexAttributeBaseType::Float3, false, 6);
-    VertexAttribute m_colorAttribute = VertexAttribute(1, VertexAttributeBaseType::Float3, false, 6, 3 * sizeof(float));
     std::shared_ptr<VertexArray> m_vao;
     std::shared_ptr<Cubemap> m_cubemap;
     std::unique_ptr<Shader> m_shader;

@@ -13,10 +13,10 @@ namespace slim
   class KeyDownEvent : public Event
   {
   public:
-    KeyDownEvent(Key keyCode, uint8_t modifiers)
-      : keyCode(keyCode), modifiers(modifiers) { }
+    KeyDownEvent(Key key, uint8_t modifiers)
+      : key(key), modifiers(modifiers) { }
 
-    Key keyCode;
+    Key key;
     uint8_t modifiers;
   };
 
@@ -26,10 +26,10 @@ namespace slim
   class KeyUpEvent : public Event
   {
   public:
-    KeyUpEvent(Key keyCode, uint8_t modifiers)
-      : keyCode(keyCode), modifiers(modifiers) { }
+    KeyUpEvent(Key key, uint8_t modifiers)
+      : key(key), modifiers(modifiers) { }
 
-    Key keyCode;
+    Key key;
     uint8_t modifiers;
   };
 }

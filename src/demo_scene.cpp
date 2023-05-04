@@ -55,7 +55,6 @@ namespace slim
     m_camera = FreeCamera({m_cameraPosition[0], m_cameraPosition[1], m_cameraPosition[2]}, m_cameraPitch, m_cameraYaw, m_cameraFov);
     
     m_shader = Shader::create("res/texture.vert", "res/texture.frag");
-    m_shader->bind();
     m_shader->setMat4("uView", m_camera.getView());
     m_shader->setMat4("uProjection", m_camera.getProjection());
   }

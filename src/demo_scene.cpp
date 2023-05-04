@@ -7,14 +7,14 @@
 namespace slim
 {
   float DemoScene::s_vertices[] = {
-    -1.0, -1.0, -1.0,    0.0, 0.0, 0.0, // Back Bottom Left
-     1.0, -1.0, -1.0,    0.0, 1.0, 0.0, // Back Bottom Right
-     1.0,  1.0, -1.0,    0.0, 1.0, 1.0, // Back Top Right
-    -1.0,  1.0, -1.0,    0.0, 0.0, 1.0, // Back Top Left
-    -1.0, -1.0,  1.0,    1.0, 0.0, 0.0, // Front Bottom Left
-     1.0, -1.0,  1.0,    1.0, 1.0, 0.0, // Front Bottom Right
-     1.0,  1.0,  1.0,    1.0, 1.0, 1.0, // Front Top Right
-    -1.0,  1.0,  1.0,    1.0, 0.0, 1.0, // Front Top Left
+    -1.0, -1.0, -1.0, // Back Bottom Left
+     1.0, -1.0, -1.0, // Back Bottom Right
+     1.0,  1.0, -1.0, // Back Top Right
+    -1.0,  1.0, -1.0, // Back Top Left
+    -1.0, -1.0,  1.0, // Front Bottom Left
+     1.0, -1.0,  1.0, // Front Bottom Right
+     1.0,  1.0,  1.0, // Front Top Right
+    -1.0,  1.0,  1.0  // Front Top Left
   };
 
   uint32_t DemoScene::s_indices[] = {
@@ -39,23 +39,18 @@ namespace slim
   {
     std::shared_ptr<slim::VertexBuffer> vbo = VertexBuffer::create(s_vertices, sizeof(s_vertices));
 
-    VertexAttribute vertexAttribute = VertexAttribute(0, VertexAttributeBaseType::Float3, false, 6);
+    VertexAttribute vertexAttribute = VertexAttribute(0, VertexAttributeBaseType::Float3, false, 3);
     vbo->addAttribute(vertexAttribute);
-
-    VertexAttribute colorAttribute = VertexAttribute(1, VertexAttributeBaseType::Float3, false, 6, 3 * sizeof(float));
-    vbo->addAttribute(colorAttribute);
 
     m_vao = VertexArray::create();
     m_vao->addVertexBuffer(vbo);
 
     std::shared_ptr<IndexBuffer> ibo = IndexBuffer::create(s_indices, s_indicesCount);
     m_vao->setIndexBuffer(ibo);
-
-    m_cubemap = Cubemap::create("res/cubemap/side.png", "res/cubemap/side.png", "res/cubemap/top.png", "res/cubemap/bottom.png", "res/cubemap/side.png", "res/cubemap/side.png");
-
-    m_camera = FreeCamera({m_cameraPosition[0], m_cameraPosition[1], m_cameraPosition[2]}, m_cameraPitch, m_cameraYaw, m_cameraFov);
     
-    m_shader = Shader::create("res/texture.vert", "res/texture.frag");
+    m_shader = Shader::create("res/flat.vert", "res/flat.frag");
+    m_shader->setFloat4("uColor", {1.0f, 0.0f, 0.0f, 1.0f});
+    m_shader->setFloat4("uLightColor", {1.0f, 1.0f, 1.0f, 1.0f});
     m_shader->setMat4("uView", m_camera.getView());
     m_shader->setMat4("uProjection", m_camera.getProjection());
 

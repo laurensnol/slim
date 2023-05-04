@@ -29,7 +29,6 @@ namespace slim
     static const glm::vec3 s_cubePositions[s_cubeCount];
 
     std::shared_ptr<VertexArray> m_vao;
-    std::shared_ptr<Cubemap> m_cubemap;
     std::unique_ptr<Shader> m_shader;
     FreeCamera m_camera;
 

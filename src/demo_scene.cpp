@@ -1,5 +1,6 @@
 #include "demo_scene.h"
 #include "core/application.h"
+#include <glm/gtc/type_ptr.hpp>
 #include <glad/gl.h>
 #include <imgui.h>
 
@@ -57,6 +58,8 @@ namespace slim
     m_shader = Shader::create("res/texture.vert", "res/texture.frag");
     m_shader->setMat4("uView", m_camera.getView());
     m_shader->setMat4("uProjection", m_camera.getProjection());
+
+    m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }
 
   void DemoScene::onUpdate()
@@ -65,13 +68,9 @@ namespace slim
 
     m_shader->setMat4("uView", m_camera.getView());
     m_shader->setMat4("uProjection", m_camera.getProjection());
-    m_cubemap->bind();
     m_vao->bind();
 
-    glm::vec3 camPosVec = m_camera.getPosition();
-    m_cameraPosition[0] = camPosVec.x;
-    m_cameraPosition[1] = camPosVec.y;
-    m_cameraPosition[2] = camPosVec.z;
+    m_cameraPosition = m_camera.getPosition();
     m_cameraPitch = m_camera.getPitch();
     m_cameraYaw = m_camera.getYaw();
     m_cameraFov = m_camera.getFov();
@@ -97,8 +96,8 @@ namespace slim
       glPolygonMode(GL_FRONT_AND_BACK, m_wireframes ? GL_LINE : GL_FILL);
 
     ImGui::Text("Camera");
-    if (ImGui::SliderFloat3("Position", m_cameraPosition, -10.0f, 10.0f))
-      m_camera.setPosition({m_cameraPosition[0], m_cameraPosition[1], m_cameraPosition[2]});
+    if (ImGui::SliderFloat3("Position", glm::value_ptr(m_cameraPosition), -10.0f, 10.0f))
+      m_camera.setPosition(m_cameraPosition);
 
     if (ImGui::SliderFloat("Pitch", &m_cameraPitch, -79.0f, 79.0f))
       m_camera.setPitch(m_cameraPitch);

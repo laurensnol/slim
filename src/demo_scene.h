@@ -33,7 +33,7 @@ namespace slim
     std::unique_ptr<Shader> m_shader;
     FreeCamera m_camera;
 
-    float m_cameraPosition[3] = {-10, 3, 0};
+    glm::vec3 m_cameraPosition{-10, 3, 0};
     float m_cameraPitch = -15;
     float m_cameraYaw = 0;
     float m_cameraFov = 60.0f;

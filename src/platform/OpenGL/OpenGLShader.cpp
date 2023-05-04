@@ -41,6 +41,8 @@ namespace slim
     
     glDetachShader(m_id, fragmentShader);
     glDeleteShader(fragmentShader);
+
+    bind();
   }
 
   OpenGLShader::~OpenGLShader()

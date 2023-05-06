@@ -27,8 +27,8 @@ namespace slim
   };
 
   const glm::vec3 DemoScene::s_cubePositions[s_cubeCount] = {
-    glm::vec3( 0.0f,  0.0f,  0.0f),
-    glm::vec3( 0.0f,  0.0f,  2.0f),
+    glm::vec3( 4.0f,  0.0f,  0.0f),
+    glm::vec3( 0.0f,  0.0f,  4.0f),
     glm::vec3( 2.0f,  5.0f, -9.0f),
     glm::vec3(-1.5f, -2.5f,  2.5f),
     glm::vec3(-3.5f, -2.0f,  7.0f),
@@ -37,22 +37,32 @@ namespace slim
 
   void DemoScene::onAttach()
   {
-    std::shared_ptr<slim::VertexBuffer> vbo = VertexBuffer::create(s_vertices, sizeof(s_vertices));
+    std::shared_ptr<VertexBuffer> vbo = VertexBuffer::create(s_vertices, sizeof(s_vertices));
 
-    VertexAttribute vertexAttribute = VertexAttribute(0, VertexAttributeBaseType::Float3, false, 3);
+    VertexAttribute vertexAttribute{0, VertexAttributeBaseType::Float3, false, 3};
     vbo->addAttribute(vertexAttribute);
 
-    m_vao = VertexArray::create();
-    m_vao->addVertexBuffer(vbo);
+    m_cubeVao = VertexArray::create();
+    m_cubeVao->addVertexBuffer(vbo);
+
+    m_lightVao = VertexArray::create();
+    m_lightVao->addVertexBuffer(vbo);
 
     std::shared_ptr<IndexBuffer> ibo = IndexBuffer::create(s_indices, s_indicesCount);
-    m_vao->setIndexBuffer(ibo);
+    m_cubeVao->setIndexBuffer(ibo);
+    m_lightVao->setIndexBuffer(ibo);
     
-    m_shader = Shader::create("res/flat.vert", "res/flat.frag");
-    m_shader->setFloat4("uColor", {1.0f, 0.0f, 0.0f, 1.0f});
-    m_shader->setFloat4("uLightColor", {1.0f, 1.0f, 1.0f, 1.0f});
-    m_shader->setMat4("uView", m_camera.getView());
-    m_shader->setMat4("uProjection", m_camera.getProjection());
+    m_cubeShader = Shader::create("res/flat.vert", "res/flat.frag");
+    m_cubeShader->setFloat4("uColor", {1.0f, 0.0f, 0.0f, 1.0f});
+    m_cubeShader->setFloat4("uLightColor", {1.0f, 1.0f, 1.0f, 1.0f});
+
+    m_lightShader = Shader::create("res/light.vert", "res/light.frag");
+    m_lightShader->setFloat4("uColor", {1.0f, 1.0f, 1.0f, 1.0f});
+
+    glm::mat4 lightModel{1.0f};
+    lightModel = glm::translate(lightModel, m_lightPosition);
+    lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
+    m_lightShader->setMat4("uModel", lightModel);
 
     m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }
@@ -61,23 +71,31 @@ namespace slim
   {
     m_camera.onUpdate();
 
-    m_shader->setMat4("uView", m_camera.getView());
-    m_shader->setMat4("uProjection", m_camera.getProjection());
-    m_vao->bind();
-
     m_cameraPosition = m_camera.getPosition();
     m_cameraPitch = m_camera.getPitch();
     m_cameraYaw = m_camera.getYaw();
     m_cameraFov = m_camera.getFov();
 
+    m_cubeShader->bind();
+    m_cubeShader->setMat4("uView", m_camera.getView());
+    m_cubeShader->setMat4("uProjection", m_camera.getProjection());
+    m_cubeVao->bind();
+
     for (int i = 0; i < s_cubeCount; i++)
     {
       glm::mat4 model(1.0f);
       model = glm::translate(model, s_cubePositions[i]);
-      m_shader->setMat4("uModel", model);
+      m_cubeShader->setMat4("uModel", model);
 
       glDrawElements(GL_TRIANGLES, s_indicesCount, GL_UNSIGNED_INT, 0);
     }
+
+    m_lightShader->bind();
+    m_lightShader->setMat4("uView", m_camera.getView());
+    m_lightShader->setMat4("uProjection", m_camera.getProjection());
+    m_lightVao->bind();
+
+    glDrawElements(GL_TRIANGLES, s_indicesCount, GL_UNSIGNED_INT, 0);
   }
 
   void DemoScene::onUiDraw()
@@ -110,6 +128,7 @@ namespace slim
 
   void DemoScene::onDetach()
   {
-    m_vao->~VertexArray();
+    m_cubeVao->~VertexArray();
+    m_lightVao->~VertexArray();
   }
 }

@@ -6,7 +6,6 @@
 #include "rendering/vertex_attribute.h"
 #include "rendering/vertex_array.h"
 #include "rendering/shader.h"
-#include "rendering/cubemap.h"
 #include "rendering/free_camera.h"
 #include <glm/glm.hpp>
 #include <memory>
@@ -28,11 +27,14 @@ namespace slim
     static uint32_t s_indices[];
     static const glm::vec3 s_cubePositions[s_cubeCount];
 
-    std::shared_ptr<VertexArray> m_vao;
-    std::unique_ptr<Shader> m_shader;
+    std::shared_ptr<VertexArray> m_cubeVao;
+    std::shared_ptr<VertexArray> m_lightVao;
+    std::unique_ptr<Shader> m_cubeShader;
+    std::unique_ptr<Shader> m_lightShader;
     FreeCamera m_camera;
 
-    glm::vec3 m_cameraPosition{-10, 3, 0};
+    glm::vec3 m_lightPosition{0.0f, 0.0f, 0.0f};
+    glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};
     float m_cameraPitch = -15;
     float m_cameraYaw = 0;
     float m_cameraFov = 60.0f;

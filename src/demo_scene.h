@@ -24,7 +24,6 @@ namespace slim
     static const uint32_t s_cubeCount = 6;
     static const uint32_t s_indicesCount = 36;
     static float s_vertices[];
-    static uint32_t s_indices[];
     static const glm::vec3 s_cubePositions[s_cubeCount];
 
     std::shared_ptr<VertexArray> m_cubeVao;

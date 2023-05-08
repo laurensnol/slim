@@ -102,7 +102,7 @@ namespace slim
     m_cubeShader->bind();
     m_cubeShader->setMat4("uView", m_camera.getView());
     m_cubeShader->setMat4("uProjection", m_camera.getProjection());
-    m_cubeShader->setFloat3("uColor", {1.0f, 0.0f, 0.0f});
+    m_cubeShader->setFloat3("uColor", m_cubeColor);
     m_cubeShader->setFloat3("uLightColor", {1.0f, 1.0f, 1.0f});
     m_cubeShader->setFloat3("uLightPosition", m_lightPosition);
     m_cubeShader->setFloat3("uViewPosition", m_camera.getPosition());
@@ -165,6 +165,7 @@ namespace slim
     ImGui::SliderFloat("Ambient", &m_ambientStrength, 0.0f, 1.0f);
 
     ImGui::Text("Shader");
+    ImGui::ColorEdit3("Color", glm::value_ptr(m_cubeColor));
     ImGui::SliderFloat("Specular", &m_specularStrength, 0.0f, 1.0f);
     ImGui::Combo("Shininess", &m_shininessIndex, s_shininessLabels, IM_ARRAYSIZE(s_shininessLabels));
 

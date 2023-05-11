@@ -102,10 +102,10 @@ namespace slim
     m_cubeShader->setFloat3("uLightColor", {1.0f, 1.0f, 1.0f});
     m_cubeShader->setFloat3("uLightPosition", m_lightPosition);
     m_cubeShader->setFloat3("uViewPosition", m_camera.getPosition());
-    m_cubeShader->setFloat3("uMaterial.ambient", {0.0215f, 0.1745f, 0.0215f});
-    m_cubeShader->setFloat3("uMaterial.diffuse", {0.07568f, 0.61424f, 0.07568f});
-    m_cubeShader->setFloat3("uMaterial.specular", {0.633f, 0.727811f, 0.633f});
-    m_cubeShader->setFloat("uMaterial.shininess", 76.8f);
+    m_cubeShader->setFloat3("uMaterial.ambient", m_material.ambient);
+    m_cubeShader->setFloat3("uMaterial.diffuse", m_material.diffuse);
+    m_cubeShader->setFloat3("uMaterial.specular", m_material.specular);
+    m_cubeShader->setFloat("uMaterial.shininess", m_material.shininess);
     m_cubeVao->bind();
 
     for (auto&& position : s_cubePositions)
@@ -158,6 +158,12 @@ namespace slim
       lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
       m_lightShader->setMat4("uModel", lightModel);
     }
+
+    ImGui::Text("Material Properties");
+    ImGui::SliderFloat3("Material Ambient", glm::value_ptr(m_material.ambient), 0.0f, 1.0f);
+    ImGui::SliderFloat3("Material Diffuse", glm::value_ptr(m_material.diffuse), 0.0f, 1.0f);
+    ImGui::SliderFloat3("Material Specular", glm::value_ptr(m_material.specular), 0.0f, 1.0f);
+    ImGui::SliderFloat("Material Shininess", &m_material.shininess, 2, 512);
 
     ImGui::End();
 

@@ -12,6 +12,14 @@
 
 namespace slim
 {
+  struct MaterialProperties
+  {
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+    float shininess;
+  };
+
   class DemoScene : public Scene
   {
   public:
@@ -32,9 +40,13 @@ namespace slim
     std::unique_ptr<Shader> m_cubeShader;
     std::unique_ptr<Shader> m_lightShader;
 
-    float m_ambientStrength = 0.1f;
-    float m_specularStrength = 0.5f;
-    int m_shininessIndex = 4;
+    // From: http://devernay.free.fr/cours/opengl/materials.html
+    MaterialProperties m_material{
+      {0.0215f, 0.1745f, 0.0215f},
+      {0.07568f, 0.61424f, 0.07568f},
+      {0.633f, 0.727811f, 0.633f},
+      76.8f
+    };
 
     glm::vec3 m_lightPosition{0.0f, 0.0f, 0.0f};
     glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};

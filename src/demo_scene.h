@@ -25,8 +25,6 @@ namespace slim
     static const uint32_t s_indicesCount = 36;
     static float s_vertices[];
     static const glm::vec3 s_cubePositions[s_cubeCount];
-    static const char* s_shininessLabels[];
-    static const int s_shininessValues[];
 
     FreeCamera m_camera;
     std::shared_ptr<VertexArray> m_cubeVao;
@@ -38,7 +36,6 @@ namespace slim
     float m_specularStrength = 0.5f;
     int m_shininessIndex = 4;
 
-    glm::vec3 m_cubeColor{1.0f, 0.5f, 0.0f};
     glm::vec3 m_lightPosition{0.0f, 0.0f, 0.0f};
     glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};
     float m_cameraPitch = -15;

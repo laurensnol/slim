@@ -99,9 +99,11 @@ namespace slim
     m_cubeShader->bind();
     m_cubeShader->setMat4("uView", m_camera.getView());
     m_cubeShader->setMat4("uProjection", m_camera.getProjection());
-    m_cubeShader->setFloat3("uLightColor", {1.0f, 1.0f, 1.0f});
-    m_cubeShader->setFloat3("uLightPosition", m_lightPosition);
     m_cubeShader->setFloat3("uViewPosition", m_camera.getPosition());
+    m_cubeShader->setFloat3("uLight.position", m_lightPosition);
+    m_cubeShader->setFloat3("uLight.ambient", {0.2f, 0.2f, 0.2f});
+    m_cubeShader->setFloat3("uLight.diffuse", {0.5f, 0.5f, 0.5f});
+    m_cubeShader->setFloat3("uLight.specular", {1.0f, 1.0f, 1.0f});
     m_cubeShader->setFloat3("uMaterial.ambient", m_material.ambient);
     m_cubeShader->setFloat3("uMaterial.diffuse", m_material.diffuse);
     m_cubeShader->setFloat3("uMaterial.specular", m_material.specular);

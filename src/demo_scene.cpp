@@ -80,7 +80,7 @@ namespace slim
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
 
     glm::mat4 lightModel{1.0f};
-    lightModel = glm::translate(lightModel, m_lightPosition);
+    lightModel = glm::translate(lightModel, m_light.position);
     lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
     m_lightShader->setMat4("uModel", lightModel);
 
@@ -95,15 +95,14 @@ namespace slim
     m_cameraYaw = m_camera.getYaw();
     m_cameraFov = m_camera.getFov();
 
-    // Update Cube Shader
     m_cubeShader->bind();
     m_cubeShader->setMat4("uView", m_camera.getView());
     m_cubeShader->setMat4("uProjection", m_camera.getProjection());
     m_cubeShader->setFloat3("uViewPosition", m_camera.getPosition());
-    m_cubeShader->setFloat3("uLight.position", m_lightPosition);
-    m_cubeShader->setFloat3("uLight.ambient", {0.2f, 0.2f, 0.2f});
-    m_cubeShader->setFloat3("uLight.diffuse", {0.5f, 0.5f, 0.5f});
-    m_cubeShader->setFloat3("uLight.specular", {1.0f, 1.0f, 1.0f});
+    m_cubeShader->setFloat3("uLight.position", m_light.position);
+    m_cubeShader->setFloat3("uLight.ambient", m_light.ambient);
+    m_cubeShader->setFloat3("uLight.diffuse", m_light.diffuse);
+    m_cubeShader->setFloat3("uLight.specular", m_light.specular);
     m_cubeShader->setFloat3("uMaterial.ambient", m_material.ambient);
     m_cubeShader->setFloat3("uMaterial.diffuse", m_material.diffuse);
     m_cubeShader->setFloat3("uMaterial.specular", m_material.specular);
@@ -119,7 +118,6 @@ namespace slim
       glDrawArrays(GL_TRIANGLES, 0, s_indicesCount);
     }
 
-    // Update Light Shader
     m_lightShader->bind();
     m_lightShader->setMat4("uView", m_camera.getView());
     m_lightShader->setMat4("uProjection", m_camera.getProjection());
@@ -153,15 +151,19 @@ namespace slim
       m_camera.setFov(m_cameraFov);
 
     ImGui::Text("Light");
-    if (ImGui::SliderFloat3("Light Position", glm::value_ptr(m_lightPosition), -10.0f, 10.0f))
+    if (ImGui::SliderFloat3("Light Position", glm::value_ptr(m_light.position), -10.0f, 10.0f))
     {
       glm::mat4 lightModel{1.0f};
-      lightModel = glm::translate(lightModel, m_lightPosition);
+      lightModel = glm::translate(lightModel, m_light.position);
       lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
       m_lightShader->setMat4("uModel", lightModel);
     }
 
-    ImGui::Text("Material Properties");
+    ImGui::SliderFloat3("Light Ambient", glm::value_ptr(m_light.ambient), -1.0f, 1.0f);
+    ImGui::SliderFloat3("Light Specular", glm::value_ptr(m_light.diffuse), -1.0f, 1.0f);
+    ImGui::SliderFloat3("Light Diffuse", glm::value_ptr(m_light.specular), -1.0f, 1.0f);
+
+    ImGui::Text("Material");
     ImGui::SliderFloat3("Material Ambient", glm::value_ptr(m_material.ambient), 0.0f, 1.0f);
     ImGui::SliderFloat3("Material Diffuse", glm::value_ptr(m_material.diffuse), 0.0f, 1.0f);
     ImGui::SliderFloat3("Material Specular", glm::value_ptr(m_material.specular), 0.0f, 1.0f);

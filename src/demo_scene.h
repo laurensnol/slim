@@ -20,6 +20,14 @@ namespace slim
     float shininess;
   };
 
+  struct LightProperties
+  {
+    glm::vec3 position;
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+  };
+
   class DemoScene : public Scene
   {
   public:
@@ -48,7 +56,13 @@ namespace slim
       76.8f
     };
 
-    glm::vec3 m_lightPosition{0.0f, 0.0f, 0.0f};
+    LightProperties m_light{
+      {0.0f, 0.0f, 0.0f},
+      {0.2f, 0.2f, 0.2f},
+      {0.5f, 0.5f, 0.5f},
+      {1.0f, 1.0f, 1.0f}
+    };
+
     glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};
     float m_cameraPitch = -15;
     float m_cameraYaw = 0;

@@ -11,6 +11,7 @@ struct Material
 struct Light
 {
   vec3 position;
+  vec3 color;
   vec3 ambient;
   vec3 diffuse;
   vec3 specular;
@@ -43,5 +44,5 @@ void main()
   vec3 specular = uLight.specular * (spec * uMaterial.specular);
 
   vec3 result = ambient + diffuse + specular;
-  oFragColor = vec4(result, 1.0);
+  oFragColor = vec4(result * uLight.color, 1.0);
 }

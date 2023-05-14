@@ -23,6 +23,7 @@ namespace slim
   struct LightProperties
   {
     glm::vec3 position;
+    glm::vec3 color;
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
@@ -58,6 +59,7 @@ namespace slim
 
     LightProperties m_light{
       {0.0f, 0.0f, 0.0f},
+      {1.0f, 1.0f, 1.0f},
       {0.2f, 0.2f, 0.2f},
       {0.5f, 0.5f, 0.5f},
       {1.0f, 1.0f, 1.0f}

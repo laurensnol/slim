@@ -69,7 +69,7 @@ namespace slim
     float m_cameraPitch = -15;
     float m_cameraYaw = 0;
     float m_cameraFov = 60.0f;
-    bool m_vsync = false;
+    bool m_vsync = true;
     bool m_wireframes = false;
   };
 }

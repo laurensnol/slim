@@ -104,7 +104,7 @@ namespace slim
     m_cubeShader->setFloat3("uLight.ambient", m_light.ambient);
     m_cubeShader->setFloat3("uLight.diffuse", m_light.diffuse);
     m_cubeShader->setFloat3("uLight.specular", m_light.specular);
-    
+
     m_material.use(m_cubeShader);
 
     m_cubeVao->bind();
@@ -150,7 +150,7 @@ namespace slim
       m_camera.setFov(m_cameraFov);
 
     ImGui::Text("Light");
-    if (ImGui::SliderFloat3("Light Position", glm::value_ptr(m_light.position), -10.0f, 10.0f))
+    if (ImGui::SliderFloat3("Light Position", glm::value_ptr(m_light.position), -25.0f, 25.0f))
     {
       glm::mat4 lightModel{1.0f};
       lightModel = glm::translate(lightModel, m_light.position);

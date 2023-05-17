@@ -12,7 +12,7 @@
   }
 
 #ifdef SLIM_DEBUG
-#define SLIM_DEBUG_ASSERT(value, msg, ...) SLIM_ASSERT(value, msg, ...)
+#define SLIM_DEBUG_ASSERT(value, msg, ...) SLIM_ASSERT(value, msg, ##__VA_ARGS__)
 #else
 #define SLIM_DEBUG_ASSERT(value, msg, ...)
 #endif

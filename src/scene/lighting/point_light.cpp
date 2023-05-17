@@ -9,7 +9,7 @@ namespace slim
     m_color = color;
   }
 
-  void PointLight::use(const std::unique_ptr<Shader>& shader, const std::string& prefix = "uPointLight") const
+  void PointLight::use(const std::unique_ptr<Shader>& shader, const std::string& prefix) const
   {
     shader->setFloat3(prefix + ".position", m_position);
     shader->setFloat3(prefix + ".color", m_position);

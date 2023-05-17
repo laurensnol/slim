@@ -7,19 +7,12 @@
 #include "rendering/vertex_array.h"
 #include "rendering/shader.h"
 #include "rendering/free_camera.h"
+#include "scene/material.h"
 #include <glm/glm.hpp>
 #include <memory>
 
 namespace slim
 {
-  struct MaterialProperties
-  {
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
-    float shininess;
-  };
-
   struct LightProperties
   {
     glm::vec3 position;
@@ -50,7 +43,7 @@ namespace slim
     std::unique_ptr<Shader> m_lightShader;
 
     // From: http://devernay.free.fr/cours/opengl/materials.html
-    MaterialProperties m_material{
+    Material m_material{
       {0.0215f, 0.1745f, 0.0215f},
       {0.07568f, 0.61424f, 0.07568f},
       {0.633f, 0.727811f, 0.633f},

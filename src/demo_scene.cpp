@@ -104,12 +104,10 @@ namespace slim
     m_cubeShader->setFloat3("uLight.ambient", m_light.ambient);
     m_cubeShader->setFloat3("uLight.diffuse", m_light.diffuse);
     m_cubeShader->setFloat3("uLight.specular", m_light.specular);
-    m_cubeShader->setFloat3("uMaterial.ambient", m_material.ambient);
-    m_cubeShader->setFloat3("uMaterial.diffuse", m_material.diffuse);
-    m_cubeShader->setFloat3("uMaterial.specular", m_material.specular);
-    m_cubeShader->setFloat("uMaterial.shininess", m_material.shininess);
-    m_cubeVao->bind();
+    
+    m_material.use(m_cubeShader);
 
+    m_cubeVao->bind();
     for (auto&& position : s_cubePositions)
     {
       glm::mat4 model(1.0f);
@@ -123,8 +121,8 @@ namespace slim
     m_lightShader->setMat4("uView", m_camera.getView());
     m_lightShader->setMat4("uProjection", m_camera.getProjection());
     m_lightShader->setFloat3("uColor", m_light.color);
-    m_lightVao->bind();
 
+    m_lightVao->bind();
     glDrawArrays(GL_TRIANGLES, 0, s_indicesCount);
   }
 

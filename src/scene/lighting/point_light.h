@@ -1,3 +1,6 @@
+#ifndef SLIM_POINTLIGHT_H
+#define SLIM_POINTLIGHT_H
+
 #include "scene/lighting/light.h"
 #include "core/base.h"
 #include <glm/glm.hpp>
@@ -28,3 +31,5 @@ namespace slim
     float m_radius;
   };
 }
+
+#endif

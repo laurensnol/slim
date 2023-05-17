@@ -11,4 +11,10 @@
     assert(value);                          \
   }
 
+#ifdef SLIM_DEBUG
+#define SLIM_DEBUG_ASSERT(value, msg, ...) SLIM_ASSERT(value, msg, ...)
+#else
+#define SLIM_DEBUG_ASSERT(value, msg, ...)
+#endif
+
 #endif

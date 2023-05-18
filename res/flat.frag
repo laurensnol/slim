@@ -45,6 +45,11 @@ void main()
   float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), uMaterial.shininess);
   vec3 specular = spec * uMaterial.specular * uPointLight.intensity;
 
-  vec3 result = ambient + diffuse + specular;
+  // Attenuation
+  float dist = length(uPointLight.position - oFragPos);
+  float attenuation = clamp(1.0 - dist * dist / (uPointLight.radius * uPointLight.radius), 0.0, 1.0);
+  attenuation *= attenuation;
+
+  vec3 result = (ambient + diffuse + specular) * attenuation;
   oFragColor = vec4(result * uPointLight.color, 1.0);
 }

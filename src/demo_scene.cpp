@@ -134,7 +134,7 @@ namespace slim
     if (ImGui::Checkbox("Wireframes", &m_wireframes))
       glPolygonMode(GL_FRONT_AND_BACK, m_wireframes ? GL_LINE : GL_FILL);
 
-    ImGui::Text("Camera");
+    ImGui::SeparatorText("Camera");
     if (ImGui::SliderFloat3("Position", glm::value_ptr(m_cameraPosition), -10.0f, 10.0f))
       m_camera.setPosition(m_cameraPosition);
 
@@ -147,7 +147,7 @@ namespace slim
     if (ImGui::SliderFloat("FOV", &m_cameraFov, 20.0f, 90.0f))
       m_camera.setFov(m_cameraFov);
 
-    ImGui::Text("Material");
+    ImGui::SeparatorText("Material");
     ImGui::SliderFloat3("Material Ambient", glm::value_ptr(m_material.ambient), 0.0f, 1.0f);
     ImGui::SliderFloat3("Material Diffuse", glm::value_ptr(m_material.diffuse), 0.0f, 1.0f);
     ImGui::SliderFloat3("Material Specular", glm::value_ptr(m_material.specular), 0.0f, 1.0f);

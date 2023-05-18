@@ -8,6 +8,7 @@
 #include "rendering/shader.h"
 #include "rendering/free_camera.h"
 #include "scene/material.h"
+#include "scene/lighting/point_light.h"
 #include <glm/glm.hpp>
 #include <memory>
 
@@ -36,7 +37,6 @@ namespace slim
     static float s_vertices[];
     static const glm::vec3 s_cubePositions[s_cubeCount];
 
-    FreeCamera m_camera;
     std::shared_ptr<VertexArray> m_cubeVao;
     std::shared_ptr<VertexArray> m_lightVao;
     std::unique_ptr<Shader> m_cubeShader;
@@ -48,15 +48,10 @@ namespace slim
       {0.07568f, 0.61424f, 0.07568f},
       {0.633f, 0.727811f, 0.633f},
       76.8f
-    };
+    };    
 
-    LightProperties m_light{
-      {0.0f, 0.0f, 0.0f},
-      {1.0f, 1.0f, 1.0f},
-      {0.2f, 0.2f, 0.2f},
-      {0.5f, 0.5f, 0.5f},
-      {1.0f, 1.0f, 1.0f}
-    };
+    FreeCamera m_camera;
+    PointLight m_pointLight;
 
     glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};
     float m_cameraPitch = -15;

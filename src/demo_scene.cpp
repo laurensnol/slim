@@ -79,8 +79,10 @@ namespace slim
     m_cubeShader = Shader::create("res/flat.vert", "res/flat.frag");
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
 
+    m_pointLight = PointLight();
+
     glm::mat4 lightModel{1.0f};
-    lightModel = glm::translate(lightModel, m_light.position);
+    lightModel = glm::translate(lightModel, m_pointLight.getPosition());
     lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
     m_lightShader->setMat4("uModel", lightModel);
 
@@ -99,12 +101,8 @@ namespace slim
     m_cubeShader->setMat4("uView", m_camera.getView());
     m_cubeShader->setMat4("uProjection", m_camera.getProjection());
     m_cubeShader->setFloat3("uViewPosition", m_camera.getPosition());
-    m_cubeShader->setFloat3("uLight.position", m_light.position);
-    m_cubeShader->setFloat3("uLight.color", m_light.color);
-    m_cubeShader->setFloat3("uLight.ambient", m_light.ambient);
-    m_cubeShader->setFloat3("uLight.diffuse", m_light.diffuse);
-    m_cubeShader->setFloat3("uLight.specular", m_light.specular);
 
+    m_pointLight.use(m_cubeShader);
     m_material.use(m_cubeShader);
 
     m_cubeVao->bind();
@@ -120,7 +118,7 @@ namespace slim
     m_lightShader->bind();
     m_lightShader->setMat4("uView", m_camera.getView());
     m_lightShader->setMat4("uProjection", m_camera.getProjection());
-    m_lightShader->setFloat3("uColor", m_light.color);
+    m_lightShader->setFloat3("uColor", m_pointLight.getColor());
 
     m_lightVao->bind();
     glDrawArrays(GL_TRIANGLES, 0, s_indicesCount);
@@ -148,20 +146,6 @@ namespace slim
 
     if (ImGui::SliderFloat("FOV", &m_cameraFov, 20.0f, 90.0f))
       m_camera.setFov(m_cameraFov);
-
-    ImGui::Text("Light");
-    if (ImGui::SliderFloat3("Light Position", glm::value_ptr(m_light.position), -25.0f, 25.0f))
-    {
-      glm::mat4 lightModel{1.0f};
-      lightModel = glm::translate(lightModel, m_light.position);
-      lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
-      m_lightShader->setMat4("uModel", lightModel);
-    }
-
-    ImGui::ColorEdit3("Light Color", glm::value_ptr(m_light.color));
-    ImGui::SliderFloat3("Light Ambient", glm::value_ptr(m_light.ambient), -1.0f, 1.0f);
-    ImGui::SliderFloat3("Light Specular", glm::value_ptr(m_light.diffuse), -1.0f, 1.0f);
-    ImGui::SliderFloat3("Light Diffuse", glm::value_ptr(m_light.specular), -1.0f, 1.0f);
 
     ImGui::Text("Material");
     ImGui::SliderFloat3("Material Ambient", glm::value_ptr(m_material.ambient), 0.0f, 1.0f);

@@ -48,17 +48,23 @@ namespace slim
       {0.07568f, 0.61424f, 0.07568f},
       {0.633f, 0.727811f, 0.633f},
       76.8f
-    };    
+    };
 
     FreeCamera m_camera;
     PointLight m_pointLight;
 
+    // Int. vars
     glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};
     float m_cameraPitch = -15;
     float m_cameraYaw = 0;
     float m_cameraFov = 60.0f;
     bool m_vsync = true;
     bool m_wireframes = false;
+
+    glm::vec3 m_lightPosition{0.0f};
+    glm::vec3 m_lightColor{1.0f};
+    float m_lightIntensity = 1.0f;
+    float m_lightRadius = 5.0f;
   };
 }
 

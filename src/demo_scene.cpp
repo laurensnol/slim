@@ -78,14 +78,7 @@ namespace slim
     
     m_cubeShader = Shader::create("res/flat.vert", "res/flat.frag");
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
-
-    m_pointLight = PointLight();
-
-    glm::mat4 lightModel{1.0f};
-    lightModel = glm::translate(lightModel, m_pointLight.getPosition());
-    lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
-    m_lightShader->setMat4("uModel", lightModel);
-
+    m_pointLight = PointLight(m_lightPosition, m_lightColor, m_lightIntensity, m_lightRadius);
     m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }
 
@@ -96,6 +89,11 @@ namespace slim
     m_cameraPitch = m_camera.getPitch();
     m_cameraYaw = m_camera.getYaw();
     m_cameraFov = m_camera.getFov();
+
+    m_pointLight.setPosition(m_lightPosition);
+    m_pointLight.setColor(m_lightColor);
+    m_pointLight.setIntensity(m_lightIntensity);
+    m_pointLight.setRadius(m_lightRadius);
 
     m_cubeShader->bind();
     m_cubeShader->setMat4("uView", m_camera.getView());
@@ -115,7 +113,12 @@ namespace slim
       glDrawArrays(GL_TRIANGLES, 0, s_indicesCount);
     }
 
+    glm::mat4 lightModel{1.0f};
+    lightModel = glm::translate(lightModel, m_lightPosition);
+    lightModel = glm::scale(lightModel, {0.25f, 0.25f, 0.25f});
+
     m_lightShader->bind();
+    m_lightShader->setMat4("uModel", lightModel);
     m_lightShader->setMat4("uView", m_camera.getView());
     m_lightShader->setMat4("uProjection", m_camera.getProjection());
     m_lightShader->setFloat3("uColor", m_pointLight.getColor());
@@ -146,6 +149,12 @@ namespace slim
 
     if (ImGui::SliderFloat("FOV", &m_cameraFov, 20.0f, 90.0f))
       m_camera.setFov(m_cameraFov);
+
+    ImGui::SeparatorText("Light");
+    ImGui::SliderFloat3("Light Position", glm::value_ptr(m_lightPosition), -25.0f, 25.0f);
+    ImGui::ColorEdit3("Light Color", glm::value_ptr(m_lightColor));
+    ImGui::SliderFloat("Light Intensity", &m_lightIntensity, 0.0f, 1.0f);
+    ImGui::SliderFloat("Light Radius", &m_lightRadius, 0.1f, 20.0f);
 
     ImGui::SeparatorText("Material");
     ImGui::SliderFloat3("Material Ambient", glm::value_ptr(m_material.ambient), 0.0f, 1.0f);

@@ -9,6 +9,7 @@
 #include "rendering/free_camera.h"
 #include "scene/material.h"
 #include "scene/lighting/point_light.h"
+#include "scene/lighting/directional_light.h"
 #include <glm/glm.hpp>
 #include <memory>
 
@@ -42,6 +43,7 @@ namespace slim
     };
 
     FreeCamera m_camera;
+    DirectionalLight m_dirLight;
     PointLight m_pointLight;
 
     // Int. vars

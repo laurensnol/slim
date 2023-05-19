@@ -15,11 +15,19 @@ namespace slim
 
     virtual void use(const std::unique_ptr<Shader>& shader, const std::string& prefix) const = 0;
 
-    virtual glm::vec3 getColor() const = 0;
-    virtual void setColor(const glm::vec3& color) = 0;
+    virtual glm::vec3 getColor() const { return m_color; }
+    virtual void setColor(const glm::vec3& color) { m_color = color; }
 
-    virtual float getIntensity() const = 0;
-    virtual void setIntensity(float intensity) = 0;
+    virtual float getIntensity() const { return m_intensity; }
+    virtual void setIntensity(float intensity)
+    {
+      SLIM_DEBUG_ASSERT(intensity >= 0.0f, "Intensity must be >= 0.0f, but is {}", intensity)
+      m_intensity = intensity;
+    }
+
+  protected:
+    glm::vec3 m_color;
+    float m_intensity;
   };
 }
 

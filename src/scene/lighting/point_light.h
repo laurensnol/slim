@@ -15,19 +15,22 @@ namespace slim
 
     void use(const std::unique_ptr<Shader>& shader, const std::string& prefix = "uPointLight") const override;
 
-    glm::vec3 getPosition() const override;
-    void setPosition(const glm::vec3& position) override;
-
     glm::vec3 getColor() const override;
     void setColor(const glm::vec3& color) override;
 
     float getIntensity() const override;
     void setIntensity(float intensity) override;
 
+    glm::vec3 getPosition() const;
+    void setPosition(const glm::vec3& position);
+
     float getRadius() const;
     void setRadius(float radius);
 
   private:
+    glm::vec3 m_color;
+    float m_intensity;
+    glm::vec3 m_position;
     float m_radius;
   };
 }

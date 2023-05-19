@@ -29,27 +29,6 @@ namespace slim
     m_position = position;
   }
 
-  glm::vec3 PointLight::getColor() const
-  {
-    return m_color;
-  }
-
-  void PointLight::setColor(const glm::vec3& color)
-  {
-    m_color = color;
-  }
-
-  float PointLight::getIntensity() const
-  {
-    return m_intensity;
-  }
-
-  void PointLight::setIntensity(float intensity)
-  {
-    SLIM_DEBUG_ASSERT(intensity >= 0.0f, "Intensity must be >= 0.0f, but is {}", intensity)
-    m_intensity = intensity;
-  }
-
   float PointLight::getRadius() const
   {
     return m_radius;

@@ -78,7 +78,7 @@ namespace slim
     
     m_cubeShader = Shader::create("res/flat.vert", "res/flat.frag");
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
-    m_dirLight = DirectionalLight();
+    m_dirLight = DirectionalLight({1.0f, 1.0f, 1.0f}, 1.0f, {-0.2f, -1.0f, -0.3f});
     m_pointLight = PointLight(m_lightPosition, m_lightColor, m_lightIntensity, m_lightRadius);
     m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }

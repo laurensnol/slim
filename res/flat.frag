@@ -73,7 +73,7 @@ vec3 calcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDirectio
   float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), uMaterial.shininess);
   vec3 specular = uMaterial.specular * spec * light.intensity;
 
-  return (ambient + diffuse + specular);
+  return (ambient + diffuse + specular) * light.color;
 }
 
 vec3 calcPointLight(PointLight light, vec3 normal, vec3 viewDirection)
@@ -97,5 +97,5 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 viewDirection)
   float attenuation = clamp(1.0 - dist * dist / (light.radius * light.radius), 0.0, 1.0);
   attenuation *= attenuation;
 
-  return (ambient + diffuse + specular) * attenuation;
+  return (ambient + diffuse + specular) * attenuation * light.color;
 }

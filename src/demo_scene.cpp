@@ -78,7 +78,7 @@ namespace slim
     
     m_cubeShader = Shader::create("res/flat.vert", "res/flat.frag");
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
-    m_dirLight = DirectionalLight({1.0f, 1.0f, 1.0f}, 1.0f, {-0.2f, -1.0f, -0.3f});
+    m_dirLight = DirectionalLight(m_dirLightColor, m_dirLightIntensity, m_dirLightDirection);
     m_pointLight = PointLight(m_lightPosition, m_lightColor, m_lightIntensity, m_lightRadius);
     m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }
@@ -91,6 +91,10 @@ namespace slim
     m_cameraYaw = m_camera.getYaw();
     m_cameraFov = m_camera.getFov();
 
+    m_dirLight.setColor(m_dirLightColor);
+    m_dirLight.setIntensity(m_dirLightIntensity);
+    m_dirLight.setDirection(m_dirLightDirection);
+
     m_pointLight.setPosition(m_lightPosition);
     m_pointLight.setColor(m_lightColor);
     m_pointLight.setIntensity(m_lightIntensity);
@@ -101,8 +105,8 @@ namespace slim
     m_cubeShader->setMat4("uProjection", m_camera.getProjection());
     m_cubeShader->setFloat3("uViewPosition", m_camera.getPosition());
 
-    m_pointLight.use(m_cubeShader);
     m_dirLight.use(m_cubeShader);
+    m_pointLight.use(m_cubeShader);
     m_material.use(m_cubeShader);
 
     m_cubeVao->bind();
@@ -152,17 +156,22 @@ namespace slim
     if (ImGui::SliderFloat("FOV", &m_cameraFov, 20.0f, 90.0f))
       m_camera.setFov(m_cameraFov);
 
-    ImGui::SeparatorText("Light");
-    ImGui::SliderFloat3("Light Position", glm::value_ptr(m_lightPosition), -25.0f, 25.0f);
-    ImGui::ColorEdit3("Light Color", glm::value_ptr(m_lightColor));
-    ImGui::SliderFloat("Light Intensity", &m_lightIntensity, 0.0f, 1.0f);
-    ImGui::SliderFloat("Light Radius", &m_lightRadius, 0.1f, 20.0f);
-
     ImGui::SeparatorText("Material");
     ImGui::SliderFloat3("Material Ambient", glm::value_ptr(m_material.ambient), 0.0f, 1.0f);
     ImGui::SliderFloat3("Material Diffuse", glm::value_ptr(m_material.diffuse), 0.0f, 1.0f);
     ImGui::SliderFloat3("Material Specular", glm::value_ptr(m_material.specular), 0.0f, 1.0f);
     ImGui::SliderFloat("Material Shininess", &m_material.shininess, 2, 512);
+
+    ImGui::SeparatorText("Directional Light");
+    ImGui::ColorEdit3("Dir. Light Color", glm::value_ptr(m_dirLightColor));
+    ImGui::SliderFloat("Dir. Light Intensity", &m_dirLightIntensity, 0.0f, 1.0f);
+    ImGui::SliderFloat3("Dir. Light Direction", glm::value_ptr(m_dirLightDirection), -1.0f, 1.0f);
+
+    ImGui::SeparatorText("Point Light");
+    ImGui::SliderFloat3("Point Light Position", glm::value_ptr(m_lightPosition), -25.0f, 25.0f);
+    ImGui::ColorEdit3("Point Light Color", glm::value_ptr(m_lightColor));
+    ImGui::SliderFloat("Point Light Intensity", &m_lightIntensity, 0.0f, 1.0f);
+    ImGui::SliderFloat("Point Light Radius", &m_lightRadius, 0.1f, 20.0f);
 
     ImGui::End();
 

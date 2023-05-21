@@ -54,6 +54,10 @@ namespace slim
     bool m_vsync = true;
     bool m_wireframes = false;
 
+    glm::vec3 m_dirLightColor{1.0f};
+    float m_dirLightIntensity = 1.0f;
+    glm::vec3 m_dirLightDirection{-0.2f, -1.0f, -0.3f};
+
     glm::vec3 m_lightPosition{0.0f};
     glm::vec3 m_lightColor{1.0f};
     float m_lightIntensity = 1.0f;

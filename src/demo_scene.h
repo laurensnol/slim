@@ -8,8 +8,9 @@
 #include "rendering/shader.h"
 #include "rendering/free_camera.h"
 #include "scene/material.h"
-#include "scene/lighting/point_light.h"
 #include "scene/lighting/directional_light.h"
+#include "scene/lighting/point_light.h"
+#include "scene/lighting/spot_light.h"
 #include <glm/glm.hpp>
 #include <memory>
 
@@ -45,6 +46,7 @@ namespace slim
     FreeCamera m_camera;
     DirectionalLight m_dirLight;
     PointLight m_pointLight;
+    SpotLight m_spotLight;
 
     // Int. vars
     glm::vec3 m_cameraPosition{-10.0f, 3.0f, 0.0f};

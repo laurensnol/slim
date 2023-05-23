@@ -80,6 +80,7 @@ namespace slim
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
     m_dirLight = DirectionalLight(m_dirLightColor, m_dirLightIntensity, m_dirLightDirection);
     m_pointLight = PointLight(m_lightPosition, m_lightColor, m_lightIntensity, m_lightRadius);
+    m_spotLight = SpotLight({-5.0f, 0.0f, 4.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, 1.0f, 10.0f, 15.0f);
     m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }
 
@@ -107,6 +108,7 @@ namespace slim
 
     m_dirLight.use(m_cubeShader);
     m_pointLight.use(m_cubeShader);
+    m_spotLight.use(m_cubeShader);
     m_material.use(m_cubeShader);
 
     m_cubeVao->bind();

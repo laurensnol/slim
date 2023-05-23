@@ -80,7 +80,7 @@ namespace slim
     m_lightShader = Shader::create("res/light.vert", "res/light.frag");
     m_dirLight = DirectionalLight(m_dirLightColor, m_dirLightIntensity, m_dirLightDirection);
     m_pointLight = PointLight(m_lightPosition, m_lightColor, m_lightIntensity, m_lightRadius);
-    m_spotLight = SpotLight({-5.0f, 0.0f, 4.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, 1.0f, 10.0f, 15.0f);
+    m_spotLight = SpotLight(m_spotLightPosition, m_spotLightDirection, m_spotLightColor, m_spotLightIntensity, m_spotLightRange, m_spotLightAngle);
     m_camera = FreeCamera(m_cameraPosition, m_cameraPitch, m_cameraYaw, m_cameraFov);
   }
 
@@ -100,6 +100,13 @@ namespace slim
     m_pointLight.setColor(m_lightColor);
     m_pointLight.setIntensity(m_lightIntensity);
     m_pointLight.setRadius(m_lightRadius);
+
+    m_spotLight.setPosition(m_spotLightPosition);
+    m_spotLight.setDirection(m_spotLightDirection);
+    m_spotLight.setColor(m_spotLightColor);
+    m_spotLight.setIntensity(m_spotLightIntensity);
+    m_spotLight.setRange(m_spotLightRange);
+    m_spotLight.setAngle(m_spotLightAngle);
 
     m_cubeShader->bind();
     m_cubeShader->setMat4("uView", m_camera.getView());
@@ -174,6 +181,14 @@ namespace slim
     ImGui::ColorEdit3("Point Light Color", glm::value_ptr(m_lightColor));
     ImGui::SliderFloat("Point Light Intensity", &m_lightIntensity, 0.0f, 1.0f);
     ImGui::SliderFloat("Point Light Radius", &m_lightRadius, 0.1f, 20.0f);
+
+    ImGui::SeparatorText("Spot Light");
+    ImGui::SliderFloat3("Spot Light Position", glm::value_ptr(m_spotLightPosition), -25.0f, 25.0f);
+    ImGui::SliderFloat3("Spot Light Direction", glm::value_ptr(m_spotLightDirection), -1.0f, 1.0f);
+    ImGui::ColorEdit3("Spot Light Color", glm::value_ptr(m_spotLightColor));
+    ImGui::SliderFloat("Spot Light Intensity", &m_spotLightIntensity, 0.0f, 1.0f);
+    ImGui::SliderFloat("Spot Light Range", &m_spotLightRange, 0.1f, 50.0f);
+    ImGui::SliderFloat("Spot Light Angle", &m_spotLightAngle, 0.1f, 89.0f);
 
     ImGui::End();
 

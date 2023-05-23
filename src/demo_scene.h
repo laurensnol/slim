@@ -64,6 +64,13 @@ namespace slim
     glm::vec3 m_lightColor{1.0f};
     float m_lightIntensity = 1.0f;
     float m_lightRadius = 10.0f;
+
+    glm::vec3 m_spotLightPosition{-5.0f, 0.0f, 4.0f};
+    glm::vec3 m_spotLightDirection{1.0f, 0.0f, 0.0f};
+    glm::vec3 m_spotLightColor{1.0f};
+    float m_spotLightIntensity = 1.0f;
+    float m_spotLightRange = 10.0f;
+    float m_spotLightAngle = 15.0f;
   };
 }
 

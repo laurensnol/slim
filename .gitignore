@@ -1,30 +1,16 @@
 # MacOS
-.DS_Store
+**/.DS_Store
 
-# Make
-Makefile
-**.make
+# CMake
+build/
+cmake-*/
+Testing/
+CMakeFiles/
+CMakeCache.txt
+CMakeUserPresets.json
 
-# Xcode
-**.pbxproj
-**.xcworkspacedata
-**.xcodeproj
-**.xcworkspace
+# Clangd
+.cache/
 
-# Visual Studio
-.vs/
-**.sln
-**.vcxproj
-**.vcxproj.filters
-**.vcxproj.user
-**.csproj
-
-# Visual Studio Code
+# VSCode
 .vscode/
-
-# Binaries
-bin/
-obj/
-
-# ImGui
-imgui.ini

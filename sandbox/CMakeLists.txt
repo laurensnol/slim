@@ -1,0 +1,5 @@
+file(GLOB_RECURSE SLIM_SANDBOX_HEADERS CONFIGURE_DEPENDS "${SLIM_SANDBOX_DIR}/*.hpp")
+file(GLOB_RECURSE SLIM_SANDBOX_SOURCES CONFIGURE_DEPENDS "${SLIM_SANDBOX_DIR}/*.cpp")
+add_executable(sandbox ${SLIM_SANDBOX_HEADERS} ${SLIM_SANDBOX_SOURCES})
+target_compile_features(sandbox PRIVATE cxx_std_20)
+target_link_libraries(sandbox PRIVATE slim)

@@ -1,0 +1,55 @@
+name: Build
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - rewrite
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-12, windows-2022]
+        config: [debug, release]
+        compiler: [clang-15, gcc-12, msvc]
+        exclude:
+          - os: ubuntu-22.04
+            compiler: msvc
+          - os: macos-12
+            compiler: msvc
+          - os: windows-2022
+            compiler: clang-15
+
+          # Temporarily exluding due to GCC complaining about unknown warning
+          # options (when using GNU gcc/g++, not Apple's clang)
+          - os: macos-12
+            config: debug
+            compiler: gcc-12
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fix for actions/runner-images/issues/8659
+        uses: mjp41/workaround8649@c8550b715ccdc17f89c8d5c28d7a48eeff9c94a8
+        with:
+          os: ${{ matrix.os }}
+
+      - name: Dependencies
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+          ninja: true
+          cmake: true
+          clangtidy: true
+          cppcheck: true
+          ccache: true
+
+      - name: Configure
+        shell: bash
+        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-[0-9]*//')-${{matrix.config}}
+
+      - name: Build
+        run: cmake --build --preset sandbox-${{matrix.config}}

@@ -7,7 +7,6 @@ function(slim_enable_tooling)
     list(APPEND SLIM_CLANG_TIDY_PROPERTIES
       ${CLANG_TIDY_PROGRAM}
       "-p=${CMAKE_CURRENT_BINARY_DIR}"
-      "-header-filter=.*"
       "--warnings-as-errors=*")
     message(STATUS "Enabled clang-tidy")
   else()

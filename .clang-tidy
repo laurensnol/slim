@@ -11,8 +11,17 @@ Checks:
   - "performance-*"
   - "readability-*"
 
+  - "-bugprone-easily-swappable-parameters"
+  - "-cppcoreguidelines-avoid-non-const-global-variables"
+
   # Disabled due to false positives with std::cout on Windows with GCC
   # See: https://github.com/llvm/llvm-project/issues?q=is%3Aissue+is%3Aopen+bugprone-exception-escape
   - "-bugprone-exception-escape"
 ExtraArgs:
   - "-Wno-unknown-warning-option"
+
+CheckOptions:
+  - key: readability-identifier-length.IgnoredVariableNames
+    value: "id"
+  - key: readability-identifier-length.IgnoredParameterNames
+    value: "id"

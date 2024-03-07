@@ -13,6 +13,18 @@ if(PROJECT_IS_TOP_LEVEL)
   include("cmake/SymlinkCompileCommands.cmake")
 endif()
 
+# Definitions
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  add_compile_definitions(SLIM_PLATFORM_WINDOWS)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  add_compile_definitions(SLIM_PLATFORM_LINUX)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  add_compile_definitions(SLIM_PLATFORM_MACOS)
+else()
+  message(FATAL_ERROR "Unrecognized platform ${CMAKE_SYSTEM_NAME}")
+endif()
+
 # Subdirectories
 
 set(SLIM_HEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/slim")

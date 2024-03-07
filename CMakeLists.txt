@@ -31,6 +31,7 @@ set(SLIM_HEADERS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/slim")
 set(SLIM_SOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(SLIM_SANDBOX_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sandbox")
 set(SLIM_TESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test")
+set(SLIM_THIRDPARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty")
 
 add_subdirectory(src slim)
 
@@ -54,6 +55,23 @@ if(SLIM_ENABLE_TOOLS)
   include("cmake/Sanitizers.cmake")
   slim_enable_sanitizers(slim sandbox)
 endif()
+
+# Dependencies
+
+find_package(OpenGL REQUIRED)
+
+set(GLFW_BUILD_DOCS     OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS    OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_INSTALL        OFF CACHE BOOL "" FORCE)
+add_subdirectory("${SLIM_THIRDPARTY_DIR}/glfw")
+
+add_subdirectory("${SLIM_THIRDPARTY_DIR}/glad")
+
+target_link_libraries(slim PRIVATE
+  OpenGL::GL
+  glad
+  glfw)
 
 # Testing
 

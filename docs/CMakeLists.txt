@@ -4,7 +4,7 @@ if(Doxygen_FOUND)
   set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
 
   doxygen_add_docs(docs slim
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/include")
 else()
   message(WARNING
     "Doxygen not found\n"

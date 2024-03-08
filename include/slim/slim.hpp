@@ -3,7 +3,8 @@
 
 // IWYU pragma: begin_exports
 
-#include "core/application.hpp"
+#include "slim/core/application.hpp"
+#include "slim/core/window.hpp"
 
 // IWYU pragma: end_exports
 

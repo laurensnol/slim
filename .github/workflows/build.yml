@@ -48,6 +48,10 @@ jobs:
           cppcheck: true
           ccache: true
 
+      - name: Additional Dependencies (Ubuntu)
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        run: sudo apt install xorg-dev
+
       - name: Configure
         shell: bash
         run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-[0-9]*//')-${{matrix.config}}

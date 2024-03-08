@@ -1,9 +1,9 @@
-#include <slim/some.hpp>
-#include <iostream>
+#include <slim/slim.hpp>
 
 auto main() -> int {
-  const int result = slim::add(1, 2);
-  std::cout << result << "\n";
+  slim::Application::init();
+  // slim::SceneManager::addScene<SandboxScene>("sandbox");
+  slim::Application::run();
 
   return 0;
 }

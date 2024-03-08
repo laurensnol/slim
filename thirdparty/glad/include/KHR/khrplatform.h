@@ -186,10 +186,20 @@ typedef uint64_t                khronos_uint64_t;
 /*
  * Win32
  */
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpedantic"
+#endif
+
 typedef __int32                 khronos_int32_t;
 typedef unsigned __int32        khronos_uint32_t;
 typedef __int64                 khronos_int64_t;
 typedef unsigned __int64        khronos_uint64_t;
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 

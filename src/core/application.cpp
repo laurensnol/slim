@@ -42,7 +42,7 @@ auto Application::terminate() noexcept -> void {
 
 auto Application::shutdown() noexcept -> void {}
 
-auto Application::getWindow() noexcept -> const Window& {
+auto Application::getWindow() noexcept -> Window& {
   assert(window_);
   return *window_;
 }

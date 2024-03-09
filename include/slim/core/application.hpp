@@ -29,7 +29,7 @@ public:
       -> void;
   static auto run() noexcept -> void;
   static auto terminate() noexcept -> void;
-  [[nodiscard]] static auto getWindow() noexcept -> const Window &;
+  [[nodiscard]] static auto getWindow() noexcept -> Window &;
 
 private:
   static auto shutdown() noexcept -> void;

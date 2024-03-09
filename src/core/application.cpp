@@ -17,14 +17,15 @@ std::unique_ptr<Window> Application::window_ = nullptr;
 Application::~Application() noexcept { terminate(); }
 
 auto Application::init(const std::string& title, uint16_t width,
-                       uint16_t height) noexcept -> void {
-  window_ = Window::create(title, width, height);
+                       uint16_t height, bool vsync, bool focused,
+                       bool minimized) noexcept -> void {
+  window_ = Window::create(title, width, height, vsync, focused, minimized);
   // TODO(laurensnol): Call Renderer::init(...) with framebuffer (!) sizes
 }
 
 auto Application::run() noexcept -> void {
   // TODO(laurensnol): Call Renderer::setClearColor(...)
-  const GLfloat rgb = 0.1F; // NOLINT
+  const GLfloat rgb = 0.1F;  // NOLINT
   glClearColor(rgb, rgb, rgb, 1.0);
 
   while (running_) {

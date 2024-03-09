@@ -24,10 +24,12 @@ public:
 
   static auto init(const std::string &title = "slim",
                    uint16_t width = kDefaultWidth,
-                   uint16_t height = kDefaultHeight) noexcept -> void;
+                   uint16_t height = kDefaultHeight, bool vsync = true,
+                   bool focused = true, bool minimized = false) noexcept
+      -> void;
   static auto run() noexcept -> void;
   static auto terminate() noexcept -> void;
-  static auto getWindow() noexcept -> const Window &;
+  [[nodiscard]] static auto getWindow() noexcept -> const Window &;
 
 private:
   static auto shutdown() noexcept -> void;

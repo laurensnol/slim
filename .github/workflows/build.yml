@@ -54,7 +54,7 @@ jobs:
 
       - name: Configure
         shell: bash
-        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-[0-9]*//')-${{matrix.config}}
+        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-[0-9]*//')-${{matrix.config}} -DSLIM_BUILD_TESTS=OFF
 
       - name: Build
         run: cmake --build --preset sandbox-${{matrix.config}}

@@ -1,5 +1,5 @@
 file(GLOB_RECURSE SLIM_HEADERS CONFIGURE_DEPENDS "${SLIM_HEADERS_DIR}/*.hpp")
 file(GLOB_RECURSE SLIM_SOURCES CONFIGURE_DEPENDS "${SLIM_SOURCES_DIR}/*.cpp")
 add_library(slim ${SLIM_HEADERS} ${SLIM_SOURCES})
-target_include_directories(slim PUBLIC ../include)
+target_include_directories(slim PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_compile_features(slim PUBLIC cxx_std_20)

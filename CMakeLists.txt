@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
-project(slim)
+project(slim
+  VERSION 0.0.1)
 
 option(SLIM_BUILD_SANDBOX   "Build sandbox for slim"               OFF)
 option(SLIM_BUILD_DOCS      "Build documentation for slim"         OFF)

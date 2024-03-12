@@ -13,9 +13,6 @@ class Window;
 namespace slim {
 class Application final {
 public:
-  static const uint16_t kDefaultWidth = 1920;
-  static const uint16_t kDefaultHeight = 1080;
-
   Application(const Application &) = delete;
   Application(Application &&) = delete;
   auto operator=(const Application &) -> Application & = delete;
@@ -23,8 +20,8 @@ public:
   ~Application() noexcept;
 
   static auto init(const std::string &title = "slim",
-                   uint16_t width = kDefaultWidth,
-                   uint16_t height = kDefaultHeight, bool vsync = true,
+                   uint16_t width = Window::kDefaultWidth,
+                   uint16_t height = Window::kDefaultHeight, bool vsync = true,
                    bool focused = true, bool minimized = false) noexcept
       -> void;
   static auto run() noexcept -> void;

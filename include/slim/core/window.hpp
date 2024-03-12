@@ -6,22 +6,65 @@
 #include <string>
 
 namespace slim {
+/**
+ * \brief The abstract base window interface.
+ *
+ * This abstract class defines an interface for platform specific window
+ * implementations, as well as a \ref create method to instantiate a platform
+ * specific window.
+ *
+ * \ingroup core
+ */
 class Window {
 public:
+  /**
+   * \brief The default width of a window, if not specified.
+   */
   static const uint16_t kDefaultWidth = 1920;
+
+  /**
+   * \brief The default height of a window, if not specified.
+   */
   static const uint16_t kDefaultHeight = 1080;
 
+  /**
+   * \name Deleted copy/move constructors & assignment operators.
+   */
+  ///@{
   Window(const Window &) = delete;
   Window(Window &&) = delete;
   auto operator=(const Window &) -> Window & = delete;
   auto operator=(Window &&) -> Window & = delete;
+  ///@}
+
+  /**
+   * \brief The destructor of the Window class.
+   */
   virtual ~Window() noexcept = default;
 
-  static auto create(const std::string &title, uint16_t width = kDefaultWidth,
-                     uint16_t height = kDefaultHeight, bool vsync = true,
-                     bool focused = true, bool minimized = false) noexcept
+  /**
+   * \brief This method instantiates a platform specific window.
+   *
+   * \param title The title of the window.
+   * \param width The width of the window.
+   * \param height The height of the window.
+   * \param vsync Whether to enable/disable vsync.
+   * \param focused Whether to focus the created window.
+   * \param minimized Whether to minimize the created window.
+   *
+   * \return An `std::unique_ptr<Window>`, pointing to the created Window.
+   */
+  [[nodiscard]] static auto create(const std::string &title, uint16_t width,
+                                   uint16_t height, bool vsync, bool focused,
+                                   bool minimized) noexcept
       -> std::unique_ptr<Window>;
 
+  /**
+   * \name Interface Methods
+   *
+   * Virtual methods that require implementation.
+   */
+  ///@{
   virtual auto update() const noexcept -> void = 0;
   virtual auto close() const noexcept -> void = 0;
   [[nodiscard]] virtual auto isOpen() const noexcept -> bool = 0;
@@ -47,6 +90,7 @@ public:
 
   virtual auto setMinimize(bool value) noexcept -> void = 0;
   [[nodiscard]] virtual auto isMinimized() const noexcept -> bool = 0;
+  ///@}
 
 protected:
   explicit Window() = default;

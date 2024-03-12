@@ -15,6 +15,8 @@ namespace slim {
 DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
                              bool vsync, bool focused, bool minimized) noexcept
     : properties_{std::move(title), width, height, vsync, focused, minimized} {
+  assert(!(focused && minimized));  // A window may not be focused and minimized
+
   assert(glfwInit());
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

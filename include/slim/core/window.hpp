@@ -1,5 +1,5 @@
-#ifndef SLIM_CORE_WINDOW_H_
-#define SLIM_CORE_WINDOW_H_
+#ifndef SLIM_CORE_WINDOW_HPP_
+#define SLIM_CORE_WINDOW_HPP_
 
 #include <cstdint>
 #include <memory>
@@ -97,4 +97,4 @@ protected:
 };
 }  // namespace slim
 
-#endif  // SLIM_CORE_WINDOW_H_
+#endif  // SLIM_CORE_WINDOW_HPP_

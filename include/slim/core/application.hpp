@@ -1,5 +1,5 @@
-#ifndef SLIM_CORE_APPLICATION_H_
-#define SLIM_CORE_APPLICATION_H_
+#ifndef SLIM_CORE_APPLICATION_HPP_
+#define SLIM_CORE_APPLICATION_HPP_
 
 #include <cstdint>
 #include <memory>
@@ -72,4 +72,4 @@ private:
 };
 }  // namespace slim
 
-#endif  // SLIM_CORE_APPLICATION_H_
+#endif  // SLIM_CORE_APPLICATION_HPP_

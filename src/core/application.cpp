@@ -4,15 +4,16 @@
 
 #include <cassert>
 #include <cstdint>
+#include <exception>
+#include <iostream>
 #include <memory>
+#include <new>
 #include <string>
 
 #include "slim/core/window.hpp"
+#include "slim/events/window_events.hpp"
 
 namespace slim {
-
-bool Application::running_ = true;
-std::unique_ptr<Window> Application::window_ = nullptr;
 
 Application::~Application() noexcept { terminate(); }
 
@@ -21,6 +22,14 @@ auto Application::init(const std::string& title, uint16_t width,
                        bool minimized) noexcept -> void {
   window_ = Window::create(title, width, height, vsync, focused, minimized);
   // TODO(laurensnol): Call Renderer::init(...) with framebuffer (!) sizes
+
+  try {
+    instance_ = std::unique_ptr<Application>(new Application());
+  } catch (const std::bad_alloc& exception) {
+    // TODO(laurensnol): Replace with proper custom assert
+    std::cout << "Failed to allocated space for Application.\n";
+    std::terminate();
+  }
 }
 
 auto Application::run() noexcept -> void {
@@ -35,15 +44,19 @@ auto Application::run() noexcept -> void {
   }
 }
 
-auto Application::terminate() noexcept -> void {
-  running_ = false;
-  shutdown();
-}
-
-auto Application::shutdown() noexcept -> void {}
+auto Application::terminate() noexcept -> void { running_ = false; }
 
 auto Application::getWindow() noexcept -> Window& {
   assert(window_);
   return *window_;
+}
+
+auto Application::onEvent(const WindowCloseEvent& /*event*/) noexcept -> void {
+  terminate();
+}
+
+Application::Application() noexcept {
+  assert(!instance_);
+  running_ = true;
 }
 }  // namespace slim

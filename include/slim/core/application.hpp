@@ -6,6 +6,8 @@
 #include <string>
 
 #include "slim/core/window.hpp"
+#include "slim/events/event_handler.hpp"
+#include "slim/events/window_events.hpp"
 
 namespace slim {
 /**
@@ -13,7 +15,7 @@ namespace slim {
  *
  * \ingroup core
  */
-class Application final {
+class Application : public EventHandler<WindowCloseEvent> {
 public:
   /**
    * \name Deleted copy/move constructors & assignment operators.
@@ -28,7 +30,7 @@ public:
   /**
    * \brief The destructor of the Application class.
    */
-  ~Application() noexcept;
+  ~Application() noexcept override;
 
   /**
    * \brief Initializes a slim application.
@@ -64,11 +66,17 @@ public:
    */
   [[nodiscard]] static auto getWindow() noexcept -> Window &;
 
-private:
-  static auto shutdown() noexcept -> void;
+  /**
+   * \brief Implements \ref EventHandler<WindowCloseEvent>.
+   */
+  auto onEvent(const WindowCloseEvent &event) noexcept -> void override;
 
-  static bool running_;
-  static std::unique_ptr<Window> window_;
+private:
+  Application() noexcept;
+
+  inline static bool running_ = false;
+  inline static std::unique_ptr<Application> instance_ = nullptr;
+  inline static std::unique_ptr<Window> window_ = nullptr;
 };
 }  // namespace slim
 

@@ -9,7 +9,8 @@
 #include <string>
 #include <utility>
 
-#include "slim/core/application.hpp"
+#include "slim/events/event_bus.hpp"
+#include "slim/events/window_events.hpp"
 
 namespace slim {
 DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
@@ -132,7 +133,7 @@ auto DesktopWindow::isMinimized() const noexcept -> bool {
 
 auto DesktopWindow::glfwCloseCallback(GLFWwindow * /*window*/) noexcept
     -> void {
-  Application::terminate();
+  EventBus::publish<WindowCloseEvent>();
 }
 
 auto DesktopWindow::glfwFramebufferSizeCallback(GLFWwindow *window, int width,

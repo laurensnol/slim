@@ -1,10 +1,14 @@
 #include "slim/platform/desktop_window.hpp"
 
+// IWYU pragma: no_include "glm/detail/qualifier.hpp"
+// IWYU pragma: no_include "glm/detail/type_vec2.inl"
+
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
 
 #include <cassert>
 #include <cstdint>
+#include <glm/ext/vector_int2.hpp>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -78,9 +82,13 @@ auto DesktopWindow::getTitle() const noexcept -> const std::string & {
   return properties_.title;
 }
 
-auto DesktopWindow::setDimensions(uint16_t width, uint16_t height) noexcept
+auto DesktopWindow::setDimensions(const glm::ivec2 &dimensions) noexcept
     -> void {
-  glfwSetWindowSize(window_, width, height);
+  glfwSetWindowSize(window_, dimensions.x, dimensions.y);  // NOLINT
+}
+
+auto DesktopWindow::getDimensions() const noexcept -> glm::ivec2 {
+  return {properties_.width, properties_.height};
 }
 
 auto DesktopWindow::setWidth(uint16_t width) noexcept -> void {

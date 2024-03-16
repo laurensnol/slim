@@ -2,6 +2,7 @@
 #define SLIM_CORE_WINDOW_HPP_
 
 #include <cstdint>
+#include <glm/ext/vector_int2.hpp>
 #include <memory>
 #include <string>
 
@@ -73,8 +74,8 @@ public:
   [[nodiscard]] virtual auto getTitle() const noexcept
       -> const std::string & = 0;
 
-  virtual auto setDimensions(uint16_t width, uint16_t height) noexcept
-      -> void = 0;
+  virtual auto setDimensions(const glm::ivec2 &dimensions) noexcept -> void = 0;
+  [[nodiscard]] virtual auto getDimensions() const noexcept -> glm::ivec2 = 0;
 
   virtual auto setWidth(uint16_t width) noexcept -> void = 0;
   [[nodiscard]] virtual auto getWidth() const noexcept -> uint16_t = 0;

@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include <cstdint>
+#include <glm/ext/vector_int2.hpp>
 #include <string>
 
 #include "slim/core/window.hpp"
@@ -130,7 +131,16 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
-  auto setDimensions(uint16_t width, uint16_t height) noexcept -> void override;
+  auto setDimensions(const glm::ivec2 &dimensions) noexcept -> void override;
+
+  /**
+   * \brief Returns the Window's dimensions.
+   *
+   * \return The dimensions as a \ref glm::vec2.
+   *
+   * \see https://www.glfw.org/docs/3.3/window_guide.html#window_size
+   */
+  [[nodiscard]] auto getDimensions() const noexcept -> glm::ivec2 override;
 
   /**
    * \brief Sets the width of the window.

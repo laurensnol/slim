@@ -1,7 +1,7 @@
 #ifndef SLIM_EVENTS_WINDOW_EVENTS_HPP_
 #define SLIM_EVENTS_WINDOW_EVENTS_HPP_
 
-#include <cstdint>
+#include <glm/ext/vector_int2.hpp>
 
 #include "slim/events/event.hpp"
 
@@ -17,15 +17,15 @@ class WindowResizeEvent : public Event {
 public:
   SLIM_DEFINE_EVENT(WindowResize);
 
-  WindowResizeEvent(uint64_t width, uint64_t height) noexcept
-      : width_(width), height_(height) {}
+  explicit WindowResizeEvent(const glm::ivec2 &dimensions) noexcept
+      : dimensions_(dimensions) {}
 
-  [[nodiscard]] auto getWidth() const noexcept -> uint64_t { return width_; }
-  [[nodiscard]] auto getHeight() const noexcept -> uint64_t { return height_; }
+  [[nodiscard]] auto getDimensions() const noexcept -> const glm::ivec2 & {
+    return dimensions_;
+  }
 
 private:
-  uint64_t width_;
-  uint64_t height_;
+  glm::ivec2 dimensions_;
 };
 
 class WindowFocusEvent : public Event {

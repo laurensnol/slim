@@ -150,6 +150,9 @@ auto DesktopWindow::glfwFramebufferSizeCallback(GLFWwindow *window, int width,
       static_cast<WindowProperties *>(glfwGetWindowUserPointer(window));
   props->width = static_cast<uint16_t>(width);
   props->height = static_cast<uint16_t>(height);
+
+  auto event = WindowResizeEvent({width, height});
+  EventBus::publish<WindowResizeEvent>(event);
 }
 
 auto DesktopWindow::glfwWindowFocusCallback(GLFWwindow *window,
@@ -157,6 +160,8 @@ auto DesktopWindow::glfwWindowFocusCallback(GLFWwindow *window,
   auto *props =
       static_cast<WindowProperties *>(glfwGetWindowUserPointer(window));
   props->focused = (focused != 0);
+
+  EventBus::publish<WindowFocusEvent>(focused);
 }
 
 auto DesktopWindow::glfwWindowIconifyCallback(GLFWwindow *window,
@@ -164,6 +169,8 @@ auto DesktopWindow::glfwWindowIconifyCallback(GLFWwindow *window,
   auto *props =
       static_cast<WindowProperties *>(glfwGetWindowUserPointer(window));
   props->minimized = (iconified != 0);
+
+  EventBus::publish<WindowMinimizeEvent>(iconified);
 }
 
 auto DesktopWindow::glfwKeyCallback(GLFWwindow * /*window*/, int key,
@@ -171,6 +178,7 @@ auto DesktopWindow::glfwKeyCallback(GLFWwindow * /*window*/, int key,
     -> void {
   std::cout << "GLFW: Key: " << key << ", " << scancode << ", " << action
             << ", " << mods << "\n";
+  // TODO(laurensnol)
 }
 
 auto DesktopWindow::glfwMouseButtonCallback(GLFWwindow * /*window*/, int button,
@@ -178,10 +186,12 @@ auto DesktopWindow::glfwMouseButtonCallback(GLFWwindow * /*window*/, int button,
     -> void {
   std::cout << "GLFW: Mouse: " << button << ", " << action << ", " << mods
             << "\n";
+  // TODO(laurensnol)
 }
 
 auto DesktopWindow::glfwCursorPosCallback(GLFWwindow * /*window*/, double xpos,
                                           double ypos) noexcept -> void {
   std::cout << "GLFW: Cursor: " << xpos << ", " << ypos << "\n";
+  // TODO(laurensnol)
 }
 }  // namespace slim

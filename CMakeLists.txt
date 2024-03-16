@@ -69,10 +69,16 @@ add_subdirectory("${SLIM_THIRDPARTY_DIR}/glfw")
 
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glad")
 
+add_subdirectory("${SLIM_THIRDPARTY_DIR}/glm")
+
 target_link_libraries(slim PRIVATE
   OpenGL::GL
   glad
-  glfw)
+  glfw
+  glm::glm)
+
+target_include_directories(slim PUBLIC
+  "${SLIM_THIRDPARTY_DIR}/glm")
 
 # Testing
 

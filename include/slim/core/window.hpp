@@ -16,27 +16,17 @@ namespace slim {
  *
  * \ingroup core
  */
-class Window {
+class Window {  // NOLINT(cppcoreguidelines-special-member-functions)
 public:
   /**
-   * \brief The default width of a window, if not specified.
+   * \brief The default width of a window.
    */
   static const uint16_t kDefaultWidth = 1920;
 
   /**
-   * \brief The default height of a window, if not specified.
+   * \brief The default height of a window.
    */
   static const uint16_t kDefaultHeight = 1080;
-
-  /**
-   * \name Deleted copy/move constructors & assignment operators.
-   */
-  ///@{
-  Window(const Window &) = delete;
-  Window(Window &&) = delete;
-  auto operator=(const Window &) -> Window & = delete;
-  auto operator=(Window &&) -> Window & = delete;
-  ///@}
 
   /**
    * \brief The destructor of the Window class.
@@ -94,7 +84,7 @@ public:
   ///@}
 
 protected:
-  explicit Window() = default;
+  Window() = default;
 };
 }  // namespace slim
 

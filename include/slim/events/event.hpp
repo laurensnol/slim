@@ -6,7 +6,7 @@
   [[nodiscard]] auto getType() const noexcept -> Type override { return type; }
 
 namespace slim {
-class Event {  // NOLINT(cppcoreguidelines-special-member-functions): No need
+class Event {  // NOLINT(cppcoreguidelines-special-member-functions)
 protected:
   using Type = const char *;
 

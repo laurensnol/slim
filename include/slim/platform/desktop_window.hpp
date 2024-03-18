@@ -1,6 +1,8 @@
 #ifndef SLIM_PLATFORM_DESKTOP_WINDOW_HPP_
 #define SLIM_PLATFORM_DESKTOP_WINDOW_HPP_
 
+// IWYU pragma: no_include "glm/detail/qualifier.hpp"
+
 #include <GLFW/glfw3.h>
 
 #include <cstdint>
@@ -252,6 +254,8 @@ private:
                                       int action, int mods) noexcept -> void;
   static auto glfwCursorPosCallback(GLFWwindow *window, double xpos,
                                     double ypos) noexcept -> void;
+  static auto glfwScrollCallback(GLFWwindow *window, double xoffset,
+                                 double yoffset) -> void;
 };
 }  // namespace slim
 

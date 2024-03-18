@@ -9,12 +9,14 @@
 #include <cassert>
 #include <cstdint>
 #include <glm/ext/vector_int2.hpp>
-#include <iostream>
 #include <string>
 #include <utility>
 
 #include "slim/events/event_bus.hpp"
+#include "slim/events/key_events.hpp"
+#include "slim/events/mouse_events.hpp"
 #include "slim/events/window_events.hpp"
+#include "slim/input/codes.hpp"  // IWYU pragma: keep
 
 namespace slim {
 DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
@@ -39,6 +41,7 @@ DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
 
   window_ = glfwCreateWindow(properties_.width, properties_.height,
                              properties_.title.c_str(), nullptr, nullptr);
+
   assert(window_);
 
   glfwSetWindowUserPointer(window_, &properties_);
@@ -174,24 +177,38 @@ auto DesktopWindow::glfwWindowIconifyCallback(GLFWwindow *window,
 }
 
 auto DesktopWindow::glfwKeyCallback(GLFWwindow * /*window*/, int key,
-                                    int scancode, int action, int mods) noexcept
-    -> void {
-  std::cout << "GLFW: Key: " << key << ", " << scancode << ", " << action
-            << ", " << mods << "\n";
-  // TODO(laurensnol)
+                                    int /*scancode*/, int action,
+                                    int /*mods*/) noexcept -> void {
+  if (action == GLFW_PRESS) {
+    EventBus::publish<KeyDownEvent>(static_cast<Key>(key));
+  } else {
+    EventBus::publish<KeyUpEvent>(static_cast<Key>(key));
+  }
+
+  // TODO(laurensnol): Properly implement Event with mods
 }
 
 auto DesktopWindow::glfwMouseButtonCallback(GLFWwindow * /*window*/, int button,
-                                            int action, int mods) noexcept
+                                            int action, int /*mods*/) noexcept
     -> void {
-  std::cout << "GLFW: Mouse: " << button << ", " << action << ", " << mods
-            << "\n";
-  // TODO(laurensnol)
+  if (action == GLFW_PRESS) {
+    EventBus::publish<MouseButtonDownEvent>(static_cast<MouseButton>(button));
+  } else {
+    EventBus::publish<MouseButtonUpEvent>(static_cast<MouseButton>(button));
+  }
+
+  // TODO(laurensnol): Properly implement Event with mods
 }
 
 auto DesktopWindow::glfwCursorPosCallback(GLFWwindow * /*window*/, double xpos,
                                           double ypos) noexcept -> void {
-  std::cout << "GLFW: Cursor: " << xpos << ", " << ypos << "\n";
-  // TODO(laurensnol)
+  auto event = MouseMoveEvent({xpos, ypos});
+  EventBus::publish(event);
+}
+
+auto DesktopWindow::glfwScrollCallback(GLFWwindow * /*window*/, double xoffset,
+                                       double yoffset) -> void {
+  auto event = MouseScrollEvent({xoffset, yoffset});
+  EventBus::publish(event);
 }
 }  // namespace slim

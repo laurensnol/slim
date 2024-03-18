@@ -1,7 +1,6 @@
 #ifndef SLIM_PLATFORM_DESKTOP_WINDOW_HPP_
 #define SLIM_PLATFORM_DESKTOP_WINDOW_HPP_
 
-#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include <cstdint>
@@ -9,6 +8,7 @@
 #include <string>
 
 #include "slim/core/window.hpp"
+#include "slim/platform/desktop_input_provider.hpp"  // IWYU pragma: keep
 
 namespace slim {
 /**
@@ -24,7 +24,8 @@ namespace slim {
  * \ingroup platform
  */
 class DesktopWindow : public Window {
-private:
+  friend DesktopInputProvider;
+
   // Will be used as GLFW's user pointer.
   struct WindowProperties {
     std::string title;

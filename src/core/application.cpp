@@ -4,7 +4,7 @@
 
 #include <cassert>
 #include <cstdint>
-#include <exception>
+#include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <new>
@@ -12,6 +12,8 @@
 
 #include "slim/core/window.hpp"
 #include "slim/events/window_events.hpp"
+#include "slim/input/codes.hpp"
+#include "slim/input/input.hpp"
 
 namespace slim {
 
@@ -21,14 +23,15 @@ auto Application::init(const std::string& title, uint16_t width,
                        uint16_t height, bool vsync, bool focused,
                        bool minimized) noexcept -> void {
   window_ = Window::create(title, width, height, vsync, focused, minimized);
+  Input::init();
   // TODO(laurensnol): Call Renderer::init(...) with framebuffer (!) sizes
 
   try {
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
     // TODO(laurensnol): Replace with proper custom assert
-    std::cout << "Failed to allocated space for Application.\n";
-    std::terminate();
+    std::cout << "Failed to allocate space for Application.\n";
+    std::abort();
   }
 }
 
@@ -38,6 +41,10 @@ auto Application::run() noexcept -> void {
   glClearColor(rgb, rgb, rgb, 1.0);
 
   while (running_) {
+    if (Input::isKeyDown(Key::Escape)) {
+      terminate();
+    }
+
     // TODO(laurensnol): Call Renderer::clear()
     glClear(GL_COLOR_BUFFER_BIT);
     window_->update();

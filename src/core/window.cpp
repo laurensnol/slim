@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "slim/platform/desktop_window.hpp"
+#include "slim/platform/desktop/desktop_window.hpp"
 
 namespace slim {
 auto Window::create(const std::string &title, uint16_t width, uint16_t height,

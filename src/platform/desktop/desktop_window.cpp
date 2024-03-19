@@ -1,4 +1,4 @@
-#include "slim/platform/desktop_window.hpp"
+#include "slim/platform/desktop/desktop_window.hpp"
 
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec2.inl"

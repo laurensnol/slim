@@ -1,4 +1,4 @@
-#include "slim/platform/desktop_input_provider.hpp"
+#include "slim/platform/desktop/desktop_input_provider.hpp"
 
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec2.inl"
@@ -11,7 +11,7 @@
 #include "slim/core/application.hpp"
 #include "slim/events/mouse_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
-#include "slim/platform/desktop_window.hpp"
+#include "slim/platform/desktop/desktop_window.hpp"
 #include "slim/utils.hpp"
 
 namespace slim {

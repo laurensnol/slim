@@ -10,7 +10,7 @@
 #include <string>
 
 #include "slim/core/window.hpp"
-#include "slim/platform/desktop_input_provider.hpp"  // IWYU pragma: keep
+#include "slim/platform/desktop/desktop_input_provider.hpp"  // IWYU pragma: keep
 
 namespace slim {
 /**

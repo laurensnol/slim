@@ -7,7 +7,7 @@
 
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
 #include "slim/input/input_provider.hpp"
-#include "slim/platform/desktop_input_provider.hpp"
+#include "slim/platform/desktop/desktop_input_provider.hpp"
 
 namespace slim {
 auto Input::init() noexcept -> void {

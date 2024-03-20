@@ -129,8 +129,7 @@ public:
   /**
    * \brief Sets the width and height of the window.
    *
-   * \param width The new width of the window.
-   * \param height The new height of the window.
+   * \param dimensions A \ref glm::ivec2 of width and height.
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
@@ -166,7 +165,7 @@ public:
   /**
    * \brief Sets the width of the window.
    *
-   * \param width The new width of the window.
+   * \param height The new height of the window.
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */

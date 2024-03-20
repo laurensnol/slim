@@ -14,13 +14,14 @@
 
 namespace slim {
 /**
- * \brief An event bus for immediate handling of \ref Events.
+ * \brief An event bus for immediate handling of an \ref Event.
  *
- * This EventBus is used for immediate handling of \ref Events.
+ * This EventBus is used for immediate handling of an \ref Event.
  * Classes may inherit the \ref EventHandler interface with a specific \ref
  * Event implementation to automatically register it to the EventBus.
  *
- * Published \ref Events will be immediately handled by all registered handlers.
+ * Any published \ref Event will be immediately handled by all registered
+ * handlers.
  *
  * \ingroup events
  */
@@ -101,8 +102,8 @@ public:
   /**
    * \brief Instanciates and publishes the \ref Event with the given arguments.
    *
-   * This method is a convenience method for constructing *and* publishing \ref
-   * Events by passing the arguments to the Event and publishing it to all
+   * This method is a convenience method for constructing *and* publishing an
+   * \ref Event by passing the arguments to the Event and publishing it to all
    * handlers.
    *
    * \tparam EventType The type of \ref Event. Must be a subclass of \ref Event.

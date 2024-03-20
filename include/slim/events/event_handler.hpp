@@ -10,9 +10,9 @@
 
 namespace slim {
 /**
- * \brief An interface to listen to specific \ref Events on the \ref EventBus.
+ * \brief An interface for handling a specific \ref Event on the \ref EventBus.
  *
- * This class defines an interface for classes to listen to \ref Events on the
+ * This class defines an interface for classes to listen to an \ref Event on the
  * \ref EventBus by automatically subscribing and unsubscribing from it.
  * The constructor/destructor will call \ref EventBus::subscribe and \ref
  * EventBus::unsubscribe respectively.

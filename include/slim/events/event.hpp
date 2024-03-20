@@ -4,7 +4,7 @@
 /**
  * \brief A helper macro to define an Event's type and getType() method.
  *
- * \see \ref KeyDownEvent for usage.
+ * \see Pre-defined events for usage.
  *
  * \ingroup events
  */

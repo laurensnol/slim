@@ -16,16 +16,9 @@ namespace slim {
  * \ingroup input
  */
 class Input final {
-public:
-  /**
-   * \brief Initilizes the input subsystem. Will be called by \ref
-   *        Application::init.
-   *
-   * This method will initialize the input subsystem by creating the appropriate
-   * \ref InputProvider.
-   */
-  static auto init() noexcept -> void;
+  friend class Application;
 
+public:
   /**
    * \brief Checks whether the given key is released.
    *
@@ -80,6 +73,8 @@ public:
 
 private:
   inline static std::unique_ptr<InputProvider> provider_ = nullptr;
+
+  static auto init() noexcept -> void;
 };
 }  // namespace slim
 

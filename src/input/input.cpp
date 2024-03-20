@@ -2,6 +2,7 @@
 
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 
+#include <cassert>
 #include <glm/ext/vector_float2.hpp>
 #include <memory>
 

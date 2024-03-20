@@ -7,6 +7,13 @@
 #include "slim/input/codes.hpp"
 
 namespace slim {
+/**
+ * \brief This event indicates that a mouse button was released.
+ *
+ * \param button The \ref MouseButton that was released.
+ *
+ * \ingroup events
+ */
 class MouseButtonUpEvent : public Event {
 public:
   SLIM_DEFINE_EVENT(MouseButtonUp);
@@ -21,6 +28,13 @@ private:
   MouseButton button_;
 };
 
+/**
+ * \brief This event indicates that a mouse button was pressed.
+ *
+ * \param button The \ref MouseButton that was released.
+ *
+ * \ingroup events
+ */
 class MouseButtonDownEvent : public Event {
 public:
   SLIM_DEFINE_EVENT(MouseButtonDown);
@@ -36,6 +50,13 @@ private:
   MouseButton button_;
 };
 
+/**
+ * \brief This event indicates that the mouse was moved.
+ *
+ * \param position A \ref glm::vec2 of the position.
+ *
+ * \ingroup events
+ */
 class MouseMoveEvent : public Event {
 public:
   SLIM_DEFINE_EVENT(MouseMove);
@@ -51,6 +72,13 @@ private:
   glm::vec2 position_;
 };
 
+/**
+ * \brief This event indicates that the scroll wheel's position has changed.
+ *
+ * \param A \ref glm::vec2 of the mouse wheel's offset.
+ *
+ * \ingroup events
+ */
 class MouseScrollEvent : public Event {
 public:
   SLIM_DEFINE_EVENT(MouseScroll);

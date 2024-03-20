@@ -9,6 +9,20 @@
 #include "slim/events/event_bus.hpp"
 
 namespace slim {
+/**
+ * \brief An interface to listen to specific \ref Events on the \ref EventBus.
+ *
+ * This class defines an interface for classes to listen to \ref Events on the
+ * \ref EventBus by automatically subscribing and unsubscribing from it.
+ * The constructor/destructor will call \ref EventBus::subscribe and \ref
+ * EventBus::unsubscribe respectively.
+ * Implementing this interface requires implementation of the \ref onEvent
+ * method for the specified EventType.
+ *
+ * \tparam The \ref Event to handle. Must be a subclass of \ref Event.
+ *
+ * \ingroup events
+ */
 template <typename EventType>
   requires std::derived_from<EventType, Event>
 class EventHandler {

@@ -11,6 +11,8 @@
 
 namespace slim {
 auto Input::init() noexcept -> void {
+  assert(!provider_);
+
 #ifdef SLIM_PLATFORM_WINDOWS
   provider_ = std::make_unique<DesktopInputProvider>();
 #elif SLIM_PLATFORM_LINUX

@@ -6,10 +6,24 @@
 #include "slim/input/codes.hpp"
 
 namespace slim {
+/**
+ * \brief The abstract base input provider interface.
+ *
+ * This interface defines a base for implementing input methods for various
+ * platforms which will be wrapped by \ref Input.
+ *
+ * \ingroup input
+ */
 class InputProvider {  // NOLINT(cppcoreguidelines-special-member-functions)
 public:
   virtual ~InputProvider() = default;
 
+  /**
+   * \name Interface methods.
+   *
+   * Virtual methods that require implementation.
+   */
+  ///@{
   [[nodiscard]] virtual auto isKeyUp(Key key) const noexcept -> bool = 0;
   [[nodiscard]] virtual auto isKeyDown(Key key) const noexcept -> bool = 0;
 
@@ -20,6 +34,7 @@ public:
 
   [[nodiscard]] virtual auto getMousePosition() const noexcept -> glm::vec2 = 0;
   [[nodiscard]] virtual auto getMouseScroll() const noexcept -> glm::vec2 = 0;
+  ///@}
 };
 }  // namespace slim
 

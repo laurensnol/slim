@@ -13,6 +13,17 @@
 #include "slim/events/event.hpp"
 
 namespace slim {
+/**
+ * \brief An event bus for immediate handling of \ref Events.
+ *
+ * This EventBus is used for immediate handling of \ref Events.
+ * Classes may inherit the \ref EventHandler interface with a specific \ref
+ * Event implementation to automatically register it to the EventBus.
+ *
+ * Published \ref Events will be immediately handled by all registered handlers.
+ *
+ * \ingroup events
+ */
 class EventBus {
 private:
   struct Callback {
@@ -33,8 +44,22 @@ private:
   };
 
 public:
+  /**
+   * \brief The constant for an invalid handle.
+   */
   static const uint64_t kInvalidHandle = 0;
 
+  /**
+   * \brief Registers the callback as a handler for an \ref Event.
+   *
+   * This method registers the passed callback as a handler for the given Event
+   * and returns the handle.
+   *
+   * \tparam EventType The Event to handle. Must be a subclass of \ref Event.
+   * \param callback The callback to be called when the event ocurrs.
+   *
+   * \return The handle of the registered event.
+   */
   template <typename EventType>
     requires std::derived_from<EventType, Event>
   static auto subscribe(const CallbackFun<EventType> &callback) noexcept
@@ -46,6 +71,16 @@ public:
     return callbackHandle_++;
   }
 
+  /**
+   * \brief Unregisteres the callback from the list of handlers.
+   *
+   * This method will remove the callback with the given handle from the list of
+   * handlers.
+   *
+   * \tparam EventType The Event that the callback was registered for. Must be a
+   *         subclass of \ref Event.
+   * \param handle The handle of the callback.
+   */
   template <typename EventType>
     requires std::derived_from<EventType, Event>
   static auto unsubscribe(uint64_t handle) noexcept {
@@ -63,6 +98,17 @@ public:
     }
   }
 
+  /**
+   * \brief Instanciates and publishes the \ref Event with the given arguments.
+   *
+   * This method is a convenience method for constructing *and* publishing \ref
+   * Events by passing the arguments to the Event and publishing it to all
+   * handlers.
+   *
+   * \tparam EventType The type of \ref Event. Must be a subclass of \ref Event.
+   * \tparam Args Template parameter pack of arguments.
+   * \param args The arguments to be passed to the event.
+   */
   template <typename EventType, typename... Args>
     requires std::derived_from<EventType, Event>
   static auto publish(Args... args) noexcept -> void {
@@ -70,6 +116,15 @@ public:
     publish(event);
   }
 
+  /**
+   * \brief Publishes an \ref Event.
+   *
+   * This method publishes the passed \ref Event to all handlers listening to
+   * the EventType.
+   *
+   * \tparam EventType The type of \ref Event. Must be a subclass of \ref Event.
+   * \param event The event to be published.
+   */
   template <typename EventType>
     requires std::derived_from<EventType, Event>
   static auto publish(const EventType &event) noexcept -> void {

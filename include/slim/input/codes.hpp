@@ -4,12 +4,28 @@
 #include <cstdint>
 
 namespace slim {
+/**
+ * \brief Definitions for mouse buttons.
+ *
+ * \see Taken from
+ *      https://github.com/glfw/glfw/blob/master/include/GLFW/glfw3.h#L566
+ *
+ * \ingroup input
+ */
 enum class MouseButton : uint8_t {
   Left,
   Middle,
   Right,
 };
 
+/**
+ * \brief Definitions for keys.
+ *
+ * \see Taken from
+ *      https://github.com/glfw/glfw/blob/master/include/GLFW/glfw3.h#L371
+ *
+ * \ingroup input
+ */
 enum class Key : uint16_t {
   Space = 32,
   Apostrophe = 39 /* ' */,

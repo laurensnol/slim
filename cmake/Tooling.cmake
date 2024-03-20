@@ -8,6 +8,13 @@ function(slim_enable_tooling)
       ${CLANG_TIDY_PROGRAM}
       "-p=${CMAKE_CURRENT_BINARY_DIR}"
       "--warnings-as-errors=*")
+
+    # When using MSVC, we want to add /EHsc to clang-tidy, otherwise it will not
+    # recognize that exceptions are enabled.
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+      list(APPEND SLIM_CLANG_TIDY_PROPERTIES "--extra-arg=/EHsc")
+    endif()
+
     message(STATUS "Enabled clang-tidy")
   else()
     message(STATUS "clang-tidy not found")

@@ -66,7 +66,7 @@ public:
   static auto subscribe(const CallbackFun<EventType> &callback) noexcept
       -> uint64_t {
     auto ptr = std::unique_ptr<Callback>(
-        new CallbackImpl{{callbackHandle_}, callback});
+        new CallbackImpl<EventType>{{callbackHandle_}, callback});
     callbacks_[typeid(EventType)].push_back(std::move(ptr));
 
     return callbackHandle_++;

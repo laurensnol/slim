@@ -10,22 +10,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-12, windows-2022]
+        os: [ubuntu-22.04, macos-13, windows-2022]
         config: [debug, release]
-        compiler: [clang-16, gcc-12, msvc]
+        compiler: [clang-17.0.1, gcc-13, msvc]
         exclude:
           - os: ubuntu-22.04
             compiler: msvc
-          - os: macos-12
+          - os: macos-13
             compiler: msvc
           - os: windows-2022
-            compiler: clang-16
+            compiler: clang-17.0.1
 
           # Temporarily exluding due to GCC complaining about unknown warning
           # options (when using GNU gcc/g++, not Apple's clang)
-          - os: macos-12
+          - os: macos-13
             config: debug
-            compiler: gcc-12
+            compiler: gcc-13
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -54,7 +54,7 @@ jobs:
 
       - name: Configure
         shell: bash
-        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-[0-9]*//')-${{matrix.config}} -DSLIM_BUILD_TESTS=OFF
+        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-.*//')-${{matrix.config}} -DSLIM_BUILD_TESTS=OFF
 
       - name: Build
         run: cmake --build --preset sandbox-${{matrix.config}}

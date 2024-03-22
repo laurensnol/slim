@@ -30,7 +30,8 @@ auto Application::init(const std::string& title, uint16_t width,
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
     // TODO(laurensnol): Replace with proper custom assert
-    std::cout << "Failed to allocate space for Application.\n";
+    std::cout << "Failed to allocate space for Application: "
+              << exception.what() << "\n";
     std::abort();
   }
 }

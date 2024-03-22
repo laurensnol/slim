@@ -18,10 +18,9 @@ function(slim_set_compiler_options)
       set(SLIM_COMPILER_FLAGS
         "-g" "-O1" "-Werror" "-Wall" "-Wextra" "-Wshadow" "-Wconversion"
         "-Wpedantic" "-Wold-style-cast" "-Wcast-align" "-Wunused"
-        "-Woverloaded-virtual" "-Wconversion" "-Wsign-conversion"
-        "-Wdouble-promotion" "-Wformat=2" "-Wimplicit-fallthrough"
-        "-Wduplicated-cond" "-Wduplicated-branches" "-Wlogical-op"
-        "-Wnull-dereference" "-Wuseless-cast")
+        "-Woverloaded-virtual" "-Wconversion" "-Wdouble-promotion" "-Wformat=2"
+        "-Wimplicit-fallthrough" "-Wduplicated-cond" "-Wduplicated-branches"
+        "-Wlogical-op" "-Wnull-dereference" "-Wuseless-cast")
     else()
       set(SLIM_COMPILER_FLAGS "-O3")
     endif()

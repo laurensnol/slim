@@ -1,24 +1,22 @@
-#ifndef SLIM_RENDERER_RENDERER_API_HPP_
-#define SLIM_RENDERER_RENDERER_API_HPP_
+#ifndef SLIM_RENDERER_RENDERER_PROVIDER_HPP_
+#define SLIM_RENDERER_RENDERER_PROVIDER_HPP_
 
 #include <glm/ext/vector_float4.hpp>
 
+#include "slim/renderer/renderer.hpp"
+
 namespace slim {
 /**
- * \brief The abstract base renderer api interface.
+ * \brief The abstract base renderer provider interface.
  *
  * This class defines an interface for implementing common renderering calls for
  * a graphics API.
  *
  * \ingroup renderer
  */
-class RendererApi {  // NOLINT(cppcoreguidelines-special-member-functions
+class RendererProvider {  // NOLINT(cppcoreguidelines-special-member-functions
 public:
-  enum class Api {
-    OpenGL,
-  };
-
-  virtual ~RendererApi() = default;
+  virtual ~RendererProvider() = default;
 
   /**
    * \name Interface methods.
@@ -26,7 +24,8 @@ public:
    * Virtual methods that require implementation.
    */
   ///@{
-  [[nodiscard]] constexpr virtual auto getApi() const noexcept -> Api = 0;
+  [[nodiscard]] constexpr virtual auto getApi() const noexcept
+      -> Renderer::Api = 0;
 
   virtual auto setClearColor(const glm::vec4& color) -> void = 0;
   virtual auto clear() const noexcept -> void = 0;
@@ -35,4 +34,4 @@ public:
 };
 }  // namespace slim
 
-#endif  // SLIM_RENDERER_RENDERER_API_HPP_
+#endif  // SLIM_RENDERER_RENDERER_PROVIDER_HPP_

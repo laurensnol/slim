@@ -7,16 +7,18 @@
 #include <glm/ext/vector_float4.hpp>
 #include <memory>
 
-#include "slim/platform/opengl/opengl_renderer_api.hpp"
-#include "slim/renderer/renderer_api.hpp"
+#include "slim/platform/opengl/opengl_renderer_provider.hpp"
+#include "slim/renderer/renderer_provider.hpp"
 
 namespace slim {
+std::unique_ptr<RendererProvider> Renderer::provider_ = nullptr;
+
 auto Renderer::init(Api api) noexcept -> void {
-  assert(!api_);
+  assert(!provider_);
 
   switch (api) {
     case Api::OpenGL:
-      api_ = std::make_unique<OpenGLRendererApi>();
+      provider_ = std::make_unique<OpenGLRendererProvider>();
       break;
     default:
       std::terminate();
@@ -24,12 +26,12 @@ auto Renderer::init(Api api) noexcept -> void {
 }
 
 auto Renderer::setClearColor(const glm::vec4 &color) noexcept -> void {
-  api_->setClearColor(color);
+  provider_->setClearColor(color);
 }
 
-auto Renderer::clear() noexcept -> void { api_->clear(); }
+auto Renderer::clear() noexcept -> void { provider_->clear(); }
 
-auto Renderer::draw() noexcept -> void { api_->draw(); }
+auto Renderer::draw() noexcept -> void { provider_->draw(); }
 
-auto Renderer::getApi() noexcept -> Api { return api_->getApi(); }
+auto Renderer::getApi() noexcept -> Api { return provider_->getApi(); }
 }  // namespace slim

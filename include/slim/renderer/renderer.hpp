@@ -4,18 +4,24 @@
 #include <glm/ext/vector_float4.hpp>
 #include <memory>
 
-#include "slim/renderer/renderer_api.hpp"
-
 namespace slim {
+// Forward declaration
+class RendererProvider;
+
 /**
  * \brief A temporary Renderer class.
  *
  * \ingroup renderer
  */
 class Renderer {
-  using Api = RendererApi::Api;
-
 public:
+  /**
+   * \brief Definitions for supported graphics APIs.
+   */
+  enum class Api {
+    OpenGL,
+  };
+
   /**
    * \brief Initializes the Renderer with the given API.
    *
@@ -47,7 +53,7 @@ public:
   [[nodiscard]] static auto getApi() noexcept -> Api;
 
 private:
-  inline static std::unique_ptr<RendererApi> api_ = nullptr;
+  static std::unique_ptr<RendererProvider> provider_;
 };
 }  // namespace slim
 

@@ -1,6 +1,7 @@
 #include "slim/core/application.hpp"
 
-#include <glad/gl.h>
+// IWYU pragma: no_include "glm/detail/qualifier.hpp"
+// IWYU pragma: no_include "glm/detail/type_vec4.inl"
 
 #include <cassert>
 #include <cstdint>
@@ -14,6 +15,7 @@
 #include "slim/events/window_events.hpp"
 #include "slim/input/codes.hpp"
 #include "slim/input/input.hpp"
+#include "slim/renderer/renderer.hpp"
 
 namespace slim {
 
@@ -23,8 +25,9 @@ auto Application::init(const std::string& title, uint16_t width,
                        uint16_t height, bool vsync, bool focused,
                        bool minimized) noexcept -> void {
   window_ = Window::create(title, width, height, vsync, focused, minimized);
+
   Input::init();
-  // TODO(laurensnol): Call Renderer::init(...) with framebuffer (!) sizes
+  Renderer::init();
 
   try {
     instance_ = std::unique_ptr<Application>(new Application());
@@ -37,17 +40,16 @@ auto Application::init(const std::string& title, uint16_t width,
 }
 
 auto Application::run() noexcept -> void {
-  // TODO(laurensnol): Call Renderer::setClearColor(...)
-  const GLfloat rgb = 0.1F;  // NOLINT
-  glClearColor(rgb, rgb, rgb, 1.0);
+  Renderer::setClearColor({0.1, 0.1, 0.1, 1.0});  // NOLINT
 
   while (running_) {
     if (Input::isKeyDown(Key::Escape)) {
       terminate();
     }
 
-    // TODO(laurensnol): Call Renderer::clear()
-    glClear(GL_COLOR_BUFFER_BIT);
+    Renderer::clear();
+    Renderer::draw();
+
     window_->update();
   }
 }

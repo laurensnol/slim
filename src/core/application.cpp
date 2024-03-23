@@ -3,6 +3,8 @@
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec4.inl"
 
+#include <spdlog/spdlog.h>
+
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
@@ -16,6 +18,7 @@
 #include "slim/input/codes.hpp"
 #include "slim/input/input.hpp"
 #include "slim/renderer/renderer.hpp"
+#include "slim/scene/scene_manager.hpp"
 
 namespace slim {
 
@@ -37,9 +40,13 @@ auto Application::init(const std::string& title, uint16_t width,
               << exception.what() << "\n";
     std::abort();
   }
+
+  spdlog::info("Initialized slim");
 }
 
 auto Application::run() noexcept -> void {
+  assert(SceneManager::getSceneCount() > 0);
+
   Renderer::setClearColor({0.1, 0.1, 0.1, 1.0});  // NOLINT
 
   while (running_) {

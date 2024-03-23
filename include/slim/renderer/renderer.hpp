@@ -26,7 +26,7 @@ public:
    * \brief Initializes the Renderer with the given API.
    *
    * This function initializes the Renderer by creating the specified \ref
-   * RendererApi.
+   * RendererProvider.
    */
   static auto init(Api api = Api::OpenGL) noexcept -> void;
 
@@ -46,9 +46,9 @@ public:
   static auto draw() noexcept -> void;
 
   /**
-   * \brief Returns the current \ref RendererApi::Api being used.
+   * \brief Returns the current \ref Api being used.
    *
-   * \return The current \ref RendererApi::Api.
+   * \return The current \ref Api.
    */
   [[nodiscard]] static auto getApi() noexcept -> Api;
 

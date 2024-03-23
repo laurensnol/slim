@@ -9,6 +9,11 @@
 #include "slim/renderer/renderer_provider.hpp"
 
 namespace slim {
+/**
+ * \brief Implements \ref RendererProvider for the OpenGL graphics API.
+ *
+ * \ingroup platform
+ */
 class OpenGLRendererProvider : public RendererProvider,
                                EventHandler<WindowResizeEvent> {
 public:

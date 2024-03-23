@@ -61,17 +61,15 @@ endif()
 
 find_package(OpenGL REQUIRED)
 
+add_subdirectory("${SLIM_THIRDPARTY_DIR}/glad")
+
 set(GLFW_BUILD_DOCS     OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS    OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL        OFF CACHE BOOL "" FORCE)
 target_compile_definitions(slim PUBLIC "GLFW_INCLUDE_NONE")
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glfw")
-
-add_subdirectory("${SLIM_THIRDPARTY_DIR}/glad")
-
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glm")
-
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/spdlog")
 
 target_link_libraries(slim PRIVATE
@@ -82,7 +80,10 @@ target_link_libraries(slim PRIVATE
   spdlog::spdlog)
 
 target_include_directories(slim PUBLIC
-  "${SLIM_THIRDPARTY_DIR}/glm")
+  "${SLIM_THIRDPARTY_DIR}/glad/include"
+  "${SLIM_THIRDPARTY_DIR}/glfw/include"
+  "${SLIM_THIRDPARTY_DIR}/glm"
+  "${SLIM_THIRDPARTY_DIR}/spdlog/include/")
 
 # Testing
 

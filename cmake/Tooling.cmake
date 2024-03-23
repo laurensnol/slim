@@ -34,7 +34,8 @@ function(slim_enable_tooling)
       "--suppress=unusedFunction"
       "--suppress=unmatchedSuppression"
       "--suppress=checkersReport"
-      "--inline-suppr")
+      "--inline-suppr"
+      "--suppress=*:*thirdparty/*")
     message(STATUS "Enabled cppcheck")
   else()
     message(STATUS "cppcheck not found")

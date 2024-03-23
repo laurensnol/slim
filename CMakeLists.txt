@@ -72,11 +72,14 @@ add_subdirectory("${SLIM_THIRDPARTY_DIR}/glad")
 
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glm")
 
+add_subdirectory("${SLIM_THIRDPARTY_DIR}/spdlog")
+
 target_link_libraries(slim PRIVATE
   OpenGL::GL
   glad
   glfw
-  glm::glm)
+  glm::glm
+  spdlog::spdlog)
 
 target_include_directories(slim PUBLIC
   "${SLIM_THIRDPARTY_DIR}/glm")

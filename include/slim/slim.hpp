@@ -13,6 +13,9 @@
  *
  * \defgroup input input
  * \brief Input handling
+ *
+ * \defgroup renderer renderer
+ * \brief Renderer and related components
  */
 
 // IWYU pragma: begin_exports
@@ -29,6 +32,8 @@
 
 #include "slim/input/codes.hpp"
 #include "slim/input/input.hpp"
+
+#include "slim/renderer/renderer.hpp"
 
 // IWYU pragma: end_exports
 

@@ -24,6 +24,11 @@ public:
   virtual auto onUpdate() noexcept -> void = 0;
 
   /**
+   * \brief This method will be called once per frame to allow ImGui draw calls.
+   */
+  virtual auto onUiDraw() noexcept -> void = 0;
+
+  /**
    * \brief This method will be called before the call to Scene::onAttach of the
    *        new Scene.
    */

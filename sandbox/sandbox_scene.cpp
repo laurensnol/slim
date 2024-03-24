@@ -2,8 +2,6 @@
 
 #include <glad/gl.h>
 #include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
 
 auto SandboxScene::onAttach() noexcept -> void {
   GLuint vbo = 0;
@@ -39,15 +37,8 @@ auto SandboxScene::onUpdate() noexcept -> void {
   glUseProgram(shader_);
   glBindVertexArray(vao_);
   glDrawArrays(GL_TRIANGLES, 0, 3);
-
-  ImGui_ImplOpenGL3_NewFrame();
-  ImGui_ImplGlfw_NewFrame();
-
-  ImGui::NewFrame();
-  ImGui::ShowMetricsWindow();
-  ImGui::Render();
-
-  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+
+auto SandboxScene::onUiDraw() noexcept -> void { ImGui::ShowMetricsWindow(); }
 
 auto SandboxScene::onDetach() noexcept -> void {}

@@ -9,6 +9,7 @@ class SandboxScene : public slim::Scene {
 public:
   auto onAttach() noexcept -> void override;
   auto onUpdate() noexcept -> void override;
+  auto onUiDraw() noexcept -> void override;
   auto onDetach() noexcept -> void override;
 
 private:

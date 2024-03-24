@@ -19,6 +19,7 @@
 #include "slim/input/input.hpp"
 #include "slim/renderer/renderer.hpp"
 #include "slim/scene/scene_manager.hpp"
+#include "slim/ui/ui.hpp"
 
 namespace slim {
 
@@ -57,6 +58,10 @@ auto Application::run() noexcept -> void {
     Renderer::clear();
     SceneManager::onUpdate();
     Renderer::draw();
+
+    UI::drawBegin();
+    SceneManager::onUiDraw();
+    UI::drawEnd();
 
     window_->update();
   }

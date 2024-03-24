@@ -39,4 +39,9 @@ auto SceneManager::onUpdate() noexcept -> void {
   assert(currentScene_ != kNoScenePair);
   currentScene_.second->onUpdate();
 }
+
+auto SceneManager::onUiDraw() noexcept -> void {
+  assert(currentScene_ != kNoScenePair);
+  currentScene_.second->onUiDraw();
+}
 }  // namespace slim

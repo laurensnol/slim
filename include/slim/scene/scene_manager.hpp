@@ -102,6 +102,11 @@ public:
    */
   static auto onUpdate() noexcept -> void;
 
+  /**
+   * \brief Calls \ref Scene::onUiDraw for the current \ref Scene.
+   */
+  static auto onUiDraw() noexcept -> void;
+
 private:
   inline static SceneMap scenes_ = {};
   inline static ScenePair currentScene_ = kNoScenePair;

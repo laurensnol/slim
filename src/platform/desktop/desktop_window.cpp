@@ -70,7 +70,6 @@ DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
 
   glfwSwapInterval(properties_.vsync ? 1 : 0);
 
-  // ImGui
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
 

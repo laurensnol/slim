@@ -7,9 +7,6 @@
 
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
 #include <spdlog/spdlog.h>
 
 #include <cassert>
@@ -23,6 +20,7 @@
 #include "slim/events/mouse_events.hpp"
 #include "slim/events/window_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
+#include "slim/ui/ui.hpp"
 
 namespace slim {
 DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
@@ -70,20 +68,11 @@ DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
 
   glfwSwapInterval(properties_.vsync ? 1 : 0);
 
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
-
-  ImGuiIO &imguiIo = ImGui::GetIO();
-  imguiIo.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-  ImGui_ImplGlfw_InitForOpenGL(window_, true);
-  ImGui_ImplOpenGL3_Init();
+  UI::init(window_);
 }
 
 DesktopWindow::~DesktopWindow() noexcept {
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplGlfw_Shutdown();
-  ImGui::DestroyContext();
+  UI::shutdown();
 
   glfwDestroyWindow(window_);
   glfwTerminate();

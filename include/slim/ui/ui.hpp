@@ -1,21 +1,23 @@
 #ifndef SLIM_UI_UI_HPP_
 #define SLIM_UI_UI_HPP_
 
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <GLFW/glfw3.h>
 
-namespace slim::UI {
-inline auto drawBegin() noexcept -> void {
-  ImGui_ImplOpenGL3_NewFrame();
-  ImGui_ImplGlfw_NewFrame();
-  ImGui::NewFrame();
-}
+namespace slim {
+class UI final {
+public:
+#if defined(SLIM_PLATFORM_WINDOWS) || defined(SLIM_PLATFORM_LINUX) || \
+    defined(SLIM_PLATFORM_MACOS)
+  static auto init(GLFWwindow* window) noexcept -> void;
+  static auto shutdown() noexcept -> void;
+#endif
 
-inline auto drawEnd() noexcept -> void {
-  ImGui::Render();
-  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-}
-}  // namespace slim::UI
+  static auto drawBegin() noexcept -> void;
+  static auto drawEnd() noexcept -> void;
+
+  static auto capturesMouse() noexcept -> bool;
+  static auto capturesKeyboard() noexcept -> bool;
+};
+}  // namespace slim
 
 #endif  // SLIM_UI_UI_HPP_

@@ -18,7 +18,7 @@ public:
   /**
    * \brief Definitions for supported graphics APIs.
    */
-  enum class Api {
+  enum class API {
     OpenGL,
   };
 
@@ -28,7 +28,7 @@ public:
    * This function initializes the Renderer by creating the specified \ref
    * RendererProvider.
    */
-  static auto init(Api api = Api::OpenGL) noexcept -> void;
+  static auto init(API api = API::OpenGL) noexcept -> void;
 
   /**
    * \brief Sets the clear color.
@@ -50,7 +50,7 @@ public:
    *
    * \return The current \ref Api.
    */
-  [[nodiscard]] static auto getApi() noexcept -> Api;
+  [[nodiscard]] static auto getAPI() noexcept -> API;
 
 private:
   static std::unique_ptr<RendererProvider> provider_;

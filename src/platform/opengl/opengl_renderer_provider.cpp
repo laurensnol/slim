@@ -17,9 +17,9 @@ OpenGLRendererProvider::OpenGLRendererProvider() noexcept {
   glViewport(0, 0, dimensions.x, dimensions.y);
 }
 
-auto constexpr OpenGLRendererProvider::getApi() const noexcept
-    -> Renderer::Api {
-  return Renderer::Api::OpenGL;
+auto constexpr OpenGLRendererProvider::getAPI() const noexcept
+    -> Renderer::API {
+  return Renderer::API::OpenGL;
 }
 
 auto OpenGLRendererProvider::setClearColor(const glm::vec4& color) -> void {

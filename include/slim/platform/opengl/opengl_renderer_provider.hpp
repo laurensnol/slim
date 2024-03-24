@@ -19,8 +19,8 @@ class OpenGLRendererProvider : public RendererProvider,
 public:
   OpenGLRendererProvider() noexcept;
 
-  [[nodiscard]] constexpr auto getApi() const noexcept
-      -> Renderer::Api override;
+  [[nodiscard]] constexpr auto getAPI() const noexcept
+      -> Renderer::API override;
 
   auto setClearColor(const glm::vec4& color) -> void override;
   auto clear() const noexcept -> void override;

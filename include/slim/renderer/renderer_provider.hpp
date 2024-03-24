@@ -24,8 +24,8 @@ public:
    * Virtual methods that require implementation.
    */
   ///@{
-  [[nodiscard]] constexpr virtual auto getApi() const noexcept
-      -> Renderer::Api = 0;
+  [[nodiscard]] constexpr virtual auto getAPI() const noexcept
+      -> Renderer::API = 0;
 
   virtual auto setClearColor(const glm::vec4& color) -> void = 0;
   virtual auto clear() const noexcept -> void = 0;

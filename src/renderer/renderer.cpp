@@ -13,11 +13,11 @@
 namespace slim {
 std::unique_ptr<RendererProvider> Renderer::provider_ = nullptr;
 
-auto Renderer::init(Api api) noexcept -> void {
+auto Renderer::init(API api) noexcept -> void {
   assert(!provider_);
 
   switch (api) {
-    case Api::OpenGL:
+    case API::OpenGL:
       provider_ = std::make_unique<OpenGLRendererProvider>();
       break;
     default:
@@ -33,5 +33,5 @@ auto Renderer::clear() noexcept -> void { provider_->clear(); }
 
 auto Renderer::draw() noexcept -> void { provider_->draw(); }
 
-auto Renderer::getApi() noexcept -> Api { return provider_->getApi(); }
+auto Renderer::getAPI() noexcept -> API { return provider_->getAPI(); }
 }  // namespace slim

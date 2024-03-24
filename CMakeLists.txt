@@ -71,19 +71,23 @@ target_compile_definitions(slim PUBLIC "GLFW_INCLUDE_NONE")
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glfw")
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glm")
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/spdlog")
+add_subdirectory("${SLIM_THIRDPARTY_DIR}/imgui")
 
 target_link_libraries(slim PRIVATE
   OpenGL::GL
   glad
   glfw
   glm::glm
-  spdlog::spdlog)
+  spdlog::spdlog
+  imgui)
 
 target_include_directories(slim PUBLIC
   "${SLIM_THIRDPARTY_DIR}/glad/include"
   "${SLIM_THIRDPARTY_DIR}/glfw/include"
   "${SLIM_THIRDPARTY_DIR}/glm"
-  "${SLIM_THIRDPARTY_DIR}/spdlog/include/")
+  "${SLIM_THIRDPARTY_DIR}/spdlog/include"
+  "${SLIM_THIRDPARTY_DIR}/imgui/imgui"
+  "${SLIM_THIRDPARTY_DIR}/imgui/imgui/backends")
 
 # Testing
 

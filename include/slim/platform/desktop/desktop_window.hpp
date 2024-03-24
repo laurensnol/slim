@@ -10,7 +10,6 @@
 #include <string>
 
 #include "slim/core/window.hpp"
-#include "slim/platform/desktop/desktop_input_provider.hpp"  // IWYU pragma: keep
 
 namespace slim {
 /**
@@ -26,7 +25,7 @@ namespace slim {
  * \ingroup platform
  */
 class DesktopWindow : public Window {
-  friend DesktopInputProvider;
+  friend class DesktopInputProvider;
 
   // Will be used as GLFW's user pointer.
   struct WindowProperties {

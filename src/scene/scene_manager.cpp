@@ -36,6 +36,7 @@ auto SceneManager::getSceneCount() noexcept -> uint64_t {
 }
 
 auto SceneManager::onUpdate() noexcept -> void {
+  assert(currentScene_ != kNoScenePair);
   currentScene_.second->onUpdate();
 }
 }  // namespace slim

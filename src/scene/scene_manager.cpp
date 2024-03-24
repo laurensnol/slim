@@ -11,7 +11,7 @@
 #include <utility>
 
 namespace slim {
-auto SceneManager::removeScene(const std::string& name) noexcept -> bool {
+auto SceneManager::removeScene(const SceneName& name) noexcept -> bool {
   if (name == currentScene_.first) {
     spdlog::warn("Removing currently active scene {}", name);
   }
@@ -19,7 +19,7 @@ auto SceneManager::removeScene(const std::string& name) noexcept -> bool {
   return scenes_.erase(name) == 1;
 }
 
-auto SceneManager::setScene(const std::string& name) noexcept -> void {
+auto SceneManager::setScene(const SceneName& name) noexcept -> void {
   auto iter = scenes_.find(name);
   assert(iter != scenes_.end());
 

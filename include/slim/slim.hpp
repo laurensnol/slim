@@ -16,6 +16,9 @@
  *
  * \defgroup renderer renderer
  * \brief Renderer and related components
+ *
+ * \defgroup scene scene
+ * \brief Scene and related components
  */
 
 // IWYU pragma: begin_exports
@@ -34,6 +37,9 @@
 #include "slim/input/input.hpp"
 
 #include "slim/renderer/renderer.hpp"
+
+#include "slim/scene/scene.hpp"
+#include "slim/scene/scene_manager.hpp"
 
 // IWYU pragma: end_exports
 

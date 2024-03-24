@@ -2,9 +2,15 @@
 
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec2.inl"
+// IWYU pragma: no_include "spdlog/common.h"
+// IWYU pragma: no_include <spdlog/fmt/fmt.h>
 
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+#include <spdlog/spdlog.h>
 
 #include <cassert>
 #include <cstdint>
@@ -29,7 +35,10 @@ DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef SLIM_PLATFORM_MACOS
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+#endif
 
   if (!properties_.focused) {
     glfwWindowHint(GLFW_FOCUSED, GLFW_FALSE);
@@ -54,11 +63,29 @@ DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
   glfwSetCursorPosCallback(window_, glfwCursorPosCallback);
 
   glfwMakeContextCurrent(window_);
-  gladLoadGL(glfwGetProcAddress);
+
+  const int32_t version = gladLoadGL(glfwGetProcAddress);
+  spdlog::info("Using OpenGL {}.{}", GLAD_VERSION_MAJOR(version),
+               GLAD_VERSION_MINOR(version));
+
   glfwSwapInterval(properties_.vsync ? 1 : 0);
+
+  // ImGui
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+
+  ImGuiIO &imguiIo = ImGui::GetIO();
+  imguiIo.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+  ImGui_ImplGlfw_InitForOpenGL(window_, true);
+  ImGui_ImplOpenGL3_Init();
 }
 
 DesktopWindow::~DesktopWindow() noexcept {
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+
   glfwDestroyWindow(window_);
   glfwTerminate();
 }

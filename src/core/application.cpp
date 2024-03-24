@@ -55,6 +55,7 @@ auto Application::run() noexcept -> void {
     }
 
     Renderer::clear();
+    SceneManager::onUpdate();
     Renderer::draw();
 
     window_->update();

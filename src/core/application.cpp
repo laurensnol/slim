@@ -8,7 +8,6 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
-#include <iostream>
 #include <memory>
 #include <new>
 #include <string>
@@ -37,8 +36,8 @@ auto Application::init(const std::string& title, uint16_t width,
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
     // TODO(laurensnol): Replace with proper custom assert
-    std::cout << "Failed to allocate space for Application: "
-              << exception.what() << "\n";
+    spdlog::error("Failed to allocate space for Application: {}",
+                  exception.what());
     std::abort();
   }
 

@@ -220,10 +220,12 @@ auto DesktopWindow::glfwWindowIconifyCallback(GLFWwindow *window,
 auto DesktopWindow::glfwKeyCallback(GLFWwindow * /*window*/, int key,
                                     int /*scancode*/, int action,
                                     int /*mods*/) noexcept -> void {
-  if (action == GLFW_PRESS) {
-    EventBus::publish<KeyDownEvent>(static_cast<Key>(key));
-  } else {
-    EventBus::publish<KeyUpEvent>(static_cast<Key>(key));
+  if (!UI::capturesKeyboard()) {
+    if (action == GLFW_PRESS) {
+      EventBus::publish<KeyDownEvent>(static_cast<Key>(key));
+    } else {
+      EventBus::publish<KeyUpEvent>(static_cast<Key>(key));
+    }
   }
 
   // TODO(laurensnol): Properly implement Event with mods
@@ -232,10 +234,12 @@ auto DesktopWindow::glfwKeyCallback(GLFWwindow * /*window*/, int key,
 auto DesktopWindow::glfwMouseButtonCallback(GLFWwindow * /*window*/, int button,
                                             int action, int /*mods*/) noexcept
     -> void {
-  if (action == GLFW_PRESS) {
-    EventBus::publish<MouseButtonDownEvent>(static_cast<MouseButton>(button));
-  } else {
-    EventBus::publish<MouseButtonUpEvent>(static_cast<MouseButton>(button));
+  if (!UI::capturesMouse()) {
+    if (action == GLFW_PRESS) {
+      EventBus::publish<MouseButtonDownEvent>(static_cast<MouseButton>(button));
+    } else {
+      EventBus::publish<MouseButtonUpEvent>(static_cast<MouseButton>(button));
+    }
   }
 
   // TODO(laurensnol): Properly implement Event with mods
@@ -243,13 +247,17 @@ auto DesktopWindow::glfwMouseButtonCallback(GLFWwindow * /*window*/, int button,
 
 auto DesktopWindow::glfwCursorPosCallback(GLFWwindow * /*window*/, double xpos,
                                           double ypos) noexcept -> void {
-  auto event = MouseMoveEvent({xpos, ypos});
-  EventBus::publish(event);
+  if (!UI::capturesMouse()) {
+    auto event = MouseMoveEvent({xpos, ypos});
+    EventBus::publish(event);
+  }
 }
 
 auto DesktopWindow::glfwScrollCallback(GLFWwindow * /*window*/, double xoffset,
                                        double yoffset) -> void {
-  auto event = MouseScrollEvent({xoffset, yoffset});
-  EventBus::publish(event);
+  if (!UI::capturesMouse()) {
+    auto event = MouseScrollEvent({xoffset, yoffset});
+    EventBus::publish(event);
+  }
 }
 }  // namespace slim

@@ -13,7 +13,7 @@
 
 namespace slim {
 OpenGLRendererProvider::OpenGLRendererProvider() noexcept {
-  auto dimensions = Application::getWindow().getDimensions();
+  auto dimensions = Application::getWindow().getFramebufferDimensions();
   glViewport(0, 0, dimensions.x, dimensions.y);
 }
 
@@ -34,7 +34,7 @@ auto OpenGLRendererProvider::draw() const noexcept -> void {}
 
 auto OpenGLRendererProvider::onEvent(const WindowResizeEvent& event) noexcept
     -> void {
-  auto dimensions = event.getDimensions();
+  auto dimensions = event.getFramebufferDimensions();
   glViewport(0, 0, dimensions.x, dimensions.y);
 }
 }  // namespace slim

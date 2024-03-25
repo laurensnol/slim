@@ -30,8 +30,8 @@ class DesktopWindow : public Window {
   // Will be used as GLFW's user pointer.
   struct WindowProperties {
     std::string title;
-    int32_t width;
-    int32_t height;
+    glm::ivec2 windowDimensions;
+    glm::ivec2 framebufferDimensions;
     bool vsync;
     bool focused;
     bool minimized;
@@ -132,16 +132,26 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
-  auto setDimensions(const glm::ivec2 &dimensions) noexcept -> void override;
+  auto setWindowDimensions(const glm::ivec2 &dimensions) noexcept
+      -> void override;
 
   /**
    * \brief Returns the Window's dimensions.
    *
-   * \return The dimensions as a \ref glm::vec2.
+   * \return The dimensions as a \ref glm::ivec2.
    *
    * \see https://www.glfw.org/docs/3.3/window_guide.html#window_size
    */
-  [[nodiscard]] auto getDimensions() const noexcept -> glm::ivec2 override;
+  [[nodiscard]] auto getWindowDimensions() const noexcept
+      -> glm::ivec2 override;
+
+  /**
+   * \brief Returns the framebuffer's dimensions.
+   *
+   * \return The dimensions as a \ref glm::ivec2.
+   */
+  [[nodiscard]] auto getFramebufferDimensions() const noexcept
+      -> glm::ivec2 override;
 
   /**
    * \brief Sets the width of the window.
@@ -240,6 +250,8 @@ private:
   // GLFW callbacks
 
   static auto glfwCloseCallback(GLFWwindow *window) noexcept -> void;
+  static auto glfwWindowSizeCallback(GLFWwindow *window, int width,
+                                     int height) noexcept -> void;
   static auto glfwFramebufferSizeCallback(GLFWwindow *window, int width,
                                           int height) noexcept -> void;
   static auto glfwWindowFocusCallback(GLFWwindow *window, int focused) noexcept

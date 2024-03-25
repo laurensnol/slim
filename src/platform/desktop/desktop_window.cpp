@@ -2,6 +2,7 @@
 
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec2.inl"
+// IWYU pragma: no_include "glm/detail/type_vec2.hpp"
 // IWYU pragma: no_include "spdlog/common.h"
 // IWYU pragma: no_include <spdlog/fmt/fmt.h>
 
@@ -25,7 +26,10 @@
 namespace slim {
 DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
                              bool vsync, bool focused, bool minimized) noexcept
-    : properties_{std::move(title), width, height, vsync, focused, minimized} {
+    // clang-format off: behaves weirdly here
+    : properties_{std::move(title), {width, height}, {width, height}, vsync,
+                                     focused, minimized} {
+  // clang-format on
   assert(!(focused && minimized));  // A window may not be focused and minimized
 
   assert(glfwInit());
@@ -46,13 +50,20 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
     glfwWindowHint(GLFW_ICONIFIED, GLFW_TRUE);
   }
 
-  window_ = glfwCreateWindow(properties_.width, properties_.height,
+  window_ = glfwCreateWindow(properties_.windowDimensions.x,
+                             properties_.windowDimensions.y,
                              properties_.title.c_str(), nullptr, nullptr);
 
   assert(window_);
 
+  // Update framebuffer sizes since they might not match window sizes (e.g.
+  // retina)
+  glfwGetFramebufferSize(window_, &properties_.framebufferDimensions.x,
+                         &properties_.framebufferDimensions.y);
+
   glfwSetWindowUserPointer(window_, &properties_);
   glfwSetWindowCloseCallback(window_, glfwCloseCallback);
+  glfwSetWindowSizeCallback(window_, glfwWindowSizeCallback);
   glfwSetFramebufferSizeCallback(window_, glfwFramebufferSizeCallback);
   glfwSetWindowFocusCallback(window_, glfwWindowFocusCallback);
   glfwSetWindowIconifyCallback(window_, glfwWindowIconifyCallback);
@@ -100,29 +111,33 @@ auto DesktopWindow::getTitle() const noexcept -> const std::string & {
   return properties_.title;
 }
 
-auto DesktopWindow::setDimensions(const glm::ivec2 &dimensions) noexcept
+auto DesktopWindow::setWindowDimensions(const glm::ivec2 &dimensions) noexcept
     -> void {
-  glfwSetWindowSize(window_, dimensions.x, dimensions.y);  // NOLINT
+  glfwSetWindowSize(window_, dimensions.x, dimensions.y);
 }
 
-auto DesktopWindow::getDimensions() const noexcept -> glm::ivec2 {
-  return {properties_.width, properties_.height};
+auto DesktopWindow::getWindowDimensions() const noexcept -> glm::ivec2 {
+  return properties_.windowDimensions;
+}
+
+auto DesktopWindow::getFramebufferDimensions() const noexcept -> glm::ivec2 {
+  return properties_.framebufferDimensions;
 }
 
 auto DesktopWindow::setWidth(int32_t width) noexcept -> void {
-  glfwSetWindowSize(window_, width, properties_.height);
+  glfwSetWindowSize(window_, width, properties_.windowDimensions.y);
 }
 
 auto DesktopWindow::getWidth() const noexcept -> int32_t {
-  return properties_.width;
+  return properties_.windowDimensions.x;
 }
 
 auto DesktopWindow::setHeight(int32_t height) noexcept -> void {
-  glfwSetWindowSize(window_, properties_.width, height);
+  glfwSetWindowSize(window_, properties_.windowDimensions.x, height);
 }
 
 auto DesktopWindow::getHeight() const noexcept -> int32_t {
-  return properties_.height;
+  return properties_.windowDimensions.y;
 }
 
 auto DesktopWindow::setVsync(bool value) noexcept -> void {
@@ -162,14 +177,25 @@ auto DesktopWindow::glfwCloseCallback(GLFWwindow * /*window*/) noexcept
   EventBus::publish<WindowCloseEvent>();
 }
 
+auto DesktopWindow::glfwWindowSizeCallback(GLFWwindow *window, int width,
+                                           int height) noexcept -> void {
+  auto *props =
+      static_cast<WindowProperties *>(glfwGetWindowUserPointer(window));
+  props->windowDimensions = {width, height};
+
+  auto event =
+      WindowResizeEvent(props->windowDimensions, props->framebufferDimensions);
+  EventBus::publish<WindowResizeEvent>(event);
+}
+
 auto DesktopWindow::glfwFramebufferSizeCallback(GLFWwindow *window, int width,
                                                 int height) noexcept -> void {
   auto *props =
       static_cast<WindowProperties *>(glfwGetWindowUserPointer(window));
-  props->width = width;
-  props->height = height;
+  props->framebufferDimensions = {width, height};
 
-  auto event = WindowResizeEvent({width, height});
+  auto event =
+      WindowResizeEvent(props->windowDimensions, props->framebufferDimensions);
   EventBus::publish<WindowResizeEvent>(event);
 }
 

@@ -64,8 +64,13 @@ public:
   [[nodiscard]] virtual auto getTitle() const noexcept
       -> const std::string & = 0;
 
-  virtual auto setDimensions(const glm::ivec2 &dimensions) noexcept -> void = 0;
-  [[nodiscard]] virtual auto getDimensions() const noexcept -> glm::ivec2 = 0;
+  virtual auto setWindowDimensions(const glm::ivec2 &dimensions) noexcept
+      -> void = 0;
+  [[nodiscard]] virtual auto getWindowDimensions() const noexcept
+      -> glm::ivec2 = 0;
+
+  [[nodiscard]] virtual auto getFramebufferDimensions() const noexcept
+      -> glm::ivec2 = 0;
 
   virtual auto setWidth(int32_t width) noexcept -> void = 0;
   [[nodiscard]] virtual auto getWidth() const noexcept -> int32_t = 0;

@@ -29,15 +29,23 @@ class WindowResizeEvent : public Event {
 public:
   SLIM_DEFINE_EVENT(WindowResize);
 
-  explicit WindowResizeEvent(const glm::ivec2 &dimensions) noexcept
-      : dimensions_(dimensions) {}
+  explicit WindowResizeEvent(const glm::ivec2& windowDimensions,
+                             const glm::ivec2& framebufferDimensions) noexcept
+      : windowDimensions_(windowDimensions),
+        framebufferDimensions_(framebufferDimensions) {}
 
-  [[nodiscard]] auto getDimensions() const noexcept -> const glm::ivec2 & {
-    return dimensions_;
+  [[nodiscard]] auto getWindowDimensions() const noexcept -> const glm::ivec2& {
+    return windowDimensions_;
+  }
+
+  [[nodiscard]] auto getFramebufferDimensions() const noexcept
+      -> const glm::ivec2& {
+    return framebufferDimensions_;
   }
 
 private:
-  glm::ivec2 dimensions_;
+  glm::ivec2 windowDimensions_;
+  glm::ivec2 framebufferDimensions_;
 };
 
 /**

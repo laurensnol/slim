@@ -260,14 +260,6 @@ private:
       -> void;
   static auto glfwWindowIconifyCallback(GLFWwindow *window,
                                         int iconified) noexcept -> void;
-  static auto glfwKeyCallback(GLFWwindow *window, int key, int scancode,
-                              int action, int mods) noexcept -> void;
-  static auto glfwMouseButtonCallback(GLFWwindow *window, int button,
-                                      int action, int mods) noexcept -> void;
-  static auto glfwCursorPosCallback(GLFWwindow *window, double xpos,
-                                    double ypos) noexcept -> void;
-  static auto glfwScrollCallback(GLFWwindow *window, double xoffset,
-                                 double yoffset) -> void;
 };
 }  // namespace slim
 

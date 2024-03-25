@@ -6,14 +6,11 @@
 #include <glm/detail/qualifier.hpp>
 #include <glm/ext/vector_float2.hpp>
 
-#include "slim/events/event_handler.hpp"
-#include "slim/events/mouse_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
 #include "slim/input/input_provider.hpp"
 
 namespace slim {
-class DesktopInputProvider : public InputProvider,
-                             EventHandler<MouseScrollEvent> {
+class DesktopInputProvider : public InputProvider {
 public:
   DesktopInputProvider() noexcept;
 
@@ -28,11 +25,20 @@ public:
   [[nodiscard]] auto getMousePosition() const noexcept -> glm::vec2 override;
   [[nodiscard]] auto getMouseScroll() const noexcept -> glm::vec2 override;
 
-  auto onEvent(const MouseScrollEvent& event) noexcept -> void override;
-
 private:
-  GLFWwindow* window_;
+  GLFWwindow *window_;
   glm::vec2 scroll_ = {};
+
+  // GLFW callbacks
+
+  static auto glfwKeyCallback(GLFWwindow *window, int key, int scancode,
+                              int action, int mods) noexcept -> void;
+  static auto glfwMouseButtonCallback(GLFWwindow *window, int button,
+                                      int action, int mods) noexcept -> void;
+  static auto glfwCursorPosCallback(GLFWwindow *window, double xpos,
+                                    double ypos) noexcept -> void;
+  static auto glfwScrollCallback(GLFWwindow *window, double xoffset,
+                                 double yoffset) -> void;
 };
 }  // namespace slim
 

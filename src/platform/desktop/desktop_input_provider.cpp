@@ -9,9 +9,12 @@
 #include <glm/ext/vector_float2.hpp>
 
 #include "slim/core/application.hpp"
+#include "slim/events/event_bus.hpp"
+#include "slim/events/key_events.hpp"
 #include "slim/events/mouse_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
 #include "slim/platform/desktop/desktop_window.hpp"
+#include "slim/ui/ui.hpp"
 #include "slim/utils.hpp"
 
 namespace slim {
@@ -19,6 +22,11 @@ DesktopInputProvider::DesktopInputProvider() noexcept {
   const auto& window =
       dynamic_cast<const DesktopWindow&>(Application::getWindow());
   window_ = window.window_;
+
+  glfwSetKeyCallback(window_, glfwKeyCallback);
+  glfwSetMouseButtonCallback(window_, glfwMouseButtonCallback);
+  glfwSetCursorPosCallback(window_, glfwCursorPosCallback);
+  glfwSetScrollCallback(window_, glfwScrollCallback);
 }
 
 auto DesktopInputProvider::isKeyUp(Key key) const noexcept -> bool {
@@ -51,8 +59,50 @@ auto DesktopInputProvider::getMouseScroll() const noexcept -> glm::vec2 {
   return scroll_;
 }
 
-auto DesktopInputProvider::onEvent(const MouseScrollEvent& event) noexcept
+auto DesktopInputProvider::glfwKeyCallback(GLFWwindow* /*window*/, int key,
+                                           int /*scancode*/, int action,
+                                           int /*mods*/) noexcept -> void {
+  if (!UI::capturesKeyboard()) {
+    if (action == GLFW_PRESS) {
+      EventBus::publish<KeyDownEvent>(static_cast<Key>(key));
+    } else {
+      EventBus::publish<KeyUpEvent>(static_cast<Key>(key));
+    }
+  }
+
+  // TODO(laurensnol): Properly implement Event with mods
+}
+
+auto DesktopInputProvider::glfwMouseButtonCallback(GLFWwindow* /*window*/,
+                                                   int button, int action,
+                                                   int /*mods*/) noexcept
     -> void {
-  scroll_ = event.getOffset();
+  if (!UI::capturesMouse()) {
+    if (action == GLFW_PRESS) {
+      EventBus::publish<MouseButtonDownEvent>(static_cast<MouseButton>(button));
+    } else {
+      EventBus::publish<MouseButtonUpEvent>(static_cast<MouseButton>(button));
+    }
+  }
+
+  // TODO(laurensnol): Properly implement Event with mods
+}
+
+auto DesktopInputProvider::glfwCursorPosCallback(GLFWwindow* /*window*/,
+                                                 double xpos,
+                                                 double ypos) noexcept -> void {
+  if (!UI::capturesMouse()) {
+    auto event = MouseMoveEvent({xpos, ypos});
+    EventBus::publish(event);
+  }
+}
+
+auto DesktopInputProvider::glfwScrollCallback(GLFWwindow* /*window*/,
+                                              double xoffset, double yoffset)
+    -> void {
+  if (!UI::capturesMouse()) {
+    auto event = MouseScrollEvent({xoffset, yoffset});
+    EventBus::publish(event);
+  }
 }
 }  // namespace slim

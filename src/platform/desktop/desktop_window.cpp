@@ -18,8 +18,6 @@
 #include <utility>
 
 #include "slim/events/event_bus.hpp"
-#include "slim/events/key_events.hpp"
-#include "slim/events/mouse_events.hpp"
 #include "slim/events/window_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
 #include "slim/ui/ui.hpp"
@@ -70,9 +68,6 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
   glfwSetFramebufferSizeCallback(window_, glfwFramebufferSizeCallback);
   glfwSetWindowFocusCallback(window_, glfwWindowFocusCallback);
   glfwSetWindowIconifyCallback(window_, glfwWindowIconifyCallback);
-  glfwSetKeyCallback(window_, glfwKeyCallback);
-  glfwSetMouseButtonCallback(window_, glfwMouseButtonCallback);
-  glfwSetCursorPosCallback(window_, glfwCursorPosCallback);
 
   glfwMakeContextCurrent(window_);
 
@@ -226,49 +221,5 @@ auto DesktopWindow::glfwWindowIconifyCallback(GLFWwindow *window,
   props->minimized = (iconified != 0);
 
   EventBus::publish<WindowMinimizeEvent>(iconified);
-}
-
-auto DesktopWindow::glfwKeyCallback(GLFWwindow * /*window*/, int key,
-                                    int /*scancode*/, int action,
-                                    int /*mods*/) noexcept -> void {
-  if (!UI::capturesKeyboard()) {
-    if (action == GLFW_PRESS) {
-      EventBus::publish<KeyDownEvent>(static_cast<Key>(key));
-    } else {
-      EventBus::publish<KeyUpEvent>(static_cast<Key>(key));
-    }
-  }
-
-  // TODO(laurensnol): Properly implement Event with mods
-}
-
-auto DesktopWindow::glfwMouseButtonCallback(GLFWwindow * /*window*/, int button,
-                                            int action, int /*mods*/) noexcept
-    -> void {
-  if (!UI::capturesMouse()) {
-    if (action == GLFW_PRESS) {
-      EventBus::publish<MouseButtonDownEvent>(static_cast<MouseButton>(button));
-    } else {
-      EventBus::publish<MouseButtonUpEvent>(static_cast<MouseButton>(button));
-    }
-  }
-
-  // TODO(laurensnol): Properly implement Event with mods
-}
-
-auto DesktopWindow::glfwCursorPosCallback(GLFWwindow * /*window*/, double xpos,
-                                          double ypos) noexcept -> void {
-  if (!UI::capturesMouse()) {
-    auto event = MouseMoveEvent({xpos, ypos});
-    EventBus::publish(event);
-  }
-}
-
-auto DesktopWindow::glfwScrollCallback(GLFWwindow * /*window*/, double xoffset,
-                                       double yoffset) -> void {
-  if (!UI::capturesMouse()) {
-    auto event = MouseScrollEvent({xoffset, yoffset});
-    EventBus::publish(event);
-  }
 }
 }  // namespace slim

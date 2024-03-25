@@ -98,14 +98,14 @@ public:
   [[nodiscard]] static auto getSceneCount() noexcept -> uint64_t;
 
   /**
-   * \brief Calls \ref Scene::onUpdate for the current \ref Scene.
+   * \brief Calls \ref Scene::update for the current \ref Scene.
    */
-  static auto onUpdate() noexcept -> void;
+  static auto update() noexcept -> void;
 
   /**
-   * \brief Calls \ref Scene::onUiDraw for the current \ref Scene.
+   * \brief Calls \ref Scene::uiDraw for the current \ref Scene.
    */
-  static auto onUiDraw() noexcept -> void;
+  static auto uiDraw() noexcept -> void;
 
 private:
   inline static SceneMap scenes_ = {};

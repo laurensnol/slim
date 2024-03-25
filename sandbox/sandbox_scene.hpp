@@ -7,10 +7,10 @@
 
 class SandboxScene : public slim::Scene {
 public:
-  auto onAttach() noexcept -> void override;
-  auto onUpdate() noexcept -> void override;
-  auto onUiDraw() noexcept -> void override;
-  auto onDetach() noexcept -> void override;
+  auto attach() noexcept -> void override;
+  auto update() noexcept -> void override;
+  auto uiDraw() noexcept -> void override;
+  auto detach() noexcept -> void override;
 
 private:
   GLuint vao_ = 0;

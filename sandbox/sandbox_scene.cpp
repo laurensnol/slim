@@ -3,7 +3,7 @@
 #include <glad/gl.h>
 #include <imgui.h>
 
-auto SandboxScene::onAttach() noexcept -> void {
+auto SandboxScene::attach() noexcept -> void {
   GLuint vbo = 0;
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -33,12 +33,12 @@ auto SandboxScene::onAttach() noexcept -> void {
   glDeleteShader(fragmentShader);
 }
 
-auto SandboxScene::onUpdate() noexcept -> void {
+auto SandboxScene::update() noexcept -> void {
   glUseProgram(shader_);
   glBindVertexArray(vao_);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-auto SandboxScene::onUiDraw() noexcept -> void { ImGui::ShowMetricsWindow(); }
+auto SandboxScene::uiDraw() noexcept -> void { ImGui::ShowMetricsWindow(); }
 
-auto SandboxScene::onDetach() noexcept -> void {}
+auto SandboxScene::detach() noexcept -> void {}

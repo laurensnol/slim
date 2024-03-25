@@ -16,23 +16,23 @@ public:
   /**
    * \brief This method will be called before the scene will become active.
    */
-  virtual auto onAttach() noexcept -> void = 0;
+  virtual auto attach() noexcept -> void = 0;
 
   /**
    * \brief This method will be called once per frame.
    */
-  virtual auto onUpdate() noexcept -> void = 0;
+  virtual auto update() noexcept -> void = 0;
 
   /**
    * \brief This method will be called once per frame to allow ImGui draw calls.
    */
-  virtual auto onUiDraw() noexcept -> void = 0;
+  virtual auto uiDraw() noexcept -> void = 0;
 
   /**
-   * \brief This method will be called before the call to Scene::onAttach of the
+   * \brief This method will be called before the call to Scene::attach of the
    *        new Scene.
    */
-  virtual auto onDetach() noexcept -> void = 0;
+  virtual auto detach() noexcept -> void = 0;
 };
 }  // namespace slim
 

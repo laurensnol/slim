@@ -24,10 +24,10 @@ auto SceneManager::setScene(const SceneName& name) noexcept -> void {
   assert(iter != scenes_.end());
 
   if (currentScene_ != kNoScenePair) {
-    currentScene_.second->onDetach();
+    currentScene_.second->detach();
   }
 
-  iter->second->onAttach();
+  iter->second->attach();
   currentScene_ = std::make_pair(name, iter->second);
 }
 
@@ -35,13 +35,13 @@ auto SceneManager::getSceneCount() noexcept -> uint64_t {
   return scenes_.size();
 }
 
-auto SceneManager::onUpdate() noexcept -> void {
+auto SceneManager::update() noexcept -> void {
   assert(currentScene_ != kNoScenePair);
-  currentScene_.second->onUpdate();
+  currentScene_.second->update();
 }
 
-auto SceneManager::onUiDraw() noexcept -> void {
+auto SceneManager::uiDraw() noexcept -> void {
   assert(currentScene_ != kNoScenePair);
-  currentScene_.second->onUiDraw();
+  currentScene_.second->uiDraw();
 }
 }  // namespace slim

@@ -56,11 +56,11 @@ auto Application::run() noexcept -> void {
     }
 
     Renderer::clear();
-    SceneManager::onUpdate();
+    SceneManager::update();
     Renderer::draw();
 
     UI::drawBegin();
-    SceneManager::onUiDraw();
+    SceneManager::uiDraw();
     UI::drawEnd();
 
     window_->update();

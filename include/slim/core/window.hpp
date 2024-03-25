@@ -54,6 +54,7 @@ public:
    * \name Interface Methods
    *
    * Virtual methods that require implementation.
+   * Please refer to concrete implementations for detailed descriptions.
    */
   ///@{
   virtual auto update() const noexcept -> void = 0;

@@ -21,12 +21,12 @@ public:
   /**
    * \brief The default width of a window.
    */
-  static const uint16_t kDefaultWidth = 1920;
+  static const int32_t kDefaultWidth = 1920;
 
   /**
    * \brief The default height of a window.
    */
-  static const uint16_t kDefaultHeight = 1080;
+  static const int32_t kDefaultHeight = 1080;
 
   /**
    * \brief The destructor of the Window class.
@@ -45,8 +45,8 @@ public:
    *
    * \return An `std::unique_ptr<Window>`, pointing to the created Window.
    */
-  [[nodiscard]] static auto create(const std::string &title, uint16_t width,
-                                   uint16_t height, bool vsync, bool focused,
+  [[nodiscard]] static auto create(const std::string &title, int32_t width,
+                                   int32_t height, bool vsync, bool focused,
                                    bool minimized) noexcept
       -> std::unique_ptr<Window>;
 
@@ -67,11 +67,11 @@ public:
   virtual auto setDimensions(const glm::ivec2 &dimensions) noexcept -> void = 0;
   [[nodiscard]] virtual auto getDimensions() const noexcept -> glm::ivec2 = 0;
 
-  virtual auto setWidth(uint16_t width) noexcept -> void = 0;
-  [[nodiscard]] virtual auto getWidth() const noexcept -> uint16_t = 0;
+  virtual auto setWidth(int32_t width) noexcept -> void = 0;
+  [[nodiscard]] virtual auto getWidth() const noexcept -> int32_t = 0;
 
-  virtual auto setHeight(uint16_t height) noexcept -> void = 0;
-  [[nodiscard]] virtual auto getHeight() const noexcept -> uint16_t = 0;
+  virtual auto setHeight(int32_t height) noexcept -> void = 0;
+  [[nodiscard]] virtual auto getHeight() const noexcept -> int32_t = 0;
 
   virtual auto setVsync(bool value) noexcept -> void = 0;
   [[nodiscard]] virtual auto getVsync() const noexcept -> bool = 0;

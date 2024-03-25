@@ -23,7 +23,7 @@
 #include "slim/ui/ui.hpp"
 
 namespace slim {
-DesktopWindow::DesktopWindow(std::string title, uint16_t width, uint16_t height,
+DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
                              bool vsync, bool focused, bool minimized) noexcept
     : properties_{std::move(title), width, height, vsync, focused, minimized} {
   assert(!(focused && minimized));  // A window may not be focused and minimized
@@ -109,19 +109,19 @@ auto DesktopWindow::getDimensions() const noexcept -> glm::ivec2 {
   return {properties_.width, properties_.height};
 }
 
-auto DesktopWindow::setWidth(uint16_t width) noexcept -> void {
+auto DesktopWindow::setWidth(int32_t width) noexcept -> void {
   glfwSetWindowSize(window_, width, properties_.height);
 }
 
-auto DesktopWindow::getWidth() const noexcept -> uint16_t {
+auto DesktopWindow::getWidth() const noexcept -> int32_t {
   return properties_.width;
 }
 
-auto DesktopWindow::setHeight(uint16_t height) noexcept -> void {
+auto DesktopWindow::setHeight(int32_t height) noexcept -> void {
   glfwSetWindowSize(window_, properties_.width, height);
 }
 
-auto DesktopWindow::getHeight() const noexcept -> uint16_t {
+auto DesktopWindow::getHeight() const noexcept -> int32_t {
   return properties_.height;
 }
 
@@ -166,8 +166,8 @@ auto DesktopWindow::glfwFramebufferSizeCallback(GLFWwindow *window, int width,
                                                 int height) noexcept -> void {
   auto *props =
       static_cast<WindowProperties *>(glfwGetWindowUserPointer(window));
-  props->width = static_cast<uint16_t>(width);
-  props->height = static_cast<uint16_t>(height);
+  props->width = width;
+  props->height = height;
 
   auto event = WindowResizeEvent({width, height});
   EventBus::publish<WindowResizeEvent>(event);

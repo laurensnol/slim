@@ -7,7 +7,7 @@
 #include "slim/platform/desktop/desktop_window.hpp"
 
 namespace slim {
-auto Window::create(const std::string &title, uint16_t width, uint16_t height,
+auto Window::create(const std::string &title, int32_t width, int32_t height,
                     bool vsync, bool focused, bool minimized) noexcept
     -> std::unique_ptr<Window> {
 #ifdef SLIM_PLATFORM_WINDOWS

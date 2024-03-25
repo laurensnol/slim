@@ -30,8 +30,8 @@ class DesktopWindow : public Window {
   // Will be used as GLFW's user pointer.
   struct WindowProperties {
     std::string title;
-    uint16_t width;
-    uint16_t height;
+    int32_t width;
+    int32_t height;
     bool vsync;
     bool focused;
     bool minimized;
@@ -53,7 +53,7 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_creation
    */
-  DesktopWindow(std::string title, uint16_t width, uint16_t height, bool vsync,
+  DesktopWindow(std::string title, int32_t width, int32_t height, bool vsync,
                 bool focused, bool minimized) noexcept;
 
   /**
@@ -150,7 +150,7 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
-  auto setWidth(uint16_t width) noexcept -> void override;
+  auto setWidth(int32_t width) noexcept -> void override;
 
   /**
    * \brief Returns the current width of the window.
@@ -159,7 +159,7 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
-  [[nodiscard]] auto getWidth() const noexcept -> uint16_t override;
+  [[nodiscard]] auto getWidth() const noexcept -> int32_t override;
 
   /**
    * \brief Sets the width of the window.
@@ -168,7 +168,7 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
-  auto setHeight(uint16_t height) noexcept -> void override;
+  auto setHeight(int32_t height) noexcept -> void override;
 
   /**
    * \brief Returns the current height of the window.
@@ -177,7 +177,7 @@ public:
    *
    * \see https://www.glfw.org/docs/3.4/window_guide.html#window_size
    */
-  [[nodiscard]] auto getHeight() const noexcept -> uint16_t override;
+  [[nodiscard]] auto getHeight() const noexcept -> int32_t override;
 
   /**
    * \brief Enables or disables VSync.

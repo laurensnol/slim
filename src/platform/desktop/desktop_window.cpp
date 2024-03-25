@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstdlib>
 #include <glm/ext/vector_int2.hpp>
 #include <string>
 #include <utility>
@@ -31,6 +32,8 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
                                      focused, minimized} {
   // clang-format on
   assert(!(focused && minimized));  // A window may not be focused and minimized
+
+  glfwSetErrorCallback(glfwErrorCallback);
 
   assert(glfwInit());
 
@@ -171,6 +174,13 @@ auto DesktopWindow::setMinimize(bool value) noexcept -> void {
 
 auto DesktopWindow::isMinimized() const noexcept -> bool {
   return properties_.minimized;
+}
+
+auto DesktopWindow::glfwErrorCallback(int code,
+                                      const char *description) noexcept
+    -> void {
+  spdlog::error("GLFW Error: {}, {}", code, description);
+  std::abort();
 }
 
 auto DesktopWindow::glfwCloseCallback(GLFWwindow * /*window*/) noexcept

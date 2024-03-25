@@ -249,6 +249,8 @@ private:
 
   // GLFW callbacks
 
+  static auto glfwErrorCallback(int code, const char *description) noexcept
+      -> void;
   static auto glfwCloseCallback(GLFWwindow *window) noexcept -> void;
   static auto glfwWindowSizeCallback(GLFWwindow *window, int width,
                                      int height) noexcept -> void;

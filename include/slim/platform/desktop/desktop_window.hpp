@@ -143,7 +143,7 @@ public:
    * \see https://www.glfw.org/docs/3.3/window_guide.html#window_size
    */
   [[nodiscard]] auto getWindowDimensions() const noexcept
-      -> glm::ivec2 override;
+      -> const glm::ivec2 & override;
 
   /**
    * \brief Returns the framebuffer's dimensions.
@@ -151,7 +151,7 @@ public:
    * \return The dimensions as a \ref glm::ivec2.
    */
   [[nodiscard]] auto getFramebufferDimensions() const noexcept
-      -> glm::ivec2 override;
+      -> const glm::ivec2 & override;
 
   /**
    * \brief Sets the width of the window.

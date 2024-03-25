@@ -2,6 +2,9 @@
 
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec4.inl"
+// IWYU pragma: no_include "glm/detail/type_vec4.inl"
+// IWYU pragma: no_include "spdlog/common.h"
+// IWYU pragma: no_include <spdlog/fmt/fmt.h>
 
 #include <spdlog/spdlog.h>
 

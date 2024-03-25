@@ -116,11 +116,12 @@ auto DesktopWindow::setWindowDimensions(const glm::ivec2 &dimensions) noexcept
   glfwSetWindowSize(window_, dimensions.x, dimensions.y);
 }
 
-auto DesktopWindow::getWindowDimensions() const noexcept -> glm::ivec2 {
+auto DesktopWindow::getWindowDimensions() const noexcept -> const glm::ivec2 & {
   return properties_.windowDimensions;
 }
 
-auto DesktopWindow::getFramebufferDimensions() const noexcept -> glm::ivec2 {
+auto DesktopWindow::getFramebufferDimensions() const noexcept
+    -> const glm::ivec2 & {
   return properties_.framebufferDimensions;
 }
 

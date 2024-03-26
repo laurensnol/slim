@@ -1,14 +1,12 @@
 #ifndef SLIM_UI_UI_HPP_
 #define SLIM_UI_UI_HPP_
 
-#include <GLFW/glfw3.h>
-
 namespace slim {
 class UI final {
 public:
 #if defined(SLIM_PLATFORM_WINDOWS) || defined(SLIM_PLATFORM_LINUX) || \
     defined(SLIM_PLATFORM_MACOS)
-  static auto init(GLFWwindow* window) noexcept -> void;
+  static auto init() noexcept -> void;
   static auto shutdown() noexcept -> void;
 #endif
 

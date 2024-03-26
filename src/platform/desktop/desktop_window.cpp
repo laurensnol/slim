@@ -20,7 +20,6 @@
 #include "slim/events/event_bus.hpp"
 #include "slim/events/window_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
-#include "slim/ui/ui.hpp"
 
 namespace slim {
 DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
@@ -76,13 +75,9 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
                GLAD_VERSION_MINOR(version));
 
   glfwSwapInterval(properties_.vsync ? 1 : 0);
-
-  UI::init(window_);
 }
 
 DesktopWindow::~DesktopWindow() noexcept {
-  UI::shutdown();
-
   glfwDestroyWindow(window_);
   glfwTerminate();
 }

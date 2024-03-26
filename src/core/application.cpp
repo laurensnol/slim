@@ -34,6 +34,7 @@ auto Application::init(const std::string& title, uint16_t width,
 
   Input::init();
   Renderer::init();
+  UI::init();
 
   try {
     instance_ = std::unique_ptr<Application>(new Application());
@@ -67,6 +68,8 @@ auto Application::run() noexcept -> void {
 
     window_->update();
   }
+
+  shutdown();
 }
 
 auto Application::terminate() noexcept -> void { running_ = false; }
@@ -83,5 +86,9 @@ auto Application::onEvent(const WindowCloseEvent& /*event*/) noexcept -> void {
 Application::Application() noexcept {
   assert(!instance_);
   running_ = true;
+}
+
+auto Application::shutdown() noexcept -> void {
+  UI::shutdown();
 }
 }  // namespace slim

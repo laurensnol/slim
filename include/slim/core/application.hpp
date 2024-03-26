@@ -74,6 +74,8 @@ public:
 private:
   Application() noexcept;
 
+  static auto shutdown() noexcept -> void;
+
   inline static bool running_ = false;
   inline static std::unique_ptr<Application> instance_ = nullptr;
   inline static std::unique_ptr<Window> window_ = nullptr;

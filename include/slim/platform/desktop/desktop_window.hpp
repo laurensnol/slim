@@ -26,6 +26,7 @@ namespace slim {
  */
 class DesktopWindow : public Window {
   friend class DesktopInputProvider;
+  friend class UI;
 
   // Will be used as GLFW's user pointer.
   struct WindowProperties {

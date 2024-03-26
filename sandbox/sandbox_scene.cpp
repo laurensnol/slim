@@ -39,6 +39,8 @@ auto SandboxScene::update() noexcept -> void {
   glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-auto SandboxScene::uiDraw() noexcept -> void { ImGui::ShowMetricsWindow(); }
+auto SandboxScene::uiDraw() noexcept -> void {
+  ImGui::ShowDemoWindow();
+}
 
 auto SandboxScene::detach() noexcept -> void {}

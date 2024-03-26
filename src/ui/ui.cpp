@@ -4,6 +4,7 @@
 
 #include <imgui.h>
 
+#include "GLFW/glfw3.h"
 #include "slim/core/application.hpp"
 
 #if defined(SLIM_PLATFORM_WINDOWS) || defined(SLIM_PLATFORM_LINUX) || \
@@ -26,9 +27,10 @@ auto UI::init() noexcept -> void {
 
   ImGuiIO& imguiIo = ImGui::GetIO();
   imguiIo.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+  imguiIo.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
   ImGui_ImplGlfw_InitForOpenGL(window.window_, true);
-  ImGui_ImplOpenGL3_Init();
+  ImGui_ImplOpenGL3_Init("#version 410");
 }
 
 auto UI::shutdown() noexcept -> void {
@@ -47,6 +49,14 @@ auto UI::drawBegin() noexcept -> void {
 auto UI::drawEnd() noexcept -> void {
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+#if defined(SLIM_PLATFORM_WINDOWS) || defined(SLIM_PLATFORM_LINUX) || \
+    defined(SLIM_PLATFORM_MACOS)
+  GLFWwindow* backupContext = glfwGetCurrentContext();
+  ImGui::UpdatePlatformWindows();
+  ImGui::RenderPlatformWindowsDefault();
+  glfwMakeContextCurrent(backupContext);
+#endif
 }
 
 auto UI::capturesMouse() noexcept -> bool {

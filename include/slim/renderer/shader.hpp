@@ -12,14 +12,39 @@
 #include <string_view>  // IWYU pragma: keep
 
 namespace slim {
+/**
+ * \brief The abstract base shader interface.
+ *
+ * This class defines an interface for a graphics API specific shader
+ * implementation.
+ *
+ * \ingroup renderer
+ */
 class Shader {  // NOLINT(cppcoreguidelines-special-member-functions)
 public:
   virtual ~Shader() noexcept = default;
 
+  /**
+   * \brief Creates a new Shader with the given vertex and fragment shaders.
+   *
+   * This method creates a new \ref std::unique_ptr to a Shader based on \ref
+   * Renderer::getAPI.
+   *
+   * \param vertexShaderPath The absolute path of the vertex shader.
+   * \param fragmentShaderPath The absolute path of the fragment shader.
+   *
+   * \return An \ref std::unique_ptr to the created shader.
+   */
   static auto create(std::string_view vertexShaderPath,
                      std::string_view fragmentShaderPath) noexcept
       -> std::unique_ptr<Shader>;
 
+  /**
+   * \name Interface methods.
+   *
+   * Virtual methods that require implementation.
+   * Please refer to concrete implementations for detailed descriptions.
+   */
   virtual auto bind() const noexcept -> void = 0;
   virtual auto unbind() const noexcept -> void = 0;
 

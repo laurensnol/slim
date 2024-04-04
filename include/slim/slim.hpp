@@ -37,6 +37,7 @@
 #include "slim/input/input.hpp"
 
 #include "slim/renderer/renderer.hpp"
+#include "slim/renderer/shader.hpp"
 
 #include "slim/scene/scene.hpp"
 #include "slim/scene/scene_manager.hpp"

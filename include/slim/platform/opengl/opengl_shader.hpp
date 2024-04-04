@@ -15,6 +15,9 @@
 #include "slim/renderer/shader.hpp"
 
 namespace slim {
+/**
+ * \brief Implements \ref Shader for the OpenGL graphics API.
+ */
 class OpenGLShader : public Shader {
 public:
   OpenGLShader(std::string_view vertexShaderPath,

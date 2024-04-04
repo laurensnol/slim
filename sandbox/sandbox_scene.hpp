@@ -3,6 +3,7 @@
 
 #include <glad/gl.h>
 
+#include <memory>
 #include <slim/slim.hpp>
 
 class SandboxScene : public slim::Scene {
@@ -13,27 +14,28 @@ public:
   auto detach() noexcept -> void override;
 
 private:
-  GLuint vao_ = 0;
-  GLuint shader_ = 0;
+  std::shared_ptr<slim::Shader> shader_;
+  GLuint ebo_ = 0;
 
+  // clang-format off
   // NOLINTNEXTLINE
   constexpr static const GLfloat vertices_[] = {
-      0.0F, 0.5F, 0.0F, 0.5F, -0.5F, 0.0F, -0.5F, -0.5F, 0.0F,
+    // NE, white
+     0.5F,  0.5F, 0.0F, 1.0F, 1.0F, 1.0F,
+    // SE, yellow
+     0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 0.0F,
+    // SW, red
+    -0.5F, -0.5F, 0.0F, 1.0F, 0.0F, 0.0F,
+    // NW, Magenta
+    -0.5F,  0.5F, 0.0F, 1.0F, 0.0F, 1.0F
   };
 
-  inline static const char* vertexShaderSource_ =
-      "#version 410\n"
-      "in vec3 vp;\n"
-      "void main() {\n"
-      "  gl_Position = vec4(vp, 1.0);\n"
-      "}\n";
-
-  inline static const char* fragmentShaderSource_ =
-      "#version 410\n"
-      "out vec4 frag_color;\n"
-      "void main() {\n"
-      "  frag_color = vec4(0.5, 0.0, 0.5, 1.0);\n"
-      "}\n";
+  // NOLINTNEXTLINE
+  constexpr static const GLuint indices_[] = {
+    0, 1, 3,
+    1, 2, 3
+  };
+  // clang-format on
 };
 
 #endif  // SLIM_SANDBOX_SANDBOX_SCENE_HPP_

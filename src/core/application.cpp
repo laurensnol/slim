@@ -37,12 +37,12 @@ auto Application::init(const std::string& title, uint16_t width,
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
     // TODO(laurensnol): Replace with proper custom assert
-    SLIM_CORE_CRITICAL("Failed to allocate space for Application: {}",
+    SLIM_CORE_LOG_CRITICAL("Failed to allocate space for Application: {}",
                        exception.what());
     std::abort();
   }
 
-  SLIM_CORE_INFO("Initialized slim");
+  SLIM_CORE_LOG_INFO("Initialized slim");
 }
 
 auto Application::run() noexcept -> void {

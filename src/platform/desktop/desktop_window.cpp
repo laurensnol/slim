@@ -69,8 +69,8 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
   glfwMakeContextCurrent(window_);
 
   const int32_t version = gladLoadGL(glfwGetProcAddress);
-  SLIM_CORE_INFO("Using OpenGL {}.{}", GLAD_VERSION_MAJOR(version),
-                 GLAD_VERSION_MINOR(version));
+  SLIM_CORE_LOG_INFO("Using OpenGL {}.{}", GLAD_VERSION_MAJOR(version),
+                     GLAD_VERSION_MINOR(version));
 
   glfwSwapInterval(properties_.vsync ? 1 : 0);
 }
@@ -167,7 +167,7 @@ auto DesktopWindow::isMinimized() const noexcept -> bool {
 auto DesktopWindow::glfwErrorCallback(int code,
                                       const char *description) noexcept
     -> void {
-  SLIM_CORE_ERROR("GLFW Error: {}, {}", code, description);
+  SLIM_CORE_LOG_ERROR("GLFW Error: {}, {}", code, description);
   std::abort();
 }
 

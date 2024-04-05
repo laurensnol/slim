@@ -10,7 +10,7 @@
 namespace slim {
 auto SceneManager::removeScene(const SceneName& name) noexcept -> bool {
   if (name == currentScene_.first) {
-    SLIM_CORE_WARN("Removing currently active scene {}", name);
+    SLIM_CORE_LOG_WARN("Removing currently active scene {}", name);
   }
 
   return scenes_.erase(name) == 1;

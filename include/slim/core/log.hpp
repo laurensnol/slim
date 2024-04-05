@@ -9,11 +9,11 @@
 // exceptions when using std::forward.
 // NOLINTBEGIN(cppcoreguidelines-macro-usage)
 // clang-format off
-#define SLIM_CORE_TRACE(...)    ::spdlog::trace(__VA_ARGS__)
-#define SLIM_CORE_INFO(...)     ::spdlog::info(__VA_ARGS__)
-#define SLIM_CORE_WARN(...)     ::spdlog::warn(__VA_ARGS__)
-#define SLIM_CORE_ERROR(...)    ::spdlog::error(__VA_ARGS__)
-#define SLIM_CORE_CRITICAL(...) ::spdlog::critical(__VA_ARGS__)
+#define SLIM_CORE_LOG_TRACE(...)    ::spdlog::trace(__VA_ARGS__)
+#define SLIM_CORE_LOG_INFO(...)     ::spdlog::info(__VA_ARGS__)
+#define SLIM_CORE_LOG_WARN(...)     ::spdlog::warn(__VA_ARGS__)
+#define SLIM_CORE_LOG_ERROR(...)    ::spdlog::error(__VA_ARGS__)
+#define SLIM_CORE_LOG_CRITICAL(...) ::spdlog::critical(__VA_ARGS__)
 // clang-format on
 // NOLINTEND(cppcoreguidelines-macro-usage)
 

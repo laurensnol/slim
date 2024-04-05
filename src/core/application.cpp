@@ -3,10 +3,6 @@
 // IWYU pragma: no_include "glm/detail/qualifier.hpp"
 // IWYU pragma: no_include "glm/detail/type_vec4.inl"
 // IWYU pragma: no_include "glm/detail/type_vec4.inl"
-// IWYU pragma: no_include "spdlog/common.h"
-// IWYU pragma: no_include <spdlog/fmt/fmt.h>
-
-#include <spdlog/spdlog.h>
 
 #include <cassert>
 #include <cstdint>
@@ -15,6 +11,7 @@
 #include <new>
 #include <string>
 
+#include "slim/core/log.hpp"
 #include "slim/core/window.hpp"
 #include "slim/events/window_events.hpp"
 #include "slim/input/codes.hpp"
@@ -40,12 +37,12 @@ auto Application::init(const std::string& title, uint16_t width,
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
     // TODO(laurensnol): Replace with proper custom assert
-    spdlog::error("Failed to allocate space for Application: {}",
-                  exception.what());
+    SLIM_CORE_CRITICAL("Failed to allocate space for Application: {}",
+                       exception.what());
     std::abort();
   }
 
-  spdlog::info("Initialized slim");
+  SLIM_CORE_INFO("Initialized slim");
 }
 
 auto Application::run() noexcept -> void {
@@ -88,7 +85,5 @@ Application::Application() noexcept {
   running_ = true;
 }
 
-auto Application::shutdown() noexcept -> void {
-  UI::shutdown();
-}
+auto Application::shutdown() noexcept -> void { UI::shutdown(); }
 }  // namespace slim

@@ -6,13 +6,14 @@
 // IWYU pragma: no_include <__fwd/fstream.h>
 // IWYU pragma: no_include <filesystem>
 
-#include <cassert>
 #include <cstddef>
 #include <fstream>
 #include <ios>  // IWYU pragma: keep
 #include <string>
 #include <string_view>  // IWYU pragma: keep
 #include <type_traits>
+
+#include "slim/core/assert.hpp"
 
 // Convert enum class to it's underlying type (integral promotion)
 template <typename EnumType>
@@ -25,11 +26,11 @@ constexpr auto operator+(EnumType value) noexcept
 namespace slim::utils {
 inline auto readFile(std::string_view path) noexcept -> std::string {
   auto file = std::ifstream(path, std::ios::in);
-  assert(file);
+  SLIM_CORE_ASSERT(file, "File {} not found", path);
 
   file.seekg(0, std::ios::end);
   const auto size = file.tellg();
-  assert(size != 0);
+  SLIM_CORE_ASSERT(size, "File {} is empty", path);
 
   auto buf = std::string(static_cast<size_t>(size), ' ');
 

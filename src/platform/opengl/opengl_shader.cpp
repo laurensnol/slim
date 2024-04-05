@@ -5,7 +5,6 @@
 
 #include <glad/gl.h>
 
-#include <cassert>
 #include <cstdint>
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/vector_float2.hpp>
@@ -15,6 +14,7 @@
 #include <string>
 #include <string_view>
 
+#include "slim/core/assert.hpp"
 #include "slim/utils.hpp"
 
 namespace slim {
@@ -37,7 +37,7 @@ OpenGLShader::OpenGLShader(std::string_view vertexShaderPath,
   glCompileShader(fragmentShader);
 
   program_ = glCreateProgram();  // NOLINT
-  assert(program_ != 0);
+  SLIM_CORE_ASSERT(program_ != 0, "Failed to create program");
 
   glAttachShader(program_, vertexShader);
   glAttachShader(program_, fragmentShader);

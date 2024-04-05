@@ -1,10 +1,10 @@
 #include "slim/scene/scene_manager.hpp"
 
-#include <cassert>
 #include <cstdint>
 #include <string>
 #include <utility>
 
+#include "slim/core/assert.hpp"
 #include "slim/core/log.hpp"
 
 namespace slim {
@@ -18,7 +18,7 @@ auto SceneManager::removeScene(const SceneName& name) noexcept -> bool {
 
 auto SceneManager::setScene(const SceneName& name) noexcept -> void {
   auto iter = scenes_.find(name);
-  assert(iter != scenes_.end());
+  SLIM_CORE_ASSERT(iter != scenes_.end(), "Name \"{}\" not found", name);
 
   if (currentScene_ != kNoScenePair) {
     currentScene_.second->detach();
@@ -33,12 +33,12 @@ auto SceneManager::getSceneCount() noexcept -> uint64_t {
 }
 
 auto SceneManager::update() noexcept -> void {
-  assert(currentScene_ != kNoScenePair);
+  SLIM_CORE_ASSERT(currentScene_ != kNoScenePair, "Current scene is not set");
   currentScene_.second->update();
 }
 
 auto SceneManager::uiDraw() noexcept -> void {
-  assert(currentScene_ != kNoScenePair);
+  SLIM_CORE_ASSERT(currentScene_ != kNoScenePair, "Current scene is not set");
   currentScene_.second->uiDraw();
 }
 }  // namespace slim

@@ -4,12 +4,12 @@
 // IWYU pragma: no_include "glm/detail/type_vec4.inl"
 // IWYU pragma: no_include "glm/detail/type_vec4.inl"
 
-#include <cassert>
 #include <cstdint>
 #include <memory>
 #include <new>
 #include <string>
 
+#include "slim/core/assert.hpp"
 #include "slim/core/error.hpp"
 #include "slim/core/log.hpp"
 #include "slim/core/window.hpp"
@@ -36,7 +36,6 @@ auto Application::init(const std::string& title, uint16_t width,
   try {
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
-    // TODO(laurensnol): Replace with proper custom assert
     SLIM_CORE_FATAL_ERROR("Failed to allocate space for Application: {}",
                           exception.what());
   }
@@ -45,7 +44,7 @@ auto Application::init(const std::string& title, uint16_t width,
 }
 
 auto Application::run() noexcept -> void {
-  assert(SceneManager::getSceneCount() > 0);
+  SLIM_CORE_ASSERT(SceneManager::getSceneCount() > 0, "No scenes found");
 
   Renderer::setClearColor({0.1, 0.1, 0.1, 1.0});  // NOLINT
 
@@ -71,7 +70,7 @@ auto Application::run() noexcept -> void {
 auto Application::terminate() noexcept -> void { running_ = false; }
 
 auto Application::getWindow() noexcept -> Window& {
-  assert(window_);
+  SLIM_CORE_ASSERT(window_, "Window not initialized");
   return *window_;
 }
 
@@ -80,7 +79,7 @@ auto Application::onEvent(const WindowCloseEvent& /*event*/) noexcept -> void {
 }
 
 Application::Application() noexcept {
-  assert(!instance_);
+  SLIM_CORE_ASSERT(!instance_, "Application not initialized");
   running_ = true;
 }
 

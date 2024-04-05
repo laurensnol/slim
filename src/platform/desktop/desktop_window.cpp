@@ -7,13 +7,13 @@
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
 
-#include <cassert>
 #include <cstdint>
 #include <cstdlib>
 #include <glm/ext/vector_int2.hpp>
 #include <string>
 #include <utility>
 
+#include "slim/core/assert.hpp"
 #include "slim/core/log.hpp"
 #include "slim/events/event_bus.hpp"
 #include "slim/events/window_events.hpp"
@@ -26,11 +26,12 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
     : properties_{std::move(title), {width, height}, {width, height}, vsync,
                                      focused, minimized} {
   // clang-format on
-  assert(!(focused && minimized));  // A window may not be focused and minimized
+  SLIM_CORE_ASSERT(!(focused && minimized),
+                   "A window may not be focused and minimized");
 
   glfwSetErrorCallback(glfwErrorCallback);
 
-  assert(glfwInit());
+  SLIM_CORE_ASSERT(glfwInit(), "Failed to initialize GLFW");
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -52,7 +53,7 @@ DesktopWindow::DesktopWindow(std::string title, int32_t width, int32_t height,
                              properties_.windowDimensions.y,
                              properties_.title.c_str(), nullptr, nullptr);
 
-  assert(window_);
+  SLIM_CORE_ASSERT(window_, "Failed to create GLFWwindow");
 
   // Update framebuffer sizes since they might not match window sizes (e.g.
   // retina)

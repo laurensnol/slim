@@ -20,8 +20,7 @@ auto Window::create(const std::string &title, int32_t width, int32_t height,
   return std::make_unique<DesktopWindow>(title, width, height, vsync, focused,
                                          minimized);
 #else
-  // NOLINTNEXTLINE
-  static_assert(false, "SLIM_PLATFORM not defined");
+  SLIM_CORE_FATAL_ERROR("SLIM_PLATFORM not defined");
 #endif
 }
 }  // namespace slim

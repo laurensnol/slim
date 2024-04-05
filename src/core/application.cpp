@@ -6,11 +6,11 @@
 
 #include <cassert>
 #include <cstdint>
-#include <cstdlib>
 #include <memory>
 #include <new>
 #include <string>
 
+#include "slim/core/error.hpp"
 #include "slim/core/log.hpp"
 #include "slim/core/window.hpp"
 #include "slim/events/window_events.hpp"
@@ -37,9 +37,8 @@ auto Application::init(const std::string& title, uint16_t width,
     instance_ = std::unique_ptr<Application>(new Application());
   } catch (const std::bad_alloc& exception) {
     // TODO(laurensnol): Replace with proper custom assert
-    SLIM_CORE_LOG_CRITICAL("Failed to allocate space for Application: {}",
-                       exception.what());
-    std::abort();
+    SLIM_CORE_FATAL_ERROR("Failed to allocate space for Application: {}",
+                          exception.what());
   }
 
   SLIM_CORE_LOG_INFO("Initialized slim");

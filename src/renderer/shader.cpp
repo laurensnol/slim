@@ -6,6 +6,7 @@
 #include <memory>
 #include <string_view>
 
+#include "slim/core/error.hpp"
 #include "slim/platform/opengl/opengl_shader.hpp"
 #include "slim/renderer/renderer.hpp"
 
@@ -18,7 +19,7 @@ auto Shader::create(std::string_view vertexShaderPath,
       return std::make_unique<OpenGLShader>(vertexShaderPath,
                                             fragmentShaderPath);
     [[unlikely]] default:
-      std::terminate();
+      SLIM_CORE_FATAL_ERROR("Invalid Renderer::API");
   }
 }
 }  // namespace slim

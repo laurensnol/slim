@@ -7,6 +7,7 @@
 #include <glm/ext/vector_float4.hpp>
 #include <memory>
 
+#include "slim/core/error.hpp"
 #include "slim/platform/opengl/opengl_renderer_provider.hpp"
 #include "slim/renderer/renderer_provider.hpp"
 
@@ -21,7 +22,7 @@ auto Renderer::init(API api) noexcept -> void {
       provider_ = std::make_unique<OpenGLRendererProvider>();
       break;
     default:
-      std::terminate();
+      SLIM_CORE_FATAL_ERROR("Invalid Renderer::API");
   }
 }
 

@@ -15,12 +15,13 @@
 #include <string_view>
 
 #include "slim/core/assert.hpp"
-#include "slim/utils.hpp"
+#include "slim/core/filesystem.hpp"
 
 namespace slim {
 OpenGLShader::OpenGLShader(std::string_view vertexShaderPath,
                            std::string_view fragmentShaderPath) noexcept {
-  const std::string vertexShaderSource = utils::readFile(vertexShaderPath);
+  const std::string vertexShaderSource =
+      Filesystem::strFromFile(vertexShaderPath);
   const auto* vertexShaderSourceStr = vertexShaderSource.c_str();
 
   const GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -29,7 +30,8 @@ OpenGLShader::OpenGLShader(std::string_view vertexShaderPath,
 
   // TODO(laurensnol): Error handling
 
-  const std::string fragmentShaderSource = utils::readFile(fragmentShaderPath);
+  const std::string fragmentShaderSource =
+      Filesystem::strFromFile(fragmentShaderPath);
   const auto* fragmentShaderSourceStr = fragmentShaderSource.c_str();
 
   const GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);

@@ -9,13 +9,13 @@
 #include <glm/ext/vector_float2.hpp>
 
 #include "slim/core/application.hpp"
+#include "slim/core/common.hpp"
 #include "slim/events/event_bus.hpp"
 #include "slim/events/key_events.hpp"
 #include "slim/events/mouse_events.hpp"
 #include "slim/input/codes.hpp"  // IWYU pragma: keep
 #include "slim/platform/desktop/desktop_window.hpp"
 #include "slim/ui/ui.hpp"
-#include "slim/utils.hpp"
 
 namespace slim {
 DesktopInputProvider::DesktopInputProvider() noexcept {

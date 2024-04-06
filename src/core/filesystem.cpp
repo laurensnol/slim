@@ -1,5 +1,4 @@
-#ifndef SLIM_UTILS_HPP_
-#define SLIM_UTILS_HPP_
+#include "slim/core/filesystem.hpp"
 
 // IWYU pragma: no_include <__fwd/string_view.h>
 // IWYU pragma: no_include <__fwd/ios.h>
@@ -11,20 +10,11 @@
 #include <ios>  // IWYU pragma: keep
 #include <string>
 #include <string_view>  // IWYU pragma: keep
-#include <type_traits>
 
 #include "slim/core/assert.hpp"
 
-// Convert enum class to it's underlying type (integral promotion)
-template <typename EnumType>
-constexpr auto operator+(EnumType value) noexcept
-    -> std::enable_if_t<std::is_enum_v<EnumType>,
-                        std::underlying_type_t<EnumType>> {
-  return static_cast<std::underlying_type_t<EnumType>>(value);
-}
-
-namespace slim::utils {
-inline auto readFile(std::string_view path) noexcept -> std::string {
+namespace slim {
+auto Filesystem::strFromFile(std::string_view path) noexcept -> std::string {
   auto file = std::ifstream(path, std::ios::in);
   SLIM_CORE_ASSERT(file, "File {} not found", path);
 
@@ -35,10 +25,8 @@ inline auto readFile(std::string_view path) noexcept -> std::string {
   auto buf = std::string(static_cast<size_t>(size), ' ');
 
   file.seekg(0);
-  file.read(&buf[0], size);  // NOLINT
+  file.read(buf.data(), size);
 
   return buf;
 }
-}  // namespace slim::utils
-
-#endif  // SLIM_UTILS_HPP_
+}  // namespace slim

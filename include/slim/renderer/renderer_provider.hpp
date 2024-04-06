@@ -2,6 +2,7 @@
 #define SLIM_RENDERER_RENDERER_PROVIDER_HPP_
 
 #include <glm/ext/vector_float4.hpp>
+#include <glm/ext/vector_int2.hpp>
 
 #include "slim/renderer/renderer.hpp"
 
@@ -27,7 +28,11 @@ public:
   [[nodiscard]] constexpr virtual auto getAPI() const noexcept
       -> Renderer::API = 0;
 
-  virtual auto setClearColor(const glm::vec4& color) -> void = 0;
+  virtual auto setClearColor(const glm::vec4& color) noexcept -> void = 0;
+  virtual auto setViewport(const glm::ivec2& position,
+                           const glm::ivec2& dimensions) noexcept -> void = 0;
+  [[nodiscard]] virtual auto getViewport() const noexcept
+      -> const Renderer::Viewport& = 0;
   virtual auto clear() const noexcept -> void = 0;
   virtual auto draw() const noexcept -> void = 0;
   ///@}

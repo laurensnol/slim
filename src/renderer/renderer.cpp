@@ -1,6 +1,7 @@
 #include "slim/renderer/renderer.hpp"
 
 #include <glm/ext/vector_float4.hpp>
+#include <glm/ext/vector_int2.hpp>
 #include <memory>
 
 #include "slim/core/assert.hpp"
@@ -26,6 +27,17 @@ auto Renderer::init(API api) noexcept -> void {
 auto Renderer::setClearColor(const glm::vec4 &color) noexcept -> void {
   SLIM_CORE_ASSERT(provider_, "Renderer not initalized");
   provider_->setClearColor(color);
+}
+
+auto Renderer::setViewport(const glm::ivec2 &position,
+                           const glm::ivec2 &dimensions) noexcept -> void {
+  SLIM_CORE_ASSERT(provider_, "Renderer not initalized");
+  provider_->setViewport(position, dimensions);
+}
+
+auto Renderer::getViewport() noexcept -> const Viewport & {
+  SLIM_CORE_ASSERT(provider_, "Renderer not initalized");
+  return provider_->getViewport();
 }
 
 auto Renderer::clear() noexcept -> void {

@@ -21,10 +21,8 @@ jobs:
           - os: windows-2022
             compiler: clang-16
 
-          # Temporarily exluding due to GCC complaining about unknown warning
-          # options (when using GNU gcc/g++, not Apple's clang)
+          # Not supporting (proper) GCC on Mac
           - os: macos-13
-            config: debug
             compiler: gcc-13
     runs-on: ${{ matrix.os }}
     steps:
@@ -39,6 +37,7 @@ jobs:
           os: ${{ matrix.os }}
 
       - name: Dependencies
+        if: ${{ matrix.os != 'macos-13' }}
         uses: aminya/setup-cpp@v1
         with:
           compiler: ${{ matrix.compiler }}
@@ -48,13 +47,32 @@ jobs:
           cppcheck: true
           ccache: true
 
+      - name: Dependencies (MacOS)
+        if: ${{ matrix.os == 'macos-13' }}
+        uses: aminya/setup-cpp@v1
+        with:
+          ninja: true
+          cmake: true
+          cppcheck: true
+          ccache: true
+
+      - name: Clang (MacOS)
+        if: ${{ matrix.os == 'macos-13' }}
+        run: brew install llvm@16
+
       - name: Additional Dependencies (Ubuntu)
         if: ${{ matrix.os == 'ubuntu-22.04' }}
         run: sudo apt install xorg-dev
 
       - name: Configure
+        if: ${{ matrix.os != 'macos-13' }}
         shell: bash
         run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-.*//')-${{matrix.config}} -DSLIM_BUILD_TESTS=OFF
+
+      - name: Configure (MacOS)
+        if: ${{ matrix.os == 'macos-13' }}
+        shell: bash
+        run: cmake --preset clang-${{matrix.config}} -DCMAKE_C_COMPILER=/usr/local/opt/llvm@16/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm@16/bin/clang++ -DSLIM_BUILD_TESTS=OFF
 
       - name: Build
         run: cmake --build --preset sandbox-${{matrix.config}}

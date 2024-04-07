@@ -1,7 +1,6 @@
 #include "slim/scene/scene_manager.hpp"
 
 #include <cstdint>
-#include <string>
 #include <utility>
 
 #include "slim/core/assert.hpp"

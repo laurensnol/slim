@@ -205,6 +205,9 @@ auto SandboxScene::showViewportWindow() noexcept -> void {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+#elif defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4312)
 #endif
 
   // cppcheck-suppress-begin cstyleCast
@@ -216,6 +219,8 @@ auto SandboxScene::showViewportWindow() noexcept -> void {
 #pragma clang diagnostic pop
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
+#elif defined(_MSVC_VER)
+#pragma warning(pop)
 #endif
 
   ImGui::EndChild();

@@ -69,8 +69,14 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL        OFF CACHE BOOL "" FORCE)
 target_compile_definitions(slim PUBLIC "GLFW_INCLUDE_NONE")
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glfw")
+
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/glm")
+
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/spdlog")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND SLIM_ENABLE_TOOLS)
+  target_compile_options(spdlog PRIVATE "/fsanitize=address")
+endif()
+
 add_subdirectory("${SLIM_THIRDPARTY_DIR}/imgui")
 
 target_link_libraries(slim PRIVATE

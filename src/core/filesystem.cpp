@@ -15,7 +15,7 @@
 
 namespace slim {
 auto Filesystem::strFromFile(std::string_view path) noexcept -> std::string {
-  auto file = std::ifstream(path, std::ios::in);
+  auto file = std::ifstream(path.data(), std::ios::in);
   SLIM_CORE_ASSERT(file, "File {} not found", path);
 
   file.seekg(0, std::ios::end);

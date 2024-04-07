@@ -1,7 +1,7 @@
 #include "slim/platform/opengl/opengl_shader.hpp"
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
-// IWYU pragma: no_include "glm/detail/type_mat4x4.inl"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+// IWYU pragma: no_include <glm/detail/type_mat4x4.inl>
 
 #include <glad/gl.h>
 

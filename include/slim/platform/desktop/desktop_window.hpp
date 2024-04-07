@@ -1,7 +1,7 @@
 #ifndef SLIM_PLATFORM_DESKTOP_WINDOW_HPP_
 #define SLIM_PLATFORM_DESKTOP_WINDOW_HPP_
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
 
 #include <GLFW/glfw3.h>
 

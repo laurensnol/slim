@@ -1,7 +1,7 @@
 #ifndef SLIM_RENDERER_RENDERER_HPP_
 #define SLIM_RENDERER_RENDERER_HPP_
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
 
 #include <glm/ext/vector_float4.hpp>
 #include <glm/ext/vector_int2.hpp>

@@ -1,8 +1,8 @@
 #include "slim/platform/desktop/desktop_window.hpp"
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
-// IWYU pragma: no_include "glm/detail/type_vec2.inl"
-// IWYU pragma: no_include "glm/detail/type_vec2.hpp"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+// IWYU pragma: no_include <glm/detail/type_vec2.inl>
+// IWYU pragma: no_include <glm/detail/type_vec2.hpp>
 
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>

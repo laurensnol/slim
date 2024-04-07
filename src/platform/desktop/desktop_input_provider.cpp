@@ -1,7 +1,7 @@
 #include "slim/platform/desktop/desktop_input_provider.hpp"
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
-// IWYU pragma: no_include "glm/detail/type_vec2.inl"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+// IWYU pragma: no_include <glm/detail/type_vec2.inl>
 // IWYU pragma: no_include "slim/core/window.hpp"
 
 #include <GLFW/glfw3.h>

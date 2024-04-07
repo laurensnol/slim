@@ -81,7 +81,7 @@ target_link_libraries(slim PRIVATE
   spdlog::spdlog
   imgui)
 
-target_include_directories(slim PUBLIC
+target_include_directories(slim SYSTEM PUBLIC
   "${SLIM_THIRDPARTY_DIR}/glad/include"
   "${SLIM_THIRDPARTY_DIR}/glfw/include"
   "${SLIM_THIRDPARTY_DIR}/glm"

@@ -1,6 +1,6 @@
 #include "slim/input/input.hpp"
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
 
 #include <glm/ext/vector_float2.hpp>
 #include <memory>

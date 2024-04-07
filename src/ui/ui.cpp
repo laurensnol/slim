@@ -2,9 +2,9 @@
 
 // IWYU pragma: no_include "slim/core/window.hpp"
 
+#include <GLFW/glfw3.h>
 #include <imgui.h>
 
-#include "GLFW/glfw3.h"
 #include "slim/core/application.hpp"
 
 #if defined(SLIM_PLATFORM_WINDOWS) || defined(SLIM_PLATFORM_LINUX) || \

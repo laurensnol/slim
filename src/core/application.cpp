@@ -1,8 +1,7 @@
 #include "slim/core/application.hpp"
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
-// IWYU pragma: no_include "glm/detail/type_vec4.inl"
-// IWYU pragma: no_include "glm/detail/type_vec4.inl"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+// IWYU pragma: no_include <glm/detail/type_vec4.inl>
 
 #include <cstdint>
 #include <memory>

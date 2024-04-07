@@ -1,7 +1,7 @@
 #include "slim/platform/opengl/opengl_renderer_provider.hpp"
 
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
-// IWYU pragma: no_include "glm/detail/type_vec2.inl"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+// IWYU pragma: no_include <glm/detail/type_vec2.inl>
 
 #include <glad/gl.h>
 

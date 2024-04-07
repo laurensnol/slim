@@ -1,8 +1,8 @@
 #include "sandbox_scene.hpp"
 
 // IWYU pragma: no_include <string>
-// IWYU pragma: no_include "glm/detail/qualifier.hpp"
-// IWYU pragma: no_include "glm/detail/type_vec2.inl"
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+// IWYU pragma: no_include <glm/detail/type_vec2.inl>
 
 #include <glad/gl.h>
 #include <imgui.h>

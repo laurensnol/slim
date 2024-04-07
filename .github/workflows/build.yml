@@ -12,14 +12,14 @@ jobs:
       matrix:
         os: [ubuntu-22.04, macos-13, windows-2022]
         config: [debug, release]
-        compiler: [clang-15, gcc-13, msvc]
+        compiler: [clang-16, gcc-13, msvc]
         exclude:
           - os: ubuntu-22.04
             compiler: msvc
           - os: macos-13
             compiler: msvc
           - os: windows-2022
-            compiler: clang-15
+            compiler: clang-16
 
           # Temporarily exluding due to GCC complaining about unknown warning
           # options (when using GNU gcc/g++, not Apple's clang)

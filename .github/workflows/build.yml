@@ -43,8 +43,6 @@ jobs:
           compiler: ${{ matrix.compiler }}
           ninja: true
           cmake: true
-          clangtidy: true
-          cppcheck: true
           ccache: true
 
       - name: Dependencies (MacOS)
@@ -53,7 +51,6 @@ jobs:
         with:
           ninja: true
           cmake: true
-          cppcheck: true
           ccache: true
 
       - name: Clang (MacOS)
@@ -67,12 +64,12 @@ jobs:
       - name: Configure
         if: ${{ matrix.os != 'macos-13' }}
         shell: bash
-        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-.*//')-${{matrix.config}} -DSLIM_BUILD_TESTS=OFF
+        run: cmake --preset $(echo ${{matrix.compiler}} | sed 's/-.*//')-${{matrix.config}} -DSLIM_BUILD_TESTS=OFF -DSLIM_ENABLE_TOOLS=OFF
 
       - name: Configure (MacOS)
         if: ${{ matrix.os == 'macos-13' }}
         shell: bash
-        run: cmake --preset clang-${{matrix.config}} -DCMAKE_C_COMPILER=/usr/local/opt/llvm@16/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm@16/bin/clang++ -DSLIM_BUILD_TESTS=OFF
+        run: cmake --preset clang-${{matrix.config}} -DCMAKE_C_COMPILER=/usr/local/opt/llvm@16/bin/clang -DCMAKE_CXX_COMPILER=/usr/local/opt/llvm@16/bin/clang++ -DSLIM_BUILD_TESTS=OFF -DSLIM_ENABLE_TOOLS=OFF
 
       - name: Build
         run: cmake --build --preset sandbox-${{matrix.config}}

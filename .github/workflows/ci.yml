@@ -1,0 +1,59 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  checks:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      
+      - name: Fix for actions/runner-images/issues/8659
+        uses: mjp41/workaround8649@c8550b715ccdc17f89c8d5c28d7a48eeff9c94a8
+        with:
+          os: ${{ matrix.os }}
+
+      - name: Setup brew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Dependencies
+        run: |
+          sudo apt update
+          sudo apt install xorg-dev
+          brew install include-what-you-use
+
+      - name: setup-cpp
+        uses: aminya/setup-cpp@v1
+        with:
+          cmake: true
+          ninja: true
+          compiler: clang-16
+          clangtidy: 16
+          clangformat: 16
+          cppcheck: true
+
+      - name: Build
+        run: cmake --preset clang-debug-no-tools -DCMAKE_C_COMPILER=clang-16 -DCMAKE_CXX_COMPILER=clang++-16 -DSLIM_BUILD_TESTS=OFF
+
+      - name: clang-tidy
+        run: find include sandbox src -iname '*.cpp' -o -iname '*.hpp' | xargs clang-tidy -p build/debug
+
+      - name: cppcheck
+        if: always()
+        run: cppcheck --project=build/compile_commands.json --enable=all --suppress='*:*thirdparty\*' --suppress=missingIncludeSystem --suppress=unusedFunction --inline-suppr
+
+      - name: clang-format
+        if: always()
+        run: find include sandbox src -iname '*.cpp' -o -iname '*.hpp' | xargs clang-format -n --verbose --style=file:.clang-format
+
+      - name: include-what-you-use
+        if: always()
+        run: iwyu_tool.py src include sandbox -p build

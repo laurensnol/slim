@@ -22,6 +22,7 @@
  */
 
 // IWYU pragma: begin_exports
+// clang-format off: nicer formatting
 
 #include "slim/core/application.hpp"
 #include "slim/core/window.hpp"
@@ -42,6 +43,7 @@
 #include "slim/scene/scene.hpp"
 #include "slim/scene/scene_manager.hpp"
 
+// clang-format on
 // IWYU pragma: end_exports
 
 #endif  // SLIM_HPP_

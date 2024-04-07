@@ -20,6 +20,9 @@ Checks:
   # Disabled because of warnings with spdlog
   - "-clang-analyzer-optin.cplusplus.UninitializedObject"
 
+  # Disabled because macros still have their use-cases
+  - "-cppcoreguidelines-macro-usage"
+
   # Disabled due to false positives with std::cout on Windows with GCC
   # See: https://github.com/llvm/llvm-project/issues?q=is%3Aissue+is%3Aopen+bugprone-exception-escape
   - "-bugprone-exception-escape"
@@ -32,3 +35,5 @@ CheckOptions:
     value: "id"
   - key: readability-identifier-length.IgnoredParameterNames
     value: "id"
+  - key: misc-include-cleaner.IgnoreHeaders
+    value: "concepts"

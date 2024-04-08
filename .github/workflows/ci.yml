@@ -56,4 +56,4 @@ jobs:
 
       - name: include-what-you-use
         if: always()
-        run: iwyu_tool.py src include sandbox -p build
+        run: find include sandbox src -iname "*.cpp" -o -iname "*.hpp" | xargs -I % include-what-you-use -Xiwyu --error=255 -std=c++20 -DSLIM_DEBUG -DSLIM_PLATFORM_LINUX -DGLFW_INCLUDE_NONE % -isystem thirdparty/glfw/include -isystem thirdparty/glm -isystem thirdparty/spdlog/include -isystem thirdparty/glad/include -isystem thirdparty/imgui/imgui -isystem thirdparty/imgui/imgui/backends -Iinclude

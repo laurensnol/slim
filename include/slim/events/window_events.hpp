@@ -1,6 +1,8 @@
 #ifndef SLIM_EVENTS_WINDOW_EVENTS_HPP_
 #define SLIM_EVENTS_WINDOW_EVENTS_HPP_
 
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+
 #include <glm/ext/vector_int2.hpp>
 
 #include "slim/events/event.hpp"

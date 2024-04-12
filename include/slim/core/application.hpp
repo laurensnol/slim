@@ -7,7 +7,7 @@
 
 #include "slim/core/window.hpp"
 #include "slim/events/event_handler.hpp"
-#include "slim/events/window_events.hpp"
+#include "slim/events/window_events.hpp" // IWYU pragma: keep
 
 namespace slim {
 /**

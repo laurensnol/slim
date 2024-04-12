@@ -1,12 +1,17 @@
 #ifndef SLIM_EVENTS_MOUSE_EVENTS_HPP_
 #define SLIM_EVENTS_MOUSE_EVENTS_HPP_
 
+// IWYU pragma: no_include <glm/detail/qualifier.hpp>
+
+#include <cstdint>
 #include <glm/ext/vector_float2.hpp>
 
 #include "slim/events/event.hpp"
-#include "slim/input/codes.hpp"
 
 namespace slim {
+// Forward declaration
+enum class MouseButton : uint8_t;
+
 /**
  * \brief This event indicates that a mouse button was released.
  *

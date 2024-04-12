@@ -1,9 +1,14 @@
 #ifndef SLIM_EVENTS_KEY_EVENTS_HPP_
 #define SLIM_EVENTS_KEY_EVENTS_HPP_
 
+#include <cstdint>
+
 #include "slim/events/event.hpp"
-#include "slim/input/codes.hpp"
+
 namespace slim {
+// Forward declaration
+enum class Key : uint16_t;
+
 /**
  * \brief This event indicates that a key was released.
  *

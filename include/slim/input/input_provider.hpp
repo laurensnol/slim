@@ -1,11 +1,14 @@
 #ifndef SLIM_INPUT_INPUT_PROVIDER_HPP_
 #define SLIM_INPUT_INPUT_PROVIDER_HPP_
 
+#include <cstdint>
 #include <glm/ext/vector_float2.hpp>
 
-#include "slim/input/codes.hpp"
-
 namespace slim {
+// Forward declarations
+enum class Key : uint16_t;
+enum class MouseButton : uint8_t;
+
 /**
  * \brief The abstract base input provider interface.
  *

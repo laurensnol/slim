@@ -3,7 +3,7 @@
 
 #include <spdlog/common.h>   // IWYU pragma: export
 #include <spdlog/fmt/fmt.h>  // IWYU pragma: export
-#include <spdlog/spdlog.h>
+#include <spdlog/spdlog.h>   // IWYU pragma: keep
 
 #include <cassert>
 

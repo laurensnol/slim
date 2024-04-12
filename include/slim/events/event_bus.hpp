@@ -8,11 +8,13 @@
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
-#include "slim/events/event.hpp"
-
 namespace slim {
+// Forward declaration
+class Event;
+
 /**
  * \brief An event bus for immediate handling of an \ref Event.
  *

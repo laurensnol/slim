@@ -5,10 +5,12 @@
 #include <cstdint>
 #include <functional>
 
-#include "slim/events/event.hpp"
 #include "slim/events/event_bus.hpp"
 
 namespace slim {
+// Forward declaration
+class Event;
+
 /**
  * \brief An interface for handling a specific \ref Event on the \ref EventBus.
  *
